@@ -19,6 +19,8 @@ export default (state = initialState, action) => {
         case SET_USER:
             const { user } = action;
             return { ...state, user };
+        default:
+            return state;
     }
 }
 

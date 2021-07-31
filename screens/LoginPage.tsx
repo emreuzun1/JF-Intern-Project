@@ -1,5 +1,6 @@
+import {StackNavigationProp} from '@react-navigation/stack';
 import axios from 'axios';
-import React, {FC, useState} from 'react';
+import React, {useState, FC} from 'react';
 import {
   View,
   Text,
@@ -9,11 +10,16 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {Input, Button} from '../components';
+import {RootNavigatorParamsList} from '../navigation/types';
 
 const {height, width} = Dimensions.get('screen');
 const logoImg = require('../img/jotform-logo.png');
 
-const App: FC = () => {
+export interface LoginProps {
+  navigation: StackNavigationProp<RootNavigatorParamsList, 'Login'>;
+}
+
+const App: FC<LoginProps> = ({navigation}) => {
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
 
@@ -30,6 +36,7 @@ const App: FC = () => {
     })
       .then(response => {
         console.log(response.data.content);
+        navigation.navigate('Main');
       })
       .catch(err => {
         console.log(err);
@@ -103,7 +110,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     width: width / 1.6,
     marginVertical: 10,
-    fontSize : 16,
+    fontSize: 16,
   },
 
   signUp: {

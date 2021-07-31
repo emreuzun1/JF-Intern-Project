@@ -1,8 +1,6 @@
 import React, {FC} from 'react';
-import {View, Dimensions, StyleSheet} from 'react-native';
+import {StyleSheet} from 'react-native';
 import {TextInput} from 'react-native-gesture-handler';
-
-const {width, height} = Dimensions.get('screen');
 
 interface Props {
   placeholder?: string;

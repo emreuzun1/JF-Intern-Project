@@ -7,7 +7,6 @@ export function* handleGetUser(action) {
         const response = yield call(requestGetUser);
         const { data } = response;
         yield put(setUser(data));
-
     } catch (err) {
         console.log(err);
     }
