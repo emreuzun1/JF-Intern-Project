@@ -14,3 +14,13 @@ export function requestLogin(username: string, password: string) {
     },
   });
 }
+
+export function getForms(appKey: string) {
+  return axios({
+    method: 'GET',
+    url: '/user/forms',
+    params: {
+      apikey: appKey,
+    },
+  });
+}

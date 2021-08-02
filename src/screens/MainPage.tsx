@@ -1,36 +1,25 @@
 import axios from 'axios';
-import React, {FC, useState, useEffect} from 'react';
-import {Text, View, StyleSheet, FlatList} from 'react-native';
-import {useSelector} from 'react-redux';
+import React, { FC, useState, useEffect, useMemo } from 'react';
+import { Text, View, StyleSheet, FlatList } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
+import { getForm } from '../redux/actions/form';
 
 const App: FC = props => {
-  const [selectedId, setSelectedId] = useState(null);
   const [arr, setArr] = useState([] as any);
-  const [isLoaded, setIsLoaded] = useState(false);
+  const isLoaded = useSelector(state => state.auth.loading);
   const appKey = useSelector(state => state.auth.appKey);
+  const dispatch = useDispatch();
 
-  console.log(appKey);
-
-/*
-  async function getForms() {
-    await axios({
-      method: 'GET',
-      url: 'https://api.jotform.com/user/forms',
-      params: {
-        apikey: userApiKey,
-      },
-    })
-      .then(response => setArr([...arr,...response.data.content]))
-      .then(err => console.log(err));
-  }
+  //TODO : Get forms' data from selector.
+  const forms = useMemo(() => {
+  }, [isLoaded])
 
   useEffect(() => {
-    getForms();
-  }, [])
-  console.log(arr);*/
+    dispatch(getForm(appKey));
+  }, [appKey]);
+
 
   const renderListItem = (itemData: any) => {
-    console.log(itemData);
     return (
       <View>
         <Text>{itemData.item.title}</Text>
@@ -40,6 +29,7 @@ const App: FC = props => {
 
   return (
     <View>
+      {isLoaded ? <Text>Loading!</Text> : <View></View>}
       <Text>Main Page</Text>
       <FlatList
         keyExtractor={(item: any) => item.id}

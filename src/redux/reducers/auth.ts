@@ -20,7 +20,6 @@ export default (state = initialState, action: IActionType) =>
         break;
       }
       case type.USER_LOGIN_SUCCESS: {
-        console.log('Action Payload : ', action.payload);
         const {appKey} = action.payload;
         draft.appKey = appKey;
         draft.loading = false;
