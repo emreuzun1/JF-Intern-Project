@@ -1,11 +1,15 @@
-import React, { FC, useState, useEffect } from 'react';
-import { Text, View, StyleSheet, FlatList, ScrollView, TouchableOpacity } from 'react-native';
+import React, { FC, useEffect } from 'react';
+import { StyleSheet, FlatList, ScrollView, TouchableOpacity } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RouteProp } from '@react-navigation/native';
+
+import { RootStackParamList } from '../navigation/types';
 import { getForm } from '../redux/actions/form';
 import { IState } from '../interfaces/actionInterface';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RootStackParamList } from '../navigation/types';
-import { RouteProp } from '@react-navigation/native';
+
+import Waiting from '../components/Waiting';
+import FormCard from '../components/FormCard';
 
 type MainProps = StackNavigationProp<RootStackParamList, 'Form'>
 type MainRouteProp = RouteProp<RootStackParamList, 'Form'>
@@ -16,7 +20,7 @@ interface Props {
 }
 
 const FormPage: FC<Props> = ({ route, navigation }) => {
-  const isLoaded = useSelector((state: IState) => state.auth.loading);
+  const isLoaded = useSelector((state: IState) => state.form.loading);
   const form = useSelector((state: IState) => state.form.data);
   const dispatch = useDispatch();
 
@@ -34,19 +38,19 @@ const FormPage: FC<Props> = ({ route, navigation }) => {
   const renderListItem = (itemData: any) => {
     return (
       <TouchableOpacity onPress={() => goSubmissionPage(itemData.item.id)}>
-        <Text style={{ fontSize: 48 }}>{itemData.item.title}</Text>
+        <FormCard title={itemData.item.title} update_at={itemData.item.updated_at} count={itemData.item.count} />
       </TouchableOpacity>
     );
   };
 
   return (
-    <ScrollView horizontal>
-      {isLoaded ? <Text>Loading!</Text> : <View></View>}
-      <FlatList
-        keyExtractor={(item: any) => item.id}
-        data={form}
-        renderItem={renderListItem.bind(this)}
-      />
+    <ScrollView horizontal style={styles.container}>
+      {isLoaded ? <Waiting /> :
+        <FlatList
+          data={form}
+          renderItem={renderListItem.bind(this)}
+        />
+      }
     </ScrollView>
   );
 };
@@ -54,8 +58,8 @@ const FormPage: FC<Props> = ({ route, navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: '#434343',
+    padding: 24
   },
 });
 

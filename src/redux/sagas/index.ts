@@ -1,10 +1,10 @@
 import { all } from '@redux-saga/core/effects';
 import auth from './authSaga';
 import form from './formSaga';
-import submission from './submissionSaga';
+import submissions from './submissionSaga';
 
 export default function* rootSaga() {
   yield all([
-    ...auth, ...form, ...submission
+    ...auth, ...form, ...submissions
   ]);
 }

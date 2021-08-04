@@ -1,5 +1,5 @@
 import { StackNavigationProp } from '@react-navigation/stack';
-import React, { useState, FC, useCallback, useMemo } from 'react';
+import React, { useState, FC, useCallback } from 'react';
 import {
   View,
   Text,
@@ -8,7 +8,8 @@ import {
   Image,
   TouchableOpacity,
 } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+
 import { Input, Button } from '../components';
 import { RootStackParamList } from '../navigation/types';
 import { requestLogin } from '../redux/actions';

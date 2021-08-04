@@ -1,25 +1,28 @@
-import React, { FC, useEffect, useMemo } from 'react';
-import { Text, View, StyleSheet, ScrollView, FlatList } from 'react-native';
+import React, { FC, useEffect } from 'react';
+import { ScrollView, FlatList, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { getSubmissions } from '../redux/actions/submission';
-import { IState } from '../interfaces/actionInterface';
-import Card from '../components/Card';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { RootStackParamList } from '../navigation/types';
 import { RouteProp } from '@react-navigation/native';
 
-type FormProps = StackNavigationProp<RootStackParamList, 'Submission'>
-type FormRootProp = RouteProp<RootStackParamList, 'Submission'>
+import { RootStackParamList } from '../navigation/types';
+import { getSubmissions } from '../redux/actions/submission';
+import { IState } from '../interfaces/actionInterface';
+
+import SubmissionCard from '../components/SubmissionCard';
+import Waiting from '../components/Waiting';
+
+type SubmissionProps = StackNavigationProp<RootStackParamList, 'Submission'>
+type SubmissionRootProp = RouteProp<RootStackParamList, 'Submission'>
 
 interface Props {
-    navigation: FormProps;
-    route: FormRootProp
+    navigation: SubmissionProps;
+    route: SubmissionRootProp
 }
 
 const SubmissionPage: FC<Props> = ({ route, navigation }) => {
     const appKey = useSelector((state: IState) => state.auth.appKey);
-    const loading = useSelector((state: IState) => state.formDetail.loading);
-    const data = useSelector((state: IState) => state.formDetail.data);
+    const loading = useSelector((state: IState) => state.submissions.loading);
+    const data = useSelector((state: IState) => state.submissions.data);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -28,17 +31,23 @@ const SubmissionPage: FC<Props> = ({ route, navigation }) => {
 
     const renderListItem = (item: any) => {
         return (
-            <Card item={item.item} />
+            <SubmissionCard item={item.item} />
         )
     }
 
     return (
-        <ScrollView horizontal>
-            <FlatList
-                data={data}
-                renderItem={renderListItem.bind(this)}
-            />
-        </ScrollView>
+        <View style={{ flex: 1 }}>
+            {
+                loading ? <Waiting /> : (
+                    < ScrollView horizontal >
+                        <FlatList
+                            data={data}
+                            renderItem={renderListItem.bind(this)}
+                        />
+                    </ScrollView>
+                )
+            }
+        </View>
     )
 }
 

@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Text, View, StyleSheet, Dimensions } from 'react-native';
 
-const { width, height } = Dimensions.get('screen');
+const { width } = Dimensions.get('screen');
 
 interface ICard {
     item: any,
@@ -9,11 +9,11 @@ interface ICard {
 
 const Card: React.FC<ICard> = props => {
 
-    //const { first, last } = props.item.answers[4].answer;
+    const { first, last } = props.item.answers[4].answer;
 
     return (
         <View style={styles.container}>
-            <Text style={styles.titleText}>Emre Uzun</Text>
+            <Text style={styles.titleText}>{first} {last}</Text>
             <View style={styles.line}></View>
         </View>
     )
