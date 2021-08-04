@@ -1,4 +1,4 @@
-import {ILoginResponseType} from '../interfaces/apiResponseType';
+import { ILoginResponseType } from '../interfaces/apiResponseType';
 import axios from './axios';
 
 //TODO axios.post, JSON to TS
@@ -15,12 +15,16 @@ export function requestLogin(username: string, password: string) {
   });
 }
 
-export function getForms(appKey: string) {
+export function getForms() {
   return axios({
     method: 'GET',
     url: '/user/forms',
-    params: {
-      apikey: appKey,
-    },
   });
+}
+
+export function getSubmissionsApi(appKey: string, formId: string) {
+  return axios({
+    method: 'GET',
+    url: `/form/${formId}/submissions?apiKey=${appKey}`,
+  })
 }

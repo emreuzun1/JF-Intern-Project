@@ -1,6 +1,11 @@
-import {NavigatorScreenParams} from '@react-navigation/native';
+import { NavigatorScreenParams } from '@react-navigation/native';
 
-export type RootNavigatorParamsList = {
-    Login : undefined,
-    Main : undefined
+export type Params = {
+    id: string
 };
+
+export type RootStackParamList = {
+    Login: undefined,
+    Form: undefined,
+    Submission: { id: string }
+}

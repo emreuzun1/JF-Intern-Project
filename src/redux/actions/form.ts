@@ -1,11 +1,9 @@
 import * as type from '../actionTypes';
 
-export function getForm(apikey: string) {
+export function getForm() {
     return {
-        type : type.USER_FORMS_REQUEST,
-        payload : {
-            apikey
-        }
+        type: type.USER_FORMS_REQUEST,
     }
 }
+
 
