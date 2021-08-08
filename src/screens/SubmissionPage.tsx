@@ -1,9 +1,8 @@
-import React, { FC, useEffect, useState } from 'react';
-import { ScrollView, View, StyleSheet, Dimensions, Text, Image } from 'react-native';
+import React, { FC, useEffect } from 'react';
+import { ScrollView, View, StyleSheet, Dimensions, Text, Image, LogBox } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
-import { LogBox } from 'react-native';
 
 import { RootStackParamList } from '../navigation/types';
 import { getSubmissions } from '../redux/actions/submissionAction';
@@ -19,14 +18,12 @@ const { width, height } = Dimensions.get('screen');
 
 type SubmissionProps = StackNavigationProp<RootStackParamList, 'Submission'>
 type SubmissionRootProp = RouteProp<RootStackParamList, 'Submission'>
-
 interface Props {
     navigation: SubmissionProps;
     route: SubmissionRootProp
 }
 
 const SubmissionPage: FC<Props> = ({ route, navigation }) => {
-    const [arr, setArr] = useState([[1, 2]] as any);
     const appKey = useSelector((state: IState) => state.auth.appKey);
     const loading = useSelector((state: IState) => state.submissions.loading);
     const questionData = useSelector(getQuestionTitles);
@@ -37,16 +34,21 @@ const SubmissionPage: FC<Props> = ({ route, navigation }) => {
     useEffect(() => {
         dispatch(getSubmissions(appKey, route.params.id));
         dispatch(requestQuestions(appKey, route.params.id));
-        LogBox.ignoreLogs(['Warning : ...']);
+        LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
     }, []);
 
     const renderTitle = (item: any) => {
-        return (
-            <View style={styles.headers}>
-                <Image source={item.item.icon} style = {{width : 24, height : 24}} />
-                <Text style={styles.titleText}>{item.item.text}</Text>
-            </View>
-        )
+        if (item.index !== 0)
+            return (
+                <View style={styles.headers}>
+                    <Image source={item.item.icon} style={{ width: 12, height: 12, tintColor : '#ccc' }} />
+                    <Text style={styles.titleText} numberOfLines = {1}>{item.item.text}</Text>
+                </View>
+            )
+        else
+            return (
+                <View></View>
+            )
     }
 
     const renderListItem = (item: any) => {
@@ -86,19 +88,19 @@ const SubmissionPage: FC<Props> = ({ route, navigation }) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        width: width / 0.4,
-        marginTop: 12,
     },
     headers: {
-        height: height / 15,
-        width: width / 1.2,
+        height: height / 20,
+        width: width / 3,
         flexDirection: 'row',
-        borderRightWidth: 1,
-        marginLeft: 12,
-        alignItems : 'center'
+        borderRightWidth: 0.15,
+        borderColor : '#ccc',
+        marginLeft: 16,
+        alignItems: 'center',
+        paddingLeft : 8,
     },
     titleText: {
-        fontSize: 16,
+        fontSize: 12,
         marginHorizontal: 12,
         color: '#9c9c9c'
     },

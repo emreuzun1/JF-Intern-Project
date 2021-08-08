@@ -42,6 +42,12 @@ const filters: any = {
         text: '',
         order: '',
         icon : require('../../img/phone.png')
+    },
+    control_dropdown : {
+        prettyFormat : '',
+        text : '',
+        order : '',
+        icon : require('../../img/drop-down-list.png')
     }
 }
 
@@ -73,6 +79,7 @@ export const getSubmissionAnswers = createSelector(
     data => {
         var result: any[] = [];
         if (data !== undefined) {
+            console.log(data);
             for (const item in data) {
                 var filter = filters;
                 var tempResult: any[] = [];
