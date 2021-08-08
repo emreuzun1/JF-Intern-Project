@@ -9,6 +9,7 @@ interface IDraft {
 const initialState = {
   appKey: '',
   loading: false,
+  errorMessage : '',
 };
 
 export default (state = initialState, action: IActionInterface) =>
@@ -16,6 +17,7 @@ export default (state = initialState, action: IActionInterface) =>
     switch (action.type) {
       case type.USER_LOGIN_REQUEST: {
         draft.loading = true;
+        draft.errorMessage = '';
         break;
       }
       case type.USER_LOGIN_SUCCESS: {
@@ -23,13 +25,7 @@ export default (state = initialState, action: IActionInterface) =>
           draft[key] = action.payload[key];
         });
         draft.loading = false;
-        break;
-      }
-      case type.USER_LOGIN_RESTOREAPPKEY: {
-        Object.keys(action.payload).forEach(key => {
-          draft[key] = action.payload[key];
-        });
-        draft.loading = false;
+        draft.errorMessage = '';
         break;
       }
       case type.USER_LOGIN_FAIL: {

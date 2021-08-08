@@ -15,7 +15,6 @@ function* loginWithUsername(action: IActionInterface) {
       yield put({ type: USER_LOGIN_FAIL });
     }
   } catch (err) {
-    console.error('saga error', err);
     yield put({ type: USER_LOGIN_FAIL });
   }
 }

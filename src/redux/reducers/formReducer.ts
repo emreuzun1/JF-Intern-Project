@@ -2,7 +2,7 @@ import produce from 'immer';
 import * as type from '../actionTypes';
 
 const initialState = {
-  data: undefined,
+  data: [],
   loading: false,
 };
 

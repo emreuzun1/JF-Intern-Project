@@ -10,7 +10,7 @@ function* getForm(action: IActionInterface) {
   try {
     const { data: { content, responseCode } } = yield call(getForms);
     if (responseCode === 200) {
-      yield put({ type: USER_FORMS_SUCCESS, payload: content.filter((item: any) => item.status === "ENABLED") });
+      yield put({ type: USER_FORMS_SUCCESS, payload: content });
     } else {
       yield put({ type: USER_FORMS_FAIL });
     }

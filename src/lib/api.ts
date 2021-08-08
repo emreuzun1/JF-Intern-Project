@@ -28,3 +28,10 @@ export function getSubmissionsApi(appKey: string, formId: string) {
     url: `/form/${formId}/submissions?apiKey=${appKey}`,
   })
 }
+
+export function getQuestions(apikey: string, id: string) {
+  return axios({
+    method: 'GET',
+    url: `/form/${id}/questions?apiKey=${apikey}`,
+  })
+}

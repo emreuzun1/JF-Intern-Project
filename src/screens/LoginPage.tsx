@@ -1,5 +1,5 @@
 import { StackNavigationProp } from '@react-navigation/stack';
-import React, { useState, FC, useCallback } from 'react';
+import React, { FC } from 'react';
 import {
   View,
   Text,
@@ -7,61 +7,80 @@ import {
   Dimensions,
   Image,
   TouchableOpacity,
+  TextInput
 } from 'react-native';
 import { useDispatch } from 'react-redux';
+import { RouteProp } from '@react-navigation/native';
 
-import { Input, Button } from '../components';
+import { Button, Input } from '../components';
 import { RootStackParamList } from '../navigation/types';
 import { requestLogin } from '../redux/actions';
+import { Formik } from 'formik';
+import Waiting from '../components/Waiting';
 
-
-const { height, width } = Dimensions.get('screen');
+const { width } = Dimensions.get('screen');
 const logoImg = require('../img/jotform-logo.png');
 
-export interface LoginProps {
-  navigation: StackNavigationProp<RootStackParamList, 'Login'>;
+
+type LoginProps = StackNavigationProp<RootStackParamList, 'Login'>;
+type LoginRouteProps = RouteProp<RootStackParamList, 'Login'>;
+
+interface Props {
+  navigation: LoginProps,
+  route: LoginRouteProps
 }
 
-const App: FC<LoginProps> = ({ navigation }) => {
-  const [username, setUsername] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
+interface IFormValues {
+  username: string,
+  password: string
+}
+
+const App: FC<Props> = ({ route, navigation }) => {
+  const initialValues: IFormValues = { username: '', password: '' };
   const dispatch = useDispatch();
 
-  const handleUsernameChange = useCallback((val: string) => {
-    setUsername(val);
-  }, []);
-
-  const handlePasswordChange = useCallback((val: string) => {
-    setPassword(val);
-  }, []);
-
-  const login = () => {
-    dispatch(requestLogin(username, password));
+  const login = (values: any) => {
+    dispatch(requestLogin(values.username, values.password));
     navigation.navigate('Form');
   };
 
+
+  if (route.params.isLogged) {
+    navigation.navigate('Form');
+    return (
+      <Waiting />
+    )
+  }
   return (
+
     <View style={styles.container}>
       <View style={styles.topContainer}>
         <Image style={styles.logoImg} source={logoImg} />
       </View>
       <View style={styles.bottomContainer}>
-        <Input
-          style={styles.input}
-          placeholder="Username"
-          value={username}
-          onChangeText={handleUsernameChange}
-        />
-        <Input
-          style={styles.input}
-          placeholder="Password"
-          value={username}
-          secureTextEntry
-          onChangeText={handlePasswordChange}
-        />
-
-        <Button title="Login" onPress={login} />
-
+        <Formik initialValues={initialValues}
+          onSubmit={values => login(values)}>
+          {({ handleChange, handleBlur, handleSubmit, values }) => (
+            <View style={styles.inputContainer}>
+              <TextInput
+                style={styles.input}
+                placeholder=" Username"
+                value={values.username}
+                onBlur={handleBlur('username')}
+                onChangeText={handleChange('username')}
+              />
+              <TextInput
+                style={styles.input}
+                placeholder=" Password"
+                value={values.password}
+                secureTextEntry
+                onBlur={handleBlur('password')}
+                onChangeText={handleChange('password')}
+              />
+              <Button title="Login" onPress={handleSubmit} />
+            </View>
+          )}
+        </Formik>
         <TouchableOpacity style={styles.signUp} onPress={() => { }}>
           <Text>
             Don't you have an account?{' '}
@@ -69,7 +88,7 @@ const App: FC<LoginProps> = ({ navigation }) => {
           </Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </View >
   );
 };
 
@@ -94,6 +113,11 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 36,
     borderTopRightRadius: 36,
     paddingTop: 24,
+  },
+
+  inputContainer: {
+    alignItems: 'center',
+    marginTop: 12
   },
 
   logoImg: {

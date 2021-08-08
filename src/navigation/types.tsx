@@ -1,11 +1,7 @@
 import { NavigatorScreenParams } from '@react-navigation/native';
 
-export type Params = {
-    id: string
-};
-
 export type RootStackParamList = {
-    Login: undefined,
+    Login: { isLogged: boolean },
     Form: undefined,
     Submission: { id: string }
 }

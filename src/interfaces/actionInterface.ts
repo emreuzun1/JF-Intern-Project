@@ -10,5 +10,6 @@ export type IActionType = (
 export interface IState {
     auth: any,
     form: any,
-    submissions : any
+    submissions : any,
+    questions : any
 }

@@ -1,12 +1,14 @@
 import { combineReducers } from "redux";
-import auth from './auth';
-import form from './form';
-import submissions from './submissions';
+import auth from './authReducer';
+import form from './formReducer';
+import submissions from './submissionsReducer';
+import questions from './questionsReducer';
 
 const rootReducer = combineReducers({
     auth,
     form,
-    submissions
+    submissions,
+    questions
 });
 
 export default rootReducer;

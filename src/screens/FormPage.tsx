@@ -5,29 +5,30 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
 
 import { RootStackParamList } from '../navigation/types';
-import { getForm } from '../redux/actions/form';
+import { getForm } from '../redux/actions/formAction';
+import { getActiveForms } from '../redux/reducers/selector';
 import { IState } from '../interfaces/actionInterface';
 
 import Waiting from '../components/Waiting';
 import FormCard from '../components/FormCard';
 
-type MainProps = StackNavigationProp<RootStackParamList, 'Form'>
-type MainRouteProp = RouteProp<RootStackParamList, 'Form'>
+type FormProps = StackNavigationProp<RootStackParamList, 'Form'>
+type FormRouteProp = RouteProp<RootStackParamList, 'Form'>
 
 interface Props {
-  navigation: MainProps;
-  route: MainRouteProp
+  navigation: FormProps;
+  route: FormRouteProp
 }
 
 const FormPage: FC<Props> = ({ route, navigation }) => {
   const isLoaded = useSelector((state: IState) => state.form.loading);
-  const form = useSelector((state: IState) => state.form.data);
+  const appKey = useSelector((state: IState) => state.auth.appKey);
+  const data = useSelector(getActiveForms);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getForm());
-  }, []);
-
+  }, [appKey]);
 
   const goSubmissionPage = (itemId: string) => {
     navigation.navigate('Submission', {
@@ -47,7 +48,7 @@ const FormPage: FC<Props> = ({ route, navigation }) => {
     <ScrollView horizontal style={styles.container}>
       {isLoaded ? <Waiting /> :
         <FlatList
-          data={form}
+          data={data}
           renderItem={renderListItem.bind(this)}
         />
       }
