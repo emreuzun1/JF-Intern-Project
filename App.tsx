@@ -3,9 +3,9 @@ import { NavigationContainer } from '@react-navigation/native';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react'
 
-import MainNavigator from './src/navigation/MainNavigator';
+import MainNavigator from './src/Navigation/MainNavigator';
 import { store, persistor } from './src/redux/store';
-import { setAppKey } from './src/lib/axios';
+import { setAppKey } from './src/Lib/axios';
 
 
 const App = () => {

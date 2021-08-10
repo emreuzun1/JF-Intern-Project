@@ -4,10 +4,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
 
-import { RootStackParamList } from '../navigation/types';
+import { RootStackParamList } from '../Navigation/types';
 import { getForm } from '../redux/actions/formAction';
 import { getActiveForms } from '../redux/reducers/selector';
-import { IState } from '../interfaces/actionInterface';
+import { IState } from '../Interfaces/actionInterface';
 
 import Waiting from '../components/Waiting';
 import FormCard from '../components/FormCard';

@@ -2,9 +2,10 @@ import React, { FC } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { RootStackParamList } from './types';
 
-import LoginPage from '../screens/LoginPage';
-import FormPage from '../screens/FormPage';
-import SubmissionPage from '../screens/SubmissionPage';
+import LoginPage from '../Pages/Login';
+import FormPage from '../Pages/Form';
+import SubmissionPage from '../Pages/Submission';
+import SubmissionEditPage from '../Pages/SubmissionEdit';
 
 const MainStack = createStackNavigator<RootStackParamList>();
 interface IMainNavigator {
@@ -15,10 +16,11 @@ const MainNavigator: FC<IMainNavigator> = ({ loggedIn }) => {
   const { Navigator } = MainStack;
 
   return (
-    <Navigator screenOptions={{ headerShown: false }}>
+    <Navigator screenOptions = {{headerStyle : {backgroundColor : '#333333'}, headerTitleStyle : {color : '#ccc'}}}>
       <MainStack.Screen name="Login" component={LoginPage} initialParams={{ isLogged: loggedIn }} />
       <MainStack.Screen name="Form" component={FormPage} />
       <MainStack.Screen name="Submission" component={SubmissionPage} />
+      <MainStack.Screen name = 'Edit' component= {SubmissionEditPage} />
     </Navigator>
   );
 };

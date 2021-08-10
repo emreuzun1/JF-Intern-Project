@@ -1,6 +1,6 @@
 import produce from 'immer';
 import * as type from '../actionTypes';
-import { IActionInterface } from '../../interfaces/actionInterface';
+import { IActionInterface } from '../../Interfaces/actionInterface';
 
 interface IDraft {
   [key: string]: string | number | boolean,

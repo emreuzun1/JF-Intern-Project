@@ -1,4 +1,4 @@
-import { ILoginResponseType } from '../interfaces/apiResponseType';
+import { ILoginResponseType } from '../Interfaces/apiResponseType';
 import axios from './axios';
 
 //TODO axios.post, JSON to TS
@@ -35,3 +35,11 @@ export function getQuestions(apikey: string, id: string) {
     url: `/form/${id}/questions?apiKey=${apikey}`,
   })
 }
+
+export function getSubmission(apikey: string, id: string) {
+  return axios({
+    method: 'GET',
+    url: `/submission/${id}?apiKey=${apikey}`
+  })
+}
+

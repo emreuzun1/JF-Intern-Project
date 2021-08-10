@@ -1,8 +1,8 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
-import { requestLogin } from '../../lib/api';
+import { requestLogin } from '../../Lib/api';
 import { USER_LOGIN_REQUEST, USER_LOGIN_FAIL, USER_LOGIN_SUCCESS, USER_LOGIN_RESTOREAPPKEY } from '../actionTypes';
-import { IActionInterface } from '../../interfaces/actionInterface';
-import { setAppKey } from '../../lib/axios';
+import { IActionInterface } from '../../Interfaces/actionInterface';
+import { setAppKey } from '../../Lib/axios';
 
 function* loginWithUsername(action: IActionInterface) {
   try {

@@ -1,6 +1,6 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
-import { getForms } from '../../lib/api';
-import { IActionInterface } from '../../interfaces/actionInterface';
+import { getForms } from '../../Lib/api';
+import { IActionInterface } from '../../Interfaces/actionInterface';
 
 import {
   USER_FORMS_REQUEST, USER_FORMS_SUCCESS, USER_FORMS_FAIL,

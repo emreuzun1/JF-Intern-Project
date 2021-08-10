@@ -3,5 +3,6 @@ import { NavigatorScreenParams } from '@react-navigation/native';
 export type RootStackParamList = {
     Login: { isLogged: boolean },
     Form: undefined,
-    Submission: { id: string }
+    Submission: { id: string },
+    Edit: { answer : any },
 }

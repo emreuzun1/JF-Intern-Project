@@ -1,6 +1,6 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
-import { getQuestions } from '../../lib/api';
-import { IActionInterface } from '../../interfaces/actionInterface';
+import { getQuestions } from '../../Lib/api';
+import { IActionInterface } from '../../Interfaces/actionInterface';
 
 import { FORM_QUESTIONS_REQUEST, FORM_QUESTIONS_SUCCESS, FORM_QUESTIONS_FAIL } from '../actionTypes';
 

@@ -1,5 +1,5 @@
-import { StackNavigationProp } from '@react-navigation/stack';
-import React, { FC } from 'react';
+import {StackNavigationProp} from '@react-navigation/stack';
+import React, {FC} from 'react';
 import {
   View,
   Text,
@@ -7,36 +7,35 @@ import {
   Dimensions,
   Image,
   TouchableOpacity,
-  TextInput
+  TextInput,
+  Button,
 } from 'react-native';
-import { useDispatch } from 'react-redux';
-import { RouteProp } from '@react-navigation/native';
+import {useDispatch} from 'react-redux';
+import {RouteProp} from '@react-navigation/native';
 
-import { Button, Input } from '../components';
-import { RootStackParamList } from '../navigation/types';
-import { requestLogin } from '../redux/actions';
-import { Formik } from 'formik';
+import {RootStackParamList} from '../Navigation/types';
+import {requestLogin} from '../redux/actions';
+import {Formik} from 'formik';
 import Waiting from '../components/Waiting';
 
-const { width } = Dimensions.get('screen');
+const {width} = Dimensions.get('screen');
 const logoImg = require('../img/jotform-logo.png');
-
 
 type LoginProps = StackNavigationProp<RootStackParamList, 'Login'>;
 type LoginRouteProps = RouteProp<RootStackParamList, 'Login'>;
 
 interface Props {
-  navigation: LoginProps,
-  route: LoginRouteProps
+  navigation: LoginProps;
+  route: LoginRouteProps;
 }
 
 interface IFormValues {
-  username: string,
-  password: string
+  username: string;
+  password: string;
 }
 
-const App: FC<Props> = ({ route, navigation }) => {
-  const initialValues: IFormValues = { username: '', password: '' };
+const App: FC<Props> = ({route, navigation}) => {
+  const initialValues: IFormValues = {username: '', password: ''};
   const dispatch = useDispatch();
 
   const login = (values: any) => {
@@ -44,23 +43,20 @@ const App: FC<Props> = ({ route, navigation }) => {
     navigation.navigate('Form');
   };
 
-
   if (route.params.isLogged) {
     navigation.navigate('Form');
-    return (
-      <Waiting />
-    )
+    return <Waiting />;
   }
   return (
-
     <View style={styles.container}>
       <View style={styles.topContainer}>
         <Image style={styles.logoImg} source={logoImg} />
       </View>
       <View style={styles.bottomContainer}>
-        <Formik initialValues={initialValues}
+        <Formik
+          initialValues={initialValues}
           onSubmit={values => login(values)}>
-          {({ handleChange, handleBlur, handleSubmit, values }) => (
+          {({handleChange, handleBlur, handleSubmit, values}) => (
             <View style={styles.inputContainer}>
               <TextInput
                 style={styles.input}
@@ -77,18 +73,21 @@ const App: FC<Props> = ({ route, navigation }) => {
                 onBlur={handleBlur('password')}
                 onChangeText={handleChange('password')}
               />
-              <Button title="Login" onPress={handleSubmit} />
+              <Button
+                title="Login"
+                onPress={handleSubmit}
+              />
             </View>
           )}
         </Formik>
-        <TouchableOpacity style={styles.signUp} onPress={() => { }}>
+        <TouchableOpacity style={styles.signUp} onPress={() => {}}>
           <Text>
             Don't you have an account?{' '}
-            <Text style={{ color: '#fa8900', fontWeight: '700' }}>Sign up!</Text>
+            <Text style={{color: '#fa8900', fontWeight: '700'}}>Sign up!</Text>
           </Text>
         </TouchableOpacity>
       </View>
-    </View >
+    </View>
   );
 };
 
@@ -98,6 +97,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#fa8900',
+  },
+
+  button: {
+    backgroundColor: '#434343',
+    width: width / 2.6,
+    padding: 15,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 8,
+    marginTop: 24,
   },
 
   topContainer: {
@@ -117,7 +126,7 @@ const styles = StyleSheet.create({
 
   inputContainer: {
     alignItems: 'center',
-    marginTop: 12
+    marginTop: 12,
   },
 
   logoImg: {

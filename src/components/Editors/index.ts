@@ -1,0 +1,1 @@
+export { NameEdit as fullname } from './NameEdit';

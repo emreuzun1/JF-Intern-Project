@@ -11,6 +11,7 @@ export default (state = initialState, action: any) =>
     switch (action.type) {
       case type.USER_FORMS_REQUEST:
         draft.loading = true;
+        break;
       case type.USER_FORMS_SUCCESS:
         draft.data = action.payload;
         draft.loading = false;
