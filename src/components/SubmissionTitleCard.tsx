@@ -4,19 +4,20 @@ import {View, Text, StyleSheet, Image, Dimensions} from 'react-native';
 const {width, height} = Dimensions.get('screen');
 
 interface Props {
-  item: any;
+  question: any;
 }
 
 const SubmissionText: React.FC<Props> = props => {
-  if (props.item.index !== 0)
+
+  if (props.question.index !== 0)
     return (
       <View style={styles.headers}>
         <Image
-          source={props.item.item.icon}
+          source={props.question.item.icon}
           style={{width: 16, height: 16, tintColor: '#ccc'}}
         />
         <Text style={styles.titleText} numberOfLines={1}>
-          {props.item.item.text}
+          {props.question.item.text}
         </Text>
       </View>
     );

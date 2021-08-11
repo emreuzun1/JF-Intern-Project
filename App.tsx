@@ -16,18 +16,16 @@ const App = () => {
     const { auth } = store.getState();
 
     if (auth.appKey) {
-      setLoggedIn(true);
+      setLoggedIn(auth.loading);
       setAppKey(auth.appKey);
     }
   };
-
-
 
   return (
     <Provider store={store}>
       <PersistGate onBeforeLift={onBeforeLift} loading={null} persistor={persistor}>
         <NavigationContainer>
-          <MainNavigator loggedIn={loggedIn} />
+          <MainNavigator/>
         </NavigationContainer>
       </PersistGate>
     </Provider>

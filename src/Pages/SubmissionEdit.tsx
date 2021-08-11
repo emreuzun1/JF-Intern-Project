@@ -16,16 +16,17 @@ interface Props {
 }
 
 const SubmissionEditPage: FC<Props> = ({route, navigation}) => {
+  const {questions, answer} = route.params;
   const editorsMap = I.Map(editors);
-  const Element = editorsMap.get('fullname', null);
 
-  //const element = editorsMap.get(route.params.answer.type.split('_',2)[1],null);
-
-  if (Element) {
-    // @ts-ignore: Unreachable code error
-    return <Element answer={route.params.answer[0]} />;
-  }
-  return <View></View>;
+  return (
+    <View style={styles.screen}>
+      {questions.map((q: any, index: any) => {
+        const Element = editorsMap.get(q.type.split('_', 2)[1], null);
+        if (Element) return <Element answer={answer[index]} question={q} />;
+      })}
+    </View>
+  );
 };
 
 const styles = StyleSheet.create({

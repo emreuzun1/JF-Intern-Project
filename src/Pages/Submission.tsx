@@ -15,6 +15,7 @@ import {RouteProp} from '@react-navigation/native';
 import {RootStackParamList} from '../Navigation/types';
 import {getSubmissions, requestQuestions} from '../redux/actions';
 import {IState} from '../Interfaces/actionInterface';
+import {SubmissionAnswerInterface} from '../Interfaces/SubmissionAnswerInterface';
 import {
   getActiveSubmissions,
   getOrderedQuestions,
@@ -72,13 +73,13 @@ const SubmissionPage: FC<Props> = ({route, navigation}) => {
       }>
       <View style={styles.screen}>
         <View style={styles.headerBackground}>
-          <FlatList
+        <FlatList
             keyExtractor={(item: any, index: any) => {
               return `${index}_${item.text}`;
             }}
             horizontal
             data={questionData}
-            renderItem={(item: any) => <SubmissionTitle item={item} />}
+            renderItem={(item: any) => <SubmissionTitle question={item} />}
           />
         </View>
         <FlatList
@@ -89,9 +90,10 @@ const SubmissionPage: FC<Props> = ({route, navigation}) => {
             <SubmissionCard
               item={item}
               navigation={navigation}
-              onPress={(answers: any) =>
+              onPress={(answers: SubmissionAnswerInterface) =>
                 navigation.navigate('Edit', {
                   answer: answers,
+                  questions: questionData,
                 })
               }
             />

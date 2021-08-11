@@ -9,3 +9,9 @@ export function requestLogin(email: string, password: string) {
     },
   };
 }
+
+export function requestLogout(){
+  return {
+    type : type.USER_LOGOUT_REQUEST
+  }
+}

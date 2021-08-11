@@ -1,5 +1,5 @@
 import {StackNavigationProp} from '@react-navigation/stack';
-import React, {FC} from 'react';
+import React from 'react';
 import {
   View,
   Text,
@@ -10,13 +10,15 @@ import {
   TextInput,
   Button,
 } from 'react-native';
-import {useDispatch} from 'react-redux';
+import {useDispatch, connect, useSelector} from 'react-redux';
 import {RouteProp} from '@react-navigation/native';
 
 import {RootStackParamList} from '../Navigation/types';
 import {requestLogin} from '../redux/actions';
 import {Formik} from 'formik';
 import Waiting from '../components/Waiting';
+import {AppDispatch} from '../redux/store';
+import { IState } from '../Interfaces/actionInterface';
 
 const {width} = Dimensions.get('screen');
 const logoImg = require('../img/jotform-logo.png');
@@ -24,9 +26,10 @@ const logoImg = require('../img/jotform-logo.png');
 type LoginProps = StackNavigationProp<RootStackParamList, 'Login'>;
 type LoginRouteProps = RouteProp<RootStackParamList, 'Login'>;
 
-interface Props {
+interface IProps {
   navigation: LoginProps;
   route: LoginRouteProps;
+  appKey: '';
 }
 
 interface IFormValues {
@@ -34,14 +37,32 @@ interface IFormValues {
   password: string;
 }
 
-const App: FC<Props> = ({route, navigation}) => {
-  const initialValues: IFormValues = {username: '', password: ''};
-  const dispatch = useDispatch();
+interface DispatchProps {
+  loginTo: (username: string, password: string, navigation : any) => void;
+}
 
-  const login = (values: any) => {
-    dispatch(requestLogin(values.username, values.password));
-    navigation.navigate('Form');
+type Props = IProps & DispatchProps;
+
+const mapStateToProps = (state: any) => {
+  const appkey = state.auth;
+  return appkey;
+};
+
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    loginTo: (username: string, password: string, navigation: any) => {
+      dispatch(requestLogin(username, password));
+      navigation.navigate('Form');
+    },
   };
+};
+
+const Login = (props: Props) => {
+  const initialValues: IFormValues = {username: '', password: ''};
+  const dispatch: AppDispatch = useDispatch();
+  const appkey = useSelector((state : IState)=> state.auth.appKey);
+
+  const {appKey, navigation , route} = props;
 
   if (route.params.isLogged) {
     navigation.navigate('Form');
@@ -55,7 +76,7 @@ const App: FC<Props> = ({route, navigation}) => {
       <View style={styles.bottomContainer}>
         <Formik
           initialValues={initialValues}
-          onSubmit={values => login(values)}>
+          onSubmit={values => props.loginTo(values.username, values.password, navigation)}>
           {({handleChange, handleBlur, handleSubmit, values}) => (
             <View style={styles.inputContainer}>
               <TextInput
@@ -73,10 +94,7 @@ const App: FC<Props> = ({route, navigation}) => {
                 onBlur={handleBlur('password')}
                 onChangeText={handleChange('password')}
               />
-              <Button
-                title="Login"
-                onPress={handleSubmit}
-              />
+              <Button title="Login" onPress={handleSubmit} />
             </View>
           )}
         </Formik>
@@ -148,4 +166,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default App;
+export default connect<DispatchProps>(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Login);

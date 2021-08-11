@@ -35,7 +35,7 @@ export const getOrderedAnswers = createSelector(
     (submissions, questions) => {
         return _.memoize((submissionID: any) => {
             const submission = submissions.find((s: any) => s.id === submissionID);
-            const answers = questions.map((q : any) => submission.answers[q.qid]);
+            const answers = questions.map((q: any) => submission.answers[q.qid]);
             return answers;
         });
     }

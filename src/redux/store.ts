@@ -22,4 +22,6 @@ let persistor = persistStore(store)
 
 sagaMiddleWare.run(rootSaga);
 
+export type AppDispatch = typeof store.dispatch;
+
 export { store, persistor };

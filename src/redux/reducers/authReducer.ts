@@ -9,7 +9,7 @@ interface IDraft {
 const initialState = {
   appKey: '',
   loading: false,
-  errorMessage : '',
+  errorMessage: '',
 };
 
 export default (state = initialState, action: IActionInterface) =>
@@ -30,6 +30,18 @@ export default (state = initialState, action: IActionInterface) =>
       }
       case type.USER_LOGIN_FAIL: {
         draft.loading = false;
+        draft.errorMessage = action.error;
+        break;
+      }
+      case type.USER_LOGOUT_SUCCESS: {
+        draft.loading = false;
+        draft.errorMessage = '';
+        draft.appKey = '';
+        break;
+      }
+      case type.USER_LOGOUT_FAIL : {
+        draft.loading = false;
+        draft.errorMessage = 'Something went wrong!';
         break;
       }
       default:

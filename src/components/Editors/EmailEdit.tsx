@@ -1,5 +1,5 @@
-import React, {FC} from 'react';
-import {View, StyleSheet, Text, TextInput} from 'react-native';
+import React from 'react';
+import {View, Text, StyleSheet, TextInput} from 'react-native';
 import {Formik} from 'formik';
 import {SubmissionAnswerInterface} from '../../Interfaces/SubmissionAnswerInterface';
 
@@ -8,21 +8,21 @@ interface Props {
   question : any;
 }
 
-export function PhoneEdit({answer}: Props) {
-  const initialValues = {phone: answer.prettyFormat};
+export function EmailEdit({answer}: Props) {
+  const initialValues: any = {email: answer.answer};
 
   return (
     <Formik initialValues={initialValues} onSubmit={() => {}}>
       {({handleChange, handleSubmit, handleBlur, values}) => (
-        <View style={styles.phoneInputContainer}>
-          <Text style={styles.nameHeader}>Phone</Text>
+        <View style={styles.container}>
+          <Text style={styles.header}>Email</Text>
           <TextInput
             style={styles.input}
-            value={values.phone}
-            onChange={handleChange('phone')}
-            onBlur={handleBlur('phone')}
+            value={values.email}
+            onChange={handleChange}
+            onBlur={handleBlur}
           />
-          <Text style={styles.subtitles}>Please enter a valid number.</Text>
+          <Text style={styles.subtitles}>example@exmple.com</Text>
         </View>
       )}
     </Formik>
@@ -30,12 +30,13 @@ export function PhoneEdit({answer}: Props) {
 }
 
 const styles = StyleSheet.create({
-  phoneInputContainer: {
+  container: {
     width: '100%',
     marginLeft: 32,
     marginTop: 24,
   },
-  nameHeader: {
+
+  header: {
     fontFamily: 'sf-regular',
     color: '#ccc',
     fontSize: 20,
@@ -50,6 +51,7 @@ const styles = StyleSheet.create({
     color: '#ccc',
     marginTop: 4,
   },
+
   subtitles: {
     fontFamily: 'sf-display-thin',
     fontSize: 13,

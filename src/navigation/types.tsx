@@ -1,8 +1,8 @@
-import { NavigatorScreenParams } from '@react-navigation/native';
+import { QuestionType } from "../Types/QuestionType"
 
 export type RootStackParamList = {
     Login: { isLogged: boolean },
     Form: undefined,
     Submission: { id: string },
-    Edit: { answer : any },
+    Edit: { answer : any, questions : any}
 }

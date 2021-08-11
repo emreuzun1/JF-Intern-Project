@@ -1,45 +1,38 @@
-import { ILoginResponseType } from '../Interfaces/apiResponseType';
 import axios from './axios';
 
-//TODO axios.post, JSON to TS
 export function requestLogin(username: string, password: string) {
   return axios({
     method: 'POST',
-    url: '/user/login',
+    url: 'user/login',
     params: {
       username: username,
       password: password,
       access: 'full',
-      appName: 'JFTable',
-    },
+      appName: 'JFProje'
+    }
   });
+}
+
+export function requestLogout() {
+  return axios({
+    method: 'GET',
+    url: '/v1/user/logout',
+  })
 }
 
 export function getForms() {
-  return axios({
-    method: 'GET',
-    url: '/user/forms',
-  });
+  return axios.get('/user/forms');
 }
 
 export function getSubmissionsApi(appKey: string, formId: string) {
-  return axios({
-    method: 'GET',
-    url: `/form/${formId}/submissions?apiKey=${appKey}`,
-  })
+  return axios.get(`/form/${formId}/submissions?apiKey=${appKey}`);
 }
 
 export function getQuestions(apikey: string, id: string) {
-  return axios({
-    method: 'GET',
-    url: `/form/${id}/questions?apiKey=${apikey}`,
-  })
+  return axios.get(`/form/${id}/questions?apiKey=${apikey}`);
 }
 
 export function getSubmission(apikey: string, id: string) {
-  return axios({
-    method: 'GET',
-    url: `/submission/${id}?apiKey=${apikey}`
-  })
+  return axios.get(`/submission/${id}?apiKey=${apikey}`);
 }
 

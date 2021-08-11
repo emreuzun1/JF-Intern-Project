@@ -14,7 +14,6 @@ function* getSubmissions(action: IActionInterface) {
       yield put({ type: FORM_SUBMISSION_FAIL });
     }
   } catch (err) {
-    console.log(err);
   }
 }
 

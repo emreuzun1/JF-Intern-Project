@@ -11,6 +11,7 @@ import * as _ from 'lodash';
 import {Name} from './Fields';
 import {useSelector} from 'react-redux';
 import {getOrderedAnswers} from '../redux/reducers/selector';
+import { SubmissionAnswerInterface } from '../Interfaces/SubmissionAnswerInterface';
 
 const {width} = Dimensions.get('screen');
 
