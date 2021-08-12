@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {TouchableOpacity, Text, View} from 'react-native';
 
 import {Name} from './Fields';
@@ -14,14 +14,14 @@ interface ICard {
 
 const Card: React.FC<ICard> = props => {
   const orderedAnswers = useSelector(getOrderedAnswers);
-  const answers = orderedAnswers(props.item.id);
+  const answers = orderedAnswers(props.item.item.id);
 
   return (
     <TouchableOpacity
       onPress={props.onPress.bind(this, answers)}
       style={styles.container}>
       <View>
-        <Text style={styles.headerText}>{answers[0].prettyFormat}</Text>
+        <Text style={styles.headerText}>{answers[0].prettyFormat || null}</Text>
         <View style={styles.line} />
       </View>
       <View style={{flexDirection: 'row'}}>

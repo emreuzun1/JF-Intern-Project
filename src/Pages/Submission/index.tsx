@@ -1,5 +1,5 @@
 import React, {FC, useEffect} from 'react';
-import {ScrollView, View, LogBox, FlatList} from 'react-native';
+import {ScrollView, View, LogBox, VirtualizedList} from 'react-native';
 import {useSelector, connect} from 'react-redux';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {RouteProp} from '@react-navigation/native';
@@ -43,23 +43,40 @@ const SubmissionPage: FC<Props> = props => {
     LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
   }, []);
 
+  const getTitleItem = (data: any, index: number) => ({
+    question: data[index],
+    index: index,
+  });
+
+  const getSubmissionItem = (data: any, index: number) => ({
+    item: data[index],
+  });
+
   return (
     <ScrollViewWithSpinner isLoading={loading}>
       <ScrollView horizontal style={styles.screen}>
         <View style={styles.screen}>
           <View style={styles.headerBackground}>
-            <FlatList
+            <VirtualizedList
               keyExtractor={(item: any, index: any) => {
                 return `${index}_${item.text}`;
               }}
               horizontal
+              initialNumToRender={3}
               data={questionData}
-              renderItem={(item: any) => <SubmissionTitle question={item} />}
+              getItem={getTitleItem}
+              getItemCount={data => data.length}
+              renderItem={({item, index}) => (
+                <SubmissionTitle question={item} index={index} />
+              )}
             />
           </View>
-          <FlatList
+          <VirtualizedList
             data={submissions}
-            keyExtractor={item => item.id}
+            initialNumToRender={7}
+            getItem={getSubmissionItem}
+            getItemCount={data => data.length}
+            keyExtractor={item => item.item.id}
             renderItem={({item}) => (
               <SubmissionCard
                 item={item}

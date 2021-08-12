@@ -3,7 +3,7 @@ import * as type from '../actionTypes';
 
 const initialState = {
   data: [],
-  loading: false,
+  loading: true,
 };
 
 export default (state = initialState, action: any) =>

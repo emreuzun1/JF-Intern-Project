@@ -1,5 +1,10 @@
 import React, {FC, useEffect} from 'react';
-import {FlatList, ScrollView, View, TouchableOpacity} from 'react-native';
+import {
+  ScrollView,
+  View,
+  TouchableOpacity,
+  VirtualizedList,
+} from 'react-native';
 import {useSelector, connect} from 'react-redux';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {RouteProp} from '@react-navigation/native';
@@ -62,22 +67,31 @@ const FormPage: FC<Props> = props => {
     });
   };
 
+  const getItem = (data: any, index: number) => ({
+    id: data[index].id,
+    title: data[index].title,
+    updated_at: data[index].updated_at,
+    count: data[index].count,
+  });
+
   return (
     <View style={styles.container}>
       <ScrollViewWithLoading isLoading={loading}>
-        <ScrollView>
-          <FlatList
-            data={data}
-            renderItem={({item}) => (
-              <FormCard
-                title={item.title}
-                update_at={item.updated_at}
-                count={item.count}
-                onPress={() => goSubmissionPage(item.id)}
-              />
-            )}
-          />
-        </ScrollView>
+        <VirtualizedList
+          data={data}
+          initialNumToRender={9}
+          getItemCount={(data: any) => data.length}
+          getItem={getItem}
+          keyExtractor={item => item.id}
+          renderItem={({item}) => (
+            <FormCard
+              title={item.title}
+              update_at={item.updated_at}
+              count={item.count}
+              onPress={() => goSubmissionPage(item.id)}
+            />
+          )}
+        />
       </ScrollViewWithLoading>
     </View>
   );
