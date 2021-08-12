@@ -1,5 +1,5 @@
-  import React, {FC, useState} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import React, {FC, useState} from 'react';
+import {View, Text} from 'react-native';
 
 interface Props {
   data: any;
@@ -20,7 +20,7 @@ const Email: FC<Props> = props => {
 
   React.useEffect(() => {
     getName();
-  }, []);
+  });
 
   return (
     <View>
@@ -28,7 +28,5 @@ const Email: FC<Props> = props => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({});
 
 export default Email;

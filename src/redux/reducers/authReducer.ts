@@ -1,9 +1,9 @@
 import produce from 'immer';
 import * as type from '../actionTypes';
-import { IActionInterface } from '../../Interfaces/actionInterface';
+import {IActionInterface} from '../../Interfaces/actionInterface';
 
 interface IDraft {
-  [key: string]: string | number | boolean,
+  [key: string]: string | number | boolean;
 }
 
 const initialState = {
@@ -39,7 +39,7 @@ export default (state = initialState, action: IActionInterface) =>
         draft.appKey = '';
         break;
       }
-      case type.USER_LOGOUT_FAIL : {
+      case type.USER_LOGOUT_FAIL: {
         draft.loading = false;
         draft.errorMessage = 'Something went wrong!';
         break;

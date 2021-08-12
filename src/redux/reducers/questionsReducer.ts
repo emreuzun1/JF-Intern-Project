@@ -1,21 +1,21 @@
 import produce from 'immer';
 import * as type from '../actionTypes';
-import { IActionInterface } from '../../Interfaces/actionInterface';
-import { QuestionType } from '../../Types/QuestionType';
+import {IActionInterface} from '../../Interfaces/actionInterface';
+import {QuestionType} from '../../Types/QuestionType';
 
 interface IDraft {
-    [key: string]: string | number | boolean,
+  [key: string]: string | number | boolean;
 }
 
 const initialState = {
-    data: {} as QuestionType,
-}
+  data: {} as QuestionType,
+};
 
 export default (state = initialState, action: IActionInterface) =>
-    produce(state, (draft: IDraft) => {
-        switch (action.type) {
-            case type.FORM_QUESTIONS_SUCCESS: {
-                draft.data = action.payload;
-            }
-        }
-    })
+  produce(state, (draft: IDraft) => {
+    switch (action.type) {
+      case type.FORM_QUESTIONS_SUCCESS: {
+        draft.data = action.payload;
+      }
+    }
+  });

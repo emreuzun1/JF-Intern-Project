@@ -16,7 +16,7 @@ export function Dropdown({answer, question}: Props) {
 
   return (
     <View>
-      <Formik initialValues={initialValues} onSubmit={() => {}}></Formik>
+      <Formik initialValues={initialValues} onSubmit={() => {}} />
     </View>
   );
 }

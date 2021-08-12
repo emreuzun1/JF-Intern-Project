@@ -1,11 +1,12 @@
 import React, {FC} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View} from 'react-native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {RouteProp} from '@react-navigation/native';
 import I from 'immutable';
 
-import {RootStackParamList} from '../Navigation/types';
-import * as editors from '../components/Editors';
+import {RootStackParamList} from '../../Navigation/types';
+import * as editors from '../../components/Editors';
+import {styles} from './style';
 
 type SubmissionEditProps = StackNavigationProp<RootStackParamList, 'Edit'>;
 type SubmissionEditRootProp = RouteProp<RootStackParamList, 'Edit'>;
@@ -15,9 +16,9 @@ interface Props {
   route: SubmissionEditRootProp;
 }
 
-const SubmissionEditPage: FC<Props> = ({route, navigation}) => {
+const SubmissionEditPage: FC<Props> = ({route}) => {
   const {questions, answer} = route.params;
-  const editorsMap = I.Map(editors);
+  const editorsMap = I.Map(editors); // TODO WITHOUT IMMUTABLE
 
   return (
     <View style={styles.screen}>
@@ -28,12 +29,5 @@ const SubmissionEditPage: FC<Props> = ({route, navigation}) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-    backgroundColor: '#434343',
-  },
-});
 
 export default SubmissionEditPage;

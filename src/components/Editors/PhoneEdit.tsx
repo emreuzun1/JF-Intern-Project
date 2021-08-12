@@ -1,11 +1,11 @@
-import React, {FC} from 'react';
+import React from 'react';
 import {View, StyleSheet, Text, TextInput} from 'react-native';
 import {Formik} from 'formik';
 import {SubmissionAnswerInterface} from '../../Interfaces/SubmissionAnswerInterface';
 
 interface Props {
   answer: SubmissionAnswerInterface;
-  question : any;
+  question: any;
 }
 
 export function PhoneEdit({answer}: Props) {
@@ -13,7 +13,7 @@ export function PhoneEdit({answer}: Props) {
 
   return (
     <Formik initialValues={initialValues} onSubmit={() => {}}>
-      {({handleChange, handleSubmit, handleBlur, values}) => (
+      {({handleChange, handleBlur, values}) => (
         <View style={styles.phoneInputContainer}>
           <Text style={styles.nameHeader}>Phone</Text>
           <TextInput

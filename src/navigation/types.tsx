@@ -1,8 +1,6 @@
-import { QuestionType } from "../Types/QuestionType"
-
 export type RootStackParamList = {
-    Login: { isLogged: boolean },
-    Form: undefined,
-    Submission: { id: string },
-    Edit: { answer : any, questions : any}
-}
+  Login: {isLogged: boolean};
+  Form: undefined;
+  Submission: {id: string};
+  Edit: {answer: any; questions: any};
+};

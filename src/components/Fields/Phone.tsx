@@ -1,9 +1,9 @@
 import React, {FC, useState} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text} from 'react-native';
 
 interface Props {
   data: any;
-  style : any;
+  style: any;
 }
 
 const Phone: FC<Props> = props => {
@@ -20,15 +20,13 @@ const Phone: FC<Props> = props => {
 
   React.useEffect(() => {
     getName();
-  }, []);
+  });
 
   return (
     <View>
-      <Text style = {props.style}>{phone}</Text>
+      <Text style={props.style}>{phone}</Text>
     </View>
   );
 };
-
-const styles = StyleSheet.create({});
 
 export default Phone;

@@ -5,7 +5,7 @@ import {SubmissionAnswerInterface} from '../../Interfaces/SubmissionAnswerInterf
 
 interface Props {
   answer: SubmissionAnswerInterface;
-  question : any;
+  question: any;
 }
 
 export function EmailEdit({answer}: Props) {
@@ -13,7 +13,7 @@ export function EmailEdit({answer}: Props) {
 
   return (
     <Formik initialValues={initialValues} onSubmit={() => {}}>
-      {({handleChange, handleSubmit, handleBlur, values}) => (
+      {({handleChange, handleBlur, values}) => (
         <View style={styles.container}>
           <Text style={styles.header}>Email</Text>
           <TextInput

@@ -1,24 +1,26 @@
-import { call, put, takeLatest } from 'redux-saga/effects';
-import { getForms } from '../../Lib/api';
-import { IActionInterface } from '../../Interfaces/actionInterface';
+import {call, put, takeLatest} from 'redux-saga/effects';
+import {getForms} from '../../Lib/api';
 
 import {
-  USER_FORMS_REQUEST, USER_FORMS_SUCCESS, USER_FORMS_FAIL,
+  USER_FORMS_REQUEST,
+  USER_FORMS_SUCCESS,
+  USER_FORMS_FAIL,
 } from '../actionTypes';
 
-function* getForm(action: IActionInterface) {
+function* getForm() {
   try {
-    const { data: { content, responseCode } } = yield call(getForms);
+    const {
+      data: {content, responseCode},
+    } = yield call(getForms);
     if (responseCode === 200) {
-      yield put({ type: USER_FORMS_SUCCESS, payload: content });
+      yield put({type: USER_FORMS_SUCCESS, payload: content});
     } else {
-      yield put({ type: USER_FORMS_FAIL });
+      yield put({type: USER_FORMS_FAIL});
     }
   } catch (err) {
     console.log(err);
   }
 }
-
 
 const formSaga = [takeLatest(USER_FORMS_REQUEST, getForm)];
 

@@ -8,8 +8,8 @@ export function requestLogin(username: string, password: string) {
       username: username,
       password: password,
       access: 'full',
-      appName: 'JFProje'
-    }
+      appName: 'JFProje',
+    },
   });
 }
 
@@ -17,7 +17,7 @@ export function requestLogout() {
   return axios({
     method: 'GET',
     url: '/v1/user/logout',
-  })
+  });
 }
 
 export function getForms() {
@@ -35,4 +35,3 @@ export function getQuestions(apikey: string, id: string) {
 export function getSubmission(apikey: string, id: string) {
   return axios.get(`/submission/${id}?apiKey=${apikey}`);
 }
-

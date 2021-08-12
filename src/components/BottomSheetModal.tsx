@@ -1,16 +1,11 @@
 import React, {FC} from 'react';
-import {View, Text, StyleSheet, Button, Dimensions} from 'react-native';
-
-import {NameEdit} from './Editors';
+import {View, StyleSheet, Button, Dimensions} from 'react-native';
 
 const {height} = Dimensions.get('screen');
 
-const Modal: FC = props => {
-  
-
+const Modal: FC = () => {
   return (
     <View style={styles.container}>
-      <NameEdit text="Emre" />
       <Button title="Change" onPress={() => {}} />
     </View>
   );

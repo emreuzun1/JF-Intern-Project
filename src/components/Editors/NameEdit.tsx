@@ -2,11 +2,10 @@ import React from 'react';
 import {View, TextInput, StyleSheet, Text} from 'react-native';
 import {Formik} from 'formik';
 import {SubmissionAnswerInterface} from '../../Interfaces/SubmissionAnswerInterface';
-import {CardStyleInterpolators} from '@react-navigation/stack';
 
 interface Props {
   answer: SubmissionAnswerInterface;
-  question : any;
+  question: any;
 }
 
 export function NameEdit({answer}: Props) {
@@ -15,7 +14,7 @@ export function NameEdit({answer}: Props) {
   return (
     <View>
       <Formik initialValues={initialValues} onSubmit={() => {}}>
-        {({handleChange, handleBlur, handleSubmit, values}) => (
+        {({handleChange, handleBlur, values}) => (
           <View style={styles.container}>
             <Text style={styles.header}>Name</Text>
             <View style={styles.nameInputContainer}>
@@ -74,17 +73,17 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     padding: 8,
     color: '#ccc',
-    marginTop : 4,
-    marginLeft : 8
+    marginTop: 4,
+    marginLeft: 8,
   },
 
-  subtitles : {
-    fontFamily : 'sf-display-thin',
-    fontSize : 13,
-    marginLeft : 10,
-    marginTop : 4,
-    color : '#c0c0c0'
-  }
+  subtitles: {
+    fontFamily: 'sf-display-thin',
+    fontSize: 13,
+    marginLeft: 10,
+    marginTop: 4,
+    color: '#c0c0c0',
+  },
 });
 
 export default NameEdit;

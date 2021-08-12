@@ -6,16 +6,15 @@ import LoginPage from '../Pages/Login';
 import FormPage from '../Pages/Form';
 import SubmissionPage from '../Pages/Submission';
 import SubmissionEditPage from '../Pages/SubmissionEdit';
-import {store} from '../redux/store';
 
 const MainStack = createStackNavigator<RootStackParamList>();
 
-const MainNavigator: FC = () => {
-  const {Navigator} = MainStack;
+interface Props {
+  loggedIn: boolean;
+}
 
-  const {
-    auth: {appKey},
-  } = store.getState();
+const MainNavigator: FC<Props> = ({loggedIn}) => {
+  const {Navigator} = MainStack;
 
   return (
     <Navigator
@@ -26,7 +25,7 @@ const MainNavigator: FC = () => {
       <MainStack.Screen
         name="Login"
         component={LoginPage}
-        initialParams={{isLogged: appKey === '' ? false : true}}
+        initialParams={{isLogged: loggedIn}}
       />
       <MainStack.Screen name="Form" component={FormPage} options={{}} />
       <MainStack.Screen name="Submission" component={SubmissionPage} />
