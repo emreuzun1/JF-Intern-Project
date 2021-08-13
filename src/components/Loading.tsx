@@ -17,7 +17,6 @@ const Loading =
 
 const styles = StyleSheet.create({
   indicator: {
-    display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
   },

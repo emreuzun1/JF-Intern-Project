@@ -1,20 +1,12 @@
 import {StackNavigationProp} from '@react-navigation/stack';
 import React from 'react';
-import {
-  View,
-  Text,
-  Image,
-  TouchableOpacity,
-  TextInput,
-  Button,
-} from 'react-native';
+import {View, Text, Image, TouchableOpacity, TextInput} from 'react-native';
 import {connect} from 'react-redux';
 import {RouteProp} from '@react-navigation/native';
 
 import {RootStackParamList} from '../../Navigation/types';
 import {requestLogin} from '../../redux/actions';
 import {Formik} from 'formik';
-import Waiting from '../../components/Loading';
 import {styles} from './style';
 
 const logoImg = require('../../img/jotform-logo.png');
@@ -38,7 +30,6 @@ const Login = (props: Props) => {
 
   if (route.params.isLogged) {
     navigation.navigate('Form');
-    return <Waiting />;
   }
   return (
     <View style={styles.container}>
@@ -68,14 +59,18 @@ const Login = (props: Props) => {
                 onBlur={handleBlur('password')}
                 onChangeText={handleChange('password')}
               />
-              <Button title="Login" onPress={handleSubmit} />
+              <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+                <Text style={styles.loginText}>Login</Text>
+              </TouchableOpacity>
             </View>
           )}
         </Formik>
-        <TouchableOpacity style={styles.signUp} onPress={() => {}}>
+        <TouchableOpacity
+          style={styles.signUp}
+          onPress={() => navigation.navigate('SignUp')}>
           <Text>
             Don't you have an account?
-            <Text style={{color: '#fa8900', fontWeight: '700'}}>Sign up!</Text>
+            <Text style={{color: '#fa8900', fontWeight: '700'}}> Sign up!</Text>
           </Text>
         </TouchableOpacity>
       </View>

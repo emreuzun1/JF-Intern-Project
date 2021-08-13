@@ -4,6 +4,7 @@ import {
   View,
   TouchableOpacity,
   VirtualizedList,
+  LogBox,
 } from 'react-native';
 import {useSelector, connect} from 'react-redux';
 import {StackNavigationProp} from '@react-navigation/stack';
@@ -49,17 +50,8 @@ const FormPage: FC<Props> = props => {
 
   useEffect(() => {
     getForm();
+    LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
   }, []);
-
-  React.useLayoutEffect(() => {
-    navigation.setOptions({
-      headerRight: () => (
-        <TouchableOpacity onPress={logOut} style={{marginRight: 12}}>
-          <Icon name="logout" size={24} color="#ccc" />
-        </TouchableOpacity>
-      ),
-    });
-  });
 
   const goSubmissionPage = (itemId: string) => {
     navigation.navigate('Submission', {
@@ -76,6 +68,11 @@ const FormPage: FC<Props> = props => {
 
   return (
     <View style={styles.container}>
+      <View style={styles.topContainer}>
+        <TouchableOpacity onPress={logOut} style={{marginRight: 24}}>
+          <Icon name="logout" size={24} color="#ccc" />
+        </TouchableOpacity>
+      </View>
       <ScrollViewWithLoading isLoading={loading}>
         <VirtualizedList
           data={data}

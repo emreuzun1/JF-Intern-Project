@@ -4,7 +4,7 @@ const {width, height} = Dimensions.get('screen');
 
 export const styles = StyleSheet.create({
   screen: {
-    display: 'flex',
+    flex: 1,
     backgroundColor: '#434343',
   },
   headerBackground: {
@@ -19,7 +19,7 @@ export const styles = StyleSheet.create({
     borderRadius: 8,
   },
   textContainer: {
-    width: width / 3,
+    width: width / 2,
     borderRightWidth: 0.3,
     borderColor: '#ccc',
     justifyContent: 'center',
@@ -39,7 +39,7 @@ export const styles = StyleSheet.create({
 
   headers: {
     height: height / 20,
-    width: width / 3,
+    width: width / 2,
     flexDirection: 'row',
     borderRightWidth: 0.15,
     borderColor: '#ccc',

@@ -3,4 +3,5 @@ export type RootStackParamList = {
   Form: undefined;
   Submission: {id: string};
   Edit: {answer: any; questions: any};
+  SignUp: undefined;
 };

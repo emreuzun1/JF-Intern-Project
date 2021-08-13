@@ -5,30 +5,20 @@ const {width} = Dimensions.get('screen');
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
     alignItems: 'center',
+    justifyContent: 'center',
     backgroundColor: '#fa8900',
   },
 
-  button: {
-    backgroundColor: '#434343',
-    width: width / 2.6,
-    padding: 12,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 8,
-    marginTop: 24,
-  },
-
-  loginText: {
-    color: 'white',
-    fontSize: 18,
-    fontFamily: 'sf-regular',
-  },
-
   topContainer: {
-    flex: 2,
+    flex: 1,
     justifyContent: 'center',
+  },
+
+  logoImg: {
+    width: 128,
+    height: 128,
+    resizeMode: 'contain',
   },
 
   bottomContainer: {
@@ -41,15 +31,22 @@ export const styles = StyleSheet.create({
     paddingTop: 24,
   },
 
-  inputContainer: {
+  button: {
+    backgroundColor: '#fa8900',
+    width: width / 2.6,
+    height: 50,
+    padding: 8,
     alignItems: 'center',
-    marginTop: 12,
+    justifyContent: 'center',
+    borderRadius: 8,
+    marginTop: 24,
+    fontSize: 16,
   },
 
-  logoImg: {
-    width: width / 1.2,
-    resizeMode: 'contain',
-    marginBottom: 12,
+  registerText: {
+    color: 'white',
+    fontSize: 18,
+    fontFamily: 'sf-regular',
   },
 
   input: {
@@ -58,9 +55,5 @@ export const styles = StyleSheet.create({
     width: width / 1.6,
     marginVertical: 10,
     fontSize: 16,
-  },
-
-  signUp: {
-    marginTop: 24,
   },
 });

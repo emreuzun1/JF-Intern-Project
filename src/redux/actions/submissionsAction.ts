@@ -9,3 +9,13 @@ export function getSubmissions(apikey: string, id: string) {
     },
   };
 }
+
+export function postSubmission(apikey: string, id: string) {
+  return {
+    type: type.FORM_SUBMISSIONPOST_REQUEST,
+    payload: {
+      apikey,
+      id,
+    },
+  };
+}

@@ -8,6 +8,13 @@ export const styles = StyleSheet.create({
     padding: 24,
   },
 
+  topContainer: {
+    width: width,
+    height: 50,
+    alignItems: 'flex-end',
+    paddingHorizontal: 12,
+  },
+
   formContainer: {
     display: 'flex',
     width: width / 1.2,

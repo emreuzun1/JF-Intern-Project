@@ -15,3 +15,18 @@ export function requestLogout() {
     type: type.USER_LOGOUT_REQUEST,
   };
 }
+
+export function requestRegister(
+  username: string,
+  email: string,
+  password: string,
+) {
+  return {
+    type: type.USER_REGISTER_REQUEST,
+    payload: {
+      username: username,
+      password: password,
+      email: email,
+    },
+  };
+}
