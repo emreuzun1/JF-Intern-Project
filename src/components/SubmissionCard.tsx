@@ -43,8 +43,8 @@ const Card: React.FC<ICard> = props => {
             return null;
           }
           return (
-            <View style={styles.textContainer}>
-              <Name answer={answer} key={`${index}_${answer.order}`} />
+            <View style={styles.textContainer} key={`${index}_${answer.order}`}>
+              <Name answer={answer} />
             </View>
           );
         })}

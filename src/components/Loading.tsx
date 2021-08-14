@@ -1,9 +1,14 @@
 import React from 'react';
 import {ActivityIndicator, View, StyleSheet} from 'react-native';
 
-const Loading =
-  (Comp: any) =>
-  ({isLoading, children, ...props}) => {
+interface Props {
+  isLoading: boolean;
+  children: any;
+  props?: any;
+}
+
+const withLoading = (Comp: any) => {
+  const WithLoading: React.FC<Props> = ({isLoading, children, ...props}) => {
     if (isLoading) {
       return (
         <View style={styles.indicator}>
@@ -14,6 +19,8 @@ const Loading =
       return <Comp {...props}>{children}</Comp>;
     }
   };
+  return WithLoading;
+};
 
 const styles = StyleSheet.create({
   indicator: {
@@ -22,4 +29,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Loading;
+export default withLoading;

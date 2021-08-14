@@ -1,13 +1,17 @@
-import React, {FC, useEffect} from 'react';
+import React, {FC, useEffect, useMemo, useRef} from 'react';
 import {ScrollView, View, LogBox, VirtualizedList} from 'react-native';
 import {useSelector, connect} from 'react-redux';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {RouteProp} from '@react-navigation/native';
+import {BottomSheetModal, BottomSheetModalProvider} from '@gorhom/bottom-sheet';
 
 import {RootStackParamList} from '../../Navigation/types';
-import {getSubmissions, requestQuestions} from '../../redux/actions';
+import {
+  getSubmissions,
+  requestQuestions,
+  selectSubmission,
+} from '../../redux/actions';
 import {IState} from '../../Interfaces/actionInterface';
-import {SubmissionAnswerInterface} from '../../Interfaces/SubmissionAnswerInterface';
 import {
   getActiveSubmissions,
   getOrderedQuestions,
@@ -16,6 +20,7 @@ import {
 import {SubmissionCard, SubmissionTitle} from '../../components';
 import Loading from '../../components/Loading';
 import {styles} from './style';
+import SubmissionEditPage from '../SubmissionEdit';
 
 type SubmissionProps = StackNavigationProp<RootStackParamList, 'Submission'>;
 type SubmissionRootProp = RouteProp<RootStackParamList, 'Submission'>;
@@ -25,8 +30,10 @@ interface Props {
   route: SubmissionRootProp;
   getSubmissions: (appkey: string, id: string) => void;
   requestQuestions: (appkey: string, id: string) => void;
+  selectSubmission: (submission: any) => void;
   appKey: string;
   loading: boolean;
+  selectedSubmission: any;
 }
 
 const ScrollViewWithSpinner = Loading(ScrollView);
@@ -34,14 +41,31 @@ const ScrollViewWithSpinner = Loading(ScrollView);
 const SubmissionPage: FC<Props> = props => {
   const questionData = useSelector(getOrderedQuestions);
   const submissions = useSelector(getActiveSubmissions);
-  const {navigation, route, getSubmissions, requestQuestions, appKey, loading} =
-    props;
+  const {
+    navigation,
+    route,
+    getSubmissions,
+    requestQuestions,
+    selectSubmission,
+    selectedSubmission,
+    appKey,
+    loading,
+  } = props;
+
+  const bottomSheetModalRef = useRef<BottomSheetModal>(null);
 
   useEffect(() => {
     getSubmissions(appKey, route.params.id);
     requestQuestions(appKey, route.params.id);
     LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
   }, []);
+
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerShown: true,
+      headerTitle: `${route.params.title}`,
+    });
+  });
 
   const getTitleItem = (data: any, index: number) => ({
     question: data[index],
@@ -52,10 +76,27 @@ const SubmissionPage: FC<Props> = props => {
     item: data[index],
   });
 
+  const handleSubmit = (qid: number, values: any, name?: boolean) => {
+    console.log('qid:', qid, ' Name :', name, ' Values : ', values);
+  };
+
+  const snapPoints = useMemo(() => ['0%', '95%'], []);
+
+  const handleOpen = (item: any) => {
+    selectSubmission(item);
+    bottomSheetModalRef.current?.present();
+  };
+
+  const handleSheetChanges = React.useCallback((index: number) => {
+    if (index === -1) {
+      console.log('Closed!');
+    }
+  }, []);
+
   return (
-    <ScrollViewWithSpinner isLoading={loading}>
-      <ScrollView horizontal style={styles.screen}>
-        <View style={styles.screen}>
+    <View style={styles.screen}>
+      <ScrollView horizontal>
+        <ScrollViewWithSpinner isLoading={loading}>
           <View style={styles.headerBackground}>
             <VirtualizedList
               keyExtractor={(item: any, index: any) => {
@@ -81,29 +122,39 @@ const SubmissionPage: FC<Props> = props => {
               <SubmissionCard
                 item={item}
                 navigation={navigation}
-                onPress={(answers: SubmissionAnswerInterface) =>
-                  navigation.navigate('Edit', {
-                    answer: answers,
-                    questions: questionData,
-                  })
-                }
+                onPress={handleOpen.bind(item)}
               />
             )}
           />
-        </View>
+        </ScrollViewWithSpinner>
       </ScrollView>
-    </ScrollViewWithSpinner>
+      <BottomSheetModalProvider>
+        <BottomSheetModal
+          ref={bottomSheetModalRef}
+          index={1}
+          snapPoints={snapPoints}
+          onChange={handleSheetChanges}>
+          <SubmissionEditPage
+            answer={selectedSubmission.submission}
+            questions={questionData}
+            onPress={handleSubmit}
+          />
+        </BottomSheetModal>
+      </BottomSheetModalProvider>
+    </View>
   );
 };
 
 const mapStateToProps = (state: IState) => {
   const {appKey, loading} = state.auth;
-  return {appKey, loading};
+  const {selectedSubmission} = state.submissions;
+  return {appKey, loading, selectedSubmission};
 };
 
 const mapDispatchToProps = {
   getSubmissions,
   requestQuestions,
+  selectSubmission,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SubmissionPage);

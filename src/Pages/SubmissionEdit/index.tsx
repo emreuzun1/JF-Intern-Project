@@ -12,19 +12,27 @@ type SubmissionEditProps = StackNavigationProp<RootStackParamList, 'Edit'>;
 type SubmissionEditRootProp = RouteProp<RootStackParamList, 'Edit'>;
 
 interface Props {
-  navigation: SubmissionEditProps;
-  route: SubmissionEditRootProp;
+  answer: any;
+  questions: any;
+  onPress: (qid: number) => void;
 }
 
-const SubmissionEditPage: FC<Props> = ({route}) => {
-  const {questions, answer} = route.params;
+const SubmissionEditPage: FC<Props> = ({answer, questions, onPress}) => {
   const editorsMap = I.Map(editors); // TODO WITHOUT IMMUTABLE
 
   return (
     <View style={styles.screen}>
       {questions.map((q: any, index: any) => {
         const Element = editorsMap.get(q.type.split('_', 2)[1], null);
-        if (Element) return <Element answer={answer[index]} question={q} />;
+        if (Element)
+          return (
+            <Element
+              answer={answer[index]}
+              question={q}
+              onPress={onPress}
+              key={`${q.id}_${index}`}
+            />
+          );
       })}
     </View>
   );

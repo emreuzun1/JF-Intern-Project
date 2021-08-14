@@ -1,19 +1,16 @@
 import React from 'react';
 import {View, StyleSheet, Text, TextInput} from 'react-native';
 import {Formik} from 'formik';
-import {SubmissionAnswerInterface} from '../../Interfaces/SubmissionAnswerInterface';
+import {ISubmissionEdit} from '../../Interfaces/SubmissionEditInterface';
 
-interface Props {
-  answer: SubmissionAnswerInterface;
-  question: any;
-}
-
-export function PhoneEdit({answer}: Props) {
+export function PhoneEdit({answer, question, onPress}: ISubmissionEdit) {
   const initialValues = {phone: answer.prettyFormat};
 
   return (
-    <Formik initialValues={initialValues} onSubmit={() => {}}>
-      {({handleChange, handleBlur, values}) => (
+    <Formik
+      initialValues={initialValues}
+      onSubmit={(values: any) => onPress(question.qid, values.phone)}>
+      {({handleChange, handleBlur, values, handleSubmit}) => (
         <View style={styles.phoneInputContainer}>
           <Text style={styles.nameHeader}>Phone</Text>
           <TextInput
@@ -21,6 +18,7 @@ export function PhoneEdit({answer}: Props) {
             value={values.phone}
             onChange={handleChange('phone')}
             onBlur={handleBlur('phone')}
+            onEndEditing={handleSubmit}
           />
           <Text style={styles.subtitles}>Please enter a valid number.</Text>
         </View>

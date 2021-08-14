@@ -1,4 +1,5 @@
 import {StyleSheet, Dimensions} from 'react-native';
+import {Colors} from '../../constants/Colors';
 
 const {width} = Dimensions.get('screen');
 
@@ -7,11 +8,11 @@ export const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#fa8900',
+    backgroundColor: Colors.jotformOrange,
   },
 
   button: {
-    backgroundColor: '#434343',
+    backgroundColor: Colors.jotformGrey,
     width: width / 2.6,
     padding: 12,
     alignItems: 'center',
@@ -53,7 +54,7 @@ export const styles = StyleSheet.create({
   },
 
   input: {
-    backgroundColor: '#e3e3e3e3',
+    backgroundColor: Colors.lightGrey,
     borderRadius: 5,
     width: width / 1.6,
     marginVertical: 10,

@@ -2,7 +2,6 @@ import React from 'react';
 import {Image, TouchableOpacity} from 'react-native';
 import {Text, View} from 'react-native';
 import {styles} from '../Pages/Form/style';
-
 interface IFormCard {
   title: string;
   update_at: string;

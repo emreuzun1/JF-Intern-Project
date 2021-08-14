@@ -25,7 +25,6 @@ export function requestRegister(
   email: string,
   password: string,
 ) {
-  console.log(username, password, email);
   return axios({
     method: 'POST',
     url: 'user/register',
@@ -53,14 +52,15 @@ export function getSubmission(apikey: string, id: string) {
   return axios.get(`/submission/${id}?apiKey=${apikey}`);
 }
 
-export function postSubmissionApi(apikey: string, id: string) {
+/*
+export function postSubmissionApi(
+  apikey: string,
+  id: string,
+  qid: number,
+  input: string,
+) {
   return axios({
     method: 'POST',
     url: `/submission/${id}?apiKey=${apikey}`,
-    params: {
-      'submission[1][first]': 'John',
-      'submission[new]': '1',
-      'submission[flag]': '1',
-    },
   });
-}
+}*/

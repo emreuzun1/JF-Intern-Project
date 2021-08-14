@@ -4,6 +4,7 @@ import * as type from '../actionTypes';
 const initialState = {
   data: [],
   loading: true,
+  selectedSubmission: {},
 };
 
 export default (state = initialState, action: any) =>
@@ -18,6 +19,9 @@ export default (state = initialState, action: any) =>
         break;
       case type.FORM_SUBMISSION_FAIL:
         draft.loading = false;
+        break;
+      case type.SUBMISSION_SELECT:
+        draft.selectedSubmission = action.payload;
         break;
       default:
         return state;

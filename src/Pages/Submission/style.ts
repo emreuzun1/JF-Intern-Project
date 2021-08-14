@@ -1,19 +1,19 @@
 import {StyleSheet, Dimensions} from 'react-native';
+import {Colors} from '../../constants/Colors';
 
 const {width, height} = Dimensions.get('screen');
 
 export const styles = StyleSheet.create({
   screen: {
     flex: 1,
-    backgroundColor: '#434343',
+    backgroundColor: Colors.jotformGrey,
   },
   headerBackground: {
-    backgroundColor: '#333333',
+    backgroundColor: Colors.darkerGrey,
     width: '100%',
   },
   container: {
-    flex: 1,
-    backgroundColor: '#282828',
+    backgroundColor: Colors.darkerGrey,
     height: 75,
     marginTop: 12,
     borderRadius: 8,
@@ -21,20 +21,20 @@ export const styles = StyleSheet.create({
   textContainer: {
     width: width / 2,
     borderRightWidth: 0.3,
-    borderColor: '#ccc',
+    borderColor: Colors.lightGrey,
     justifyContent: 'center',
     padding: 6,
   },
   headerText: {
     fontSize: 14,
-    color: '#ccc',
+    color: Colors.lightGrey,
     margin: 8,
     fontFamily: 'sf-display-thin',
   },
   line: {
     width: '100%',
     borderBottomWidth: 0.5,
-    borderColor: '#ccc',
+    borderColor: Colors.lightGrey,
   },
 
   headers: {
@@ -42,14 +42,14 @@ export const styles = StyleSheet.create({
     width: width / 2,
     flexDirection: 'row',
     borderRightWidth: 0.15,
-    borderColor: '#ccc',
+    borderColor: Colors.lightGrey,
     alignItems: 'center',
     padding: 8,
   },
   titleText: {
     fontSize: 12,
     marginHorizontal: 12,
-    color: '#9c9c9c',
+    color: Colors.grey,
     fontFamily: 'sf-display-thin',
   },
 });

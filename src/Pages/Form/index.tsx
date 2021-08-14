@@ -17,7 +17,7 @@ import {IState} from '../../Interfaces/actionInterface';
 import {persistor} from '../../redux/store';
 import Icon from 'react-native-vector-icons/AntDesign';
 
-import Loading from '../../components/Loading';
+import withLoading from '../../components/Loading';
 import FormCard from '../../components/FormCard';
 import {requestLogout} from '../../redux/actions';
 import {styles} from './style';
@@ -25,7 +25,7 @@ import {styles} from './style';
 type FormProps = StackNavigationProp<RootStackParamList, 'Form'>;
 type FormRouteProp = RouteProp<RootStackParamList, 'Form'>;
 
-const ScrollViewWithLoading = Loading(ScrollView);
+const ScrollViewWithLoading = withLoading(ScrollView);
 
 interface Props {
   navigation: FormProps;
@@ -53,9 +53,10 @@ const FormPage: FC<Props> = props => {
     LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
   }, []);
 
-  const goSubmissionPage = (itemId: string) => {
+  const goSubmissionPage = (itemId: string, itemTitle: string) => {
     navigation.navigate('Submission', {
       id: itemId,
+      title: itemTitle,
     });
   };
 
@@ -69,7 +70,7 @@ const FormPage: FC<Props> = props => {
   return (
     <View style={styles.container}>
       <View style={styles.topContainer}>
-        <TouchableOpacity onPress={logOut} style={{marginRight: 24}}>
+        <TouchableOpacity onPress={logOut} style={styles.logOut}>
           <Icon name="logout" size={24} color="#ccc" />
         </TouchableOpacity>
       </View>
@@ -85,7 +86,7 @@ const FormPage: FC<Props> = props => {
               title={item.title}
               update_at={item.updated_at}
               count={item.count}
-              onPress={() => goSubmissionPage(item.id)}
+              onPress={() => goSubmissionPage(item.id, item.title)}
             />
           )}
         />

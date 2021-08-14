@@ -19,3 +19,12 @@ export function postSubmission(apikey: string, id: string) {
     },
   };
 }
+
+export function selectSubmission(submission: any) {
+  return {
+    type: type.SUBMISSION_SELECT,
+    payload: {
+      submission,
+    },
+  };
+}

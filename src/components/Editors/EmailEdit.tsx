@@ -1,19 +1,16 @@
 import React from 'react';
 import {View, Text, StyleSheet, TextInput} from 'react-native';
 import {Formik} from 'formik';
-import {SubmissionAnswerInterface} from '../../Interfaces/SubmissionAnswerInterface';
+import {ISubmissionEdit} from '../../Interfaces/SubmissionEditInterface';
 
-interface Props {
-  answer: SubmissionAnswerInterface;
-  question: any;
-}
-
-export function EmailEdit({answer}: Props) {
+export function EmailEdit({answer, question, onPress}: ISubmissionEdit) {
   const initialValues: any = {email: answer.answer};
 
   return (
-    <Formik initialValues={initialValues} onSubmit={() => {}}>
-      {({handleChange, handleBlur, values}) => (
+    <Formik
+      initialValues={initialValues}
+      onSubmit={(values: any) => onPress(question.qid, values.email)}>
+      {({handleChange, handleBlur, values, handleSubmit}) => (
         <View style={styles.container}>
           <Text style={styles.header}>Email</Text>
           <TextInput
@@ -21,6 +18,7 @@ export function EmailEdit({answer}: Props) {
             value={values.email}
             onChange={handleChange}
             onBlur={handleBlur}
+            onEndEditing={handleSubmit}
           />
           <Text style={styles.subtitles}>example@exmple.com</Text>
         </View>

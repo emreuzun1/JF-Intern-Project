@@ -1,10 +1,12 @@
 import {Dimensions, StyleSheet} from 'react-native';
+import {Colors} from '../../constants/Colors';
+
 const {width} = Dimensions.get('screen');
 
 export const styles = StyleSheet.create({
   container: {
-    display: 'flex',
-    backgroundColor: '#434343',
+    flex: 1,
+    backgroundColor: Colors.jotformGrey,
     padding: 24,
   },
 
@@ -29,16 +31,19 @@ export const styles = StyleSheet.create({
   title: {
     fontSize: 18,
     fontWeight: '700',
-    color: '#ccc',
+    color: Colors.lightGrey,
   },
   updateText: {
     fontSize: 12,
-    color: '#ccc',
+    color: Colors.lightGrey,
   },
   line: {
     width: width / 1.2,
     borderBottomWidth: 1,
     marginTop: 8,
-    borderColor: '#ccc',
+    borderColor: Colors.lightGrey,
+  },
+  logOut: {
+    marginRight: width / 10,
   },
 });

@@ -1,20 +1,17 @@
 import React from 'react';
 import {View, TextInput, StyleSheet, Text} from 'react-native';
 import {Formik} from 'formik';
-import {SubmissionAnswerInterface} from '../../Interfaces/SubmissionAnswerInterface';
+import {ISubmissionEdit} from '../../Interfaces/SubmissionEditInterface';
 
-interface Props {
-  answer: SubmissionAnswerInterface;
-  question: any;
-}
-
-export function NameEdit({answer}: Props) {
+export function NameEdit({answer, question, onPress}: ISubmissionEdit) {
   const initialValues: any = answer.answer;
 
   return (
     <View>
-      <Formik initialValues={initialValues} onSubmit={() => {}}>
-        {({handleChange, handleBlur, values}) => (
+      <Formik
+        initialValues={initialValues}
+        onSubmit={(values: any) => onPress(question.qid, values, true)}>
+        {({handleChange, handleBlur, values, handleSubmit}) => (
           <View style={styles.container}>
             <Text style={styles.header}>Name</Text>
             <View style={styles.nameInputContainer}>
@@ -24,6 +21,7 @@ export function NameEdit({answer}: Props) {
                   value={values.first}
                   onBlur={handleBlur('first')}
                   onChangeText={handleChange('first')}
+                  onEndEditing={handleSubmit}
                 />
                 <Text style={styles.subtitles}>First Name</Text>
               </View>
@@ -33,6 +31,7 @@ export function NameEdit({answer}: Props) {
                   value={values.last}
                   onBlur={handleBlur('last')}
                   onChangeText={handleChange('last')}
+                  onEndEditing={handleSubmit}
                 />
                 <Text style={styles.subtitles}>Last Name</Text>
               </View>
