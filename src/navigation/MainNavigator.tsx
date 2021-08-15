@@ -5,7 +5,6 @@ import {RootStackParamList} from './types';
 import LoginPage from '../Pages/Login';
 import FormPage from '../Pages/Form';
 import SubmissionPage from '../Pages/Submission';
-import SubmissionEditPage from '../Pages/SubmissionEdit';
 import SignUpPage from '../Pages/SignUp';
 
 const MainStack = createStackNavigator<RootStackParamList>();
@@ -29,7 +28,6 @@ const MainNavigator: FC<Props> = ({loggedIn}) => {
       />
       <MainStack.Screen name="Form" component={FormPage} options={{}} />
       <MainStack.Screen name="Submission" component={SubmissionPage} />
-      <MainStack.Screen name="Edit" component={SubmissionEditPage} />
       <MainStack.Screen name="SignUp" component={SignUpPage} />
     </Navigator>
   );

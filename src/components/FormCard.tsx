@@ -1,7 +1,48 @@
 import React from 'react';
-import {Image, TouchableOpacity} from 'react-native';
-import {Text, View} from 'react-native';
-import {styles} from '../Pages/Form/style';
+import {Dimensions} from 'react-native';
+import {View} from 'react-native';
+import styled from 'styled-components/native';
+
+import {Colors} from '../constants/Colors';
+
+const {width} = Dimensions.get('screen');
+
+const StyledFormContainer = styled.TouchableOpacity({
+  display: 'flex',
+  width: width / 1.2,
+  margin: 12,
+  flexDirection: 'row',
+});
+
+const StyledImageContainer = styled.View({
+  justifyContent: 'center',
+});
+
+const StyledImage = styled.Image({
+  width: 36,
+  height: 36,
+  marginRight: 6,
+});
+
+const StyledTitle = styled.Text({
+  fontSize: 18,
+  color: Colors.lightGrey,
+  fontFamily: 'sf-pro-heavy',
+});
+
+const StyledUpdateText = styled.Text({
+  fontSize: 12,
+  color: Colors.lightGrey,
+  fontFamily: 'sf-regular',
+});
+
+const StyledLine = styled.Text({
+  width: width / 1.2,
+  borderBottomWidth: 1,
+  borderColor: Colors.lightGrey,
+  marginTop: -8,
+});
+
 interface IFormCard {
   title: string;
   update_at: string;
@@ -11,20 +52,18 @@ interface IFormCard {
 
 const FormCard: React.FC<IFormCard> = props => {
   return (
-    <TouchableOpacity style={styles.formContainer} onPress={props.onPress}>
-      <View style={{justifyContent: 'center'}}>
-        <Image style={styles.icon} source={require('../img/form-icon,.jpg')} />
-      </View>
+    <StyledFormContainer onPress={props.onPress}>
+      <StyledImageContainer>
+        <StyledImage source={require('../img/form-icon,.jpg')} />
+      </StyledImageContainer>
       <View>
-        <View>
-          <Text style={styles.title}>{props.title}</Text>
-          <Text style={styles.updateText}>
-            {props.count} Submissions. Last updated at : {props.update_at}
-          </Text>
-        </View>
-        <View style={styles.line} />
+        <StyledTitle>{props.title}</StyledTitle>
+        <StyledUpdateText>
+          {props.count} Submissions. Last updated at : {props.update_at}
+        </StyledUpdateText>
+        <StyledLine />
       </View>
-    </TouchableOpacity>
+    </StyledFormContainer>
   );
 };
 

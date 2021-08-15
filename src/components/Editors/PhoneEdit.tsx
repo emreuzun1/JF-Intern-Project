@@ -1,7 +1,16 @@
 import React from 'react';
-import {View, StyleSheet, Text, TextInput} from 'react-native';
+import {View, Text, TextInput} from 'react-native';
 import {Formik} from 'formik';
 import {ISubmissionEdit} from '../../Interfaces/SubmissionEditInterface';
+import {styles} from './styles';
+import * as Yup from 'yup';
+
+const phoneValidationSchema = Yup.object().shape({
+  phone: Yup.string()
+    .min(10, 'Invalid Phone')
+    .max(11, 'Invalid Phone')
+    .required('Required'),
+});
 
 export function PhoneEdit({answer, question, onPress}: ISubmissionEdit) {
   const initialValues = {phone: answer.prettyFormat};
@@ -9,49 +18,29 @@ export function PhoneEdit({answer, question, onPress}: ISubmissionEdit) {
   return (
     <Formik
       initialValues={initialValues}
-      onSubmit={(values: any) => onPress(question.qid, values.phone)}>
-      {({handleChange, handleBlur, values, handleSubmit}) => (
+      onSubmit={(values: any) => onPress(question.qid, values.phone)}
+      validationSchema={phoneValidationSchema}>
+      {({handleChange, handleBlur, values, handleSubmit, errors, touched}) => (
         <View style={styles.phoneInputContainer}>
-          <Text style={styles.nameHeader}>Phone</Text>
-          <TextInput
-            style={styles.input}
-            value={values.phone}
-            onChange={handleChange('phone')}
-            onBlur={handleBlur('phone')}
-            onEndEditing={handleSubmit}
-          />
-          <Text style={styles.subtitles}>Please enter a valid number.</Text>
+          <Text style={styles.header}>Phone</Text>
+          <View style={styles.inputContainer}>
+            <TextInput
+              style={styles.input}
+              value={values.phone}
+              onChange={handleChange('phone')}
+              onBlur={handleBlur('phone')}
+              onEndEditing={handleSubmit}
+              keyboardType="number-pad"
+              textContentType="telephoneNumber"
+              dataDetectorTypes="phoneNumber"
+            />
+            <Text style={styles.subtitles}>Please enter a valid number.</Text>
+            {errors.phone && touched.phone ? (
+              <Text style={styles.errorText}>{errors.phone}</Text>
+            ) : null}
+          </View>
         </View>
       )}
     </Formik>
   );
 }
-
-const styles = StyleSheet.create({
-  phoneInputContainer: {
-    width: '100%',
-    marginLeft: 32,
-    marginTop: 24,
-  },
-  nameHeader: {
-    fontFamily: 'sf-regular',
-    color: '#ccc',
-    fontSize: 20,
-  },
-
-  input: {
-    width: '50%',
-    borderWidth: 0.5,
-    borderRadius: 6,
-    borderColor: 'white',
-    padding: 8,
-    color: '#ccc',
-    marginTop: 4,
-  },
-  subtitles: {
-    fontFamily: 'sf-display-thin',
-    fontSize: 13,
-    marginTop: 4,
-    color: '#c0c0c0',
-  },
-});

@@ -1,14 +1,9 @@
 import React, {FC, useEffect} from 'react';
-import {
-  ScrollView,
-  View,
-  TouchableOpacity,
-  VirtualizedList,
-  LogBox,
-} from 'react-native';
+import {ScrollView, VirtualizedList, LogBox, Dimensions} from 'react-native';
 import {useSelector, connect} from 'react-redux';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {RouteProp} from '@react-navigation/native';
+import styled from 'styled-components/native';
 
 import {RootStackParamList} from '../../Navigation/types';
 import {getForm} from '../../redux/actions/formAction';
@@ -20,13 +15,30 @@ import Icon from 'react-native-vector-icons/AntDesign';
 import withLoading from '../../components/Loading';
 import FormCard from '../../components/FormCard';
 import {requestLogout} from '../../redux/actions';
-import {styles} from './style';
+import {Colors} from '../../constants/Colors';
 
 type FormProps = StackNavigationProp<RootStackParamList, 'Form'>;
 type FormRouteProp = RouteProp<RootStackParamList, 'Form'>;
 
 const ScrollViewWithLoading = withLoading(ScrollView);
+const {width} = Dimensions.get('screen');
 
+const StyledContainer = styled.View({
+  flex: 1,
+  backgroundColor: Colors.jotformGrey,
+  padding: 24,
+});
+
+const StyledTopContainer = styled.View({
+  width: width,
+  height: 50,
+  alignItems: 'flex-end',
+  paddingHorizontal: 12,
+});
+
+const StyledLogOutButton = styled.TouchableOpacity({
+  marginRight: width / 10,
+});
 interface Props {
   navigation: FormProps;
   route: FormRouteProp;
@@ -53,13 +65,6 @@ const FormPage: FC<Props> = props => {
     LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
   }, []);
 
-  const goSubmissionPage = (itemId: string, itemTitle: string) => {
-    navigation.navigate('Submission', {
-      id: itemId,
-      title: itemTitle,
-    });
-  };
-
   const getItem = (data: any, index: number) => ({
     id: data[index].id,
     title: data[index].title,
@@ -68,12 +73,12 @@ const FormPage: FC<Props> = props => {
   });
 
   return (
-    <View style={styles.container}>
-      <View style={styles.topContainer}>
-        <TouchableOpacity onPress={logOut} style={styles.logOut}>
+    <StyledContainer>
+      <StyledTopContainer>
+        <StyledLogOutButton onPress={logOut}>
           <Icon name="logout" size={24} color="#ccc" />
-        </TouchableOpacity>
-      </View>
+        </StyledLogOutButton>
+      </StyledTopContainer>
       <ScrollViewWithLoading isLoading={loading}>
         <VirtualizedList
           data={data}
@@ -86,12 +91,17 @@ const FormPage: FC<Props> = props => {
               title={item.title}
               update_at={item.updated_at}
               count={item.count}
-              onPress={() => goSubmissionPage(item.id, item.title)}
+              onPress={() =>
+                navigation.navigate('Submission', {
+                  id: item.id,
+                  title: item.title,
+                })
+              }
             />
           )}
         />
       </ScrollViewWithLoading>
-    </View>
+    </StyledContainer>
   );
 };
 

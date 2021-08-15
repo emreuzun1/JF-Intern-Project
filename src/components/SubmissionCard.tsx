@@ -1,12 +1,48 @@
 import React from 'react';
-import {TouchableOpacity, Text, View} from 'react-native';
-import {useDispatch} from 'react-redux';
+import {View, Dimensions} from 'react-native';
+import styled from 'styled-components/native';
 
 import {Name} from './Fields';
 import {useSelector} from 'react-redux';
 import {getOrderedAnswers} from '../redux/reducers/selector';
-import {styles} from '../Pages/Submission/style';
-import {postSubmission} from '../redux/actions/submissionsAction';
+import {Colors} from '../constants/Colors';
+
+const {width} = Dimensions.get('screen');
+
+const StyledContainerButton = styled.TouchableOpacity({
+  backgroundColor: Colors.darkerGrey,
+  height: 75,
+  marginTop: 12,
+  borderRadius: 8,
+});
+
+const StyledHeaderText = styled.Text({
+  fontSize: 14,
+  color: Colors.lightGrey,
+  marginTop: 8,
+  marginLeft: 8,
+  fontFamily: 'sf-pro-heavy',
+});
+
+const StyledLine = styled.Text({
+  width: '100%',
+  borderBottomWidth: 0.5,
+  borderColor: Colors.lightGrey,
+  marginTop: -8,
+});
+
+const StyledAnswerContainer = styled.View({
+  flexDirection: 'row',
+  margin: 0,
+});
+
+const StyledTextContainer = styled.View({
+  width: width / 2,
+  borderRightWidth: 0.3,
+  borderColor: Colors.lightGrey,
+  justifyContent: 'center',
+  padding: 6,
+});
 
 interface ICard {
   item: any;
@@ -17,39 +53,30 @@ interface ICard {
 const Card: React.FC<ICard> = props => {
   const orderedAnswers = useSelector(getOrderedAnswers);
   const answers = orderedAnswers(props.item.item.id);
-  const dispatch = useDispatch();
-
-  React.useEffect(() => {
-    dispatch(
-      postSubmission('85d3a1500fabf66c0c9199c4b6793298', '5042341785021116127'),
-    );
-  }, []);
 
   if (answers.length === 0) {
     return <View />;
   }
 
   return (
-    <TouchableOpacity
-      onPress={props.onPress.bind(this, answers)}
-      style={styles.container}>
+    <StyledContainerButton onPress={props.onPress.bind(this, answers)}>
       <View>
-        <Text style={styles.headerText}>{answers[0].prettyFormat || null}</Text>
-        <View style={styles.line} />
+        <StyledHeaderText>{answers[0].prettyFormat || null}</StyledHeaderText>
+        <StyledLine />
       </View>
-      <View style={{flexDirection: 'row'}}>
+      <StyledAnswerContainer>
         {answers.map((answer, index) => {
           if (index === 0) {
             return null;
           }
           return (
-            <View style={styles.textContainer} key={`${index}_${answer.order}`}>
+            <StyledTextContainer key={`${index}_${answer.order}`}>
               <Name answer={answer} />
-            </View>
+            </StyledTextContainer>
           );
         })}
-      </View>
-    </TouchableOpacity>
+      </StyledAnswerContainer>
+    </StyledContainerButton>
   );
 };
 

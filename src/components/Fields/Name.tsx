@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 8,
     color: 'white',
     fontSize: 14,
-    fontFamily: 'sf-display-thin',
+    fontFamily: 'sf-regular',
   },
 });
 

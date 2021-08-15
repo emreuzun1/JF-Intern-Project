@@ -1,18 +1,86 @@
 import {StackNavigationProp} from '@react-navigation/stack';
 import React from 'react';
-import {View, Text, Image, TouchableOpacity, TextInput} from 'react-native';
+import {Text, Dimensions} from 'react-native';
 import {connect} from 'react-redux';
 import {RouteProp} from '@react-navigation/native';
+import styled from 'styled-components/native';
 
 import {RootStackParamList} from '../../Navigation/types';
 import {requestLogin} from '../../redux/actions';
 import {Formik} from 'formik';
-import {styles} from './style';
+import {Colors} from '../../constants/Colors';
 
 const logoImg = require('../../img/jotform-logo.png');
+const {width} = Dimensions.get('screen');
 
 type LoginProps = StackNavigationProp<RootStackParamList, 'Login'>;
 type LoginRouteProps = RouteProp<RootStackParamList, 'Login'>;
+
+const StyledContainer = styled.View({
+  flex: 1,
+  justifyContent: 'center',
+  alignItems: 'center',
+  backgroundColor: Colors.jotformOrange,
+});
+
+const StyledTopContainer = styled.View({
+  flex: 2,
+  justifyContent: 'center',
+});
+
+const StyledLogoImage = styled.Image({
+  width: width / 1.2,
+  resizeMode: 'contain',
+  marginBottom: 12,
+});
+
+const StyledBottomContainer = styled.View({
+  flex: 3,
+  backgroundColor: 'white',
+  width: '100%',
+  alignItems: 'center',
+  borderTopLeftRadius: 36,
+  borderTopRightRadius: 36,
+  paddingTop: 24,
+});
+
+const StyledInputContainer = styled.View({
+  alignItems: 'center',
+  marginTop: 12,
+});
+
+const StyledTextInput = styled.TextInput({
+  backgroundColor: Colors.lightGrey,
+  borderRadius: 5,
+  width: width / 1.6,
+  marginVertical: 10,
+  fontSize: 16,
+});
+
+const StyledLoginButton = styled.TouchableOpacity({
+  backgroundColor: Colors.jotformGrey,
+  width: width / 2.6,
+  padding: 12,
+  alignItems: 'center',
+  justifyContent: 'center',
+  borderRadius: 8,
+  marginTop: 24,
+});
+
+const StyledLoginText = styled.Text({
+  color: 'white',
+  fontSize: 18,
+  fontFamily: 'sf-regular',
+});
+
+const StyledSignUpButton = styled.TouchableOpacity({
+  marginTop: 24,
+});
+
+const StyledSignUpText = styled.Text({
+  color: '#fa8900',
+  fontWeight: 700,
+});
 
 interface Props {
   navigation: LoginProps;
@@ -32,49 +100,45 @@ const Login = (props: Props) => {
     navigation.navigate('Form');
   }
   return (
-    <View style={styles.container}>
-      <View style={styles.topContainer}>
-        <Image style={styles.logoImg} source={logoImg} />
-      </View>
-      <View style={styles.bottomContainer}>
+    <StyledContainer>
+      <StyledTopContainer>
+        <StyledLogoImage source={logoImg} />
+      </StyledTopContainer>
+      <StyledBottomContainer>
         <Formik
           initialValues={initialValues}
           onSubmit={values =>
             props.requestLogin(values.username, values.password)
           }>
           {({handleChange, handleBlur, handleSubmit, values}) => (
-            <View style={styles.inputContainer}>
-              <TextInput
-                style={styles.input}
+            <StyledInputContainer>
+              <StyledTextInput
                 placeholder=" Username"
                 value={values.username}
                 onBlur={handleBlur('username')}
                 onChangeText={handleChange('username')}
               />
-              <TextInput
-                style={styles.input}
+              <StyledTextInput
                 placeholder=" Password"
                 value={values.password}
                 secureTextEntry
                 onBlur={handleBlur('password')}
                 onChangeText={handleChange('password')}
               />
-              <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-                <Text style={styles.loginText}>Login</Text>
-              </TouchableOpacity>
-            </View>
+              <StyledLoginButton onPress={handleSubmit}>
+                <StyledLoginText>Login</StyledLoginText>
+              </StyledLoginButton>
+            </StyledInputContainer>
           )}
         </Formik>
-        <TouchableOpacity
-          style={styles.signUp}
-          onPress={() => navigation.navigate('SignUp')}>
+        <StyledSignUpButton onPress={() => navigation.navigate('SignUp')}>
           <Text>
             Don't you have an account?
-            <Text style={{color: '#fa8900', fontWeight: '700'}}> Sign up!</Text>
+            <StyledSignUpText> Sign up!</StyledSignUpText>
           </Text>
-        </TouchableOpacity>
-      </View>
-    </View>
+        </StyledSignUpButton>
+      </StyledBottomContainer>
+    </StyledContainer>
   );
 };
 

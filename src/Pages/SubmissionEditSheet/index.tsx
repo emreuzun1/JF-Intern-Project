@@ -1,23 +1,17 @@
 import React, {FC} from 'react';
 import {View} from 'react-native';
-import {StackNavigationProp} from '@react-navigation/stack';
-import {RouteProp} from '@react-navigation/native';
 import I from 'immutable';
 
-import {RootStackParamList} from '../../Navigation/types';
 import * as editors from '../../components/Editors';
 import {styles} from './style';
-
-type SubmissionEditProps = StackNavigationProp<RootStackParamList, 'Edit'>;
-type SubmissionEditRootProp = RouteProp<RootStackParamList, 'Edit'>;
 
 interface Props {
   answer: any;
   questions: any;
-  onPress: (qid: number) => void;
+  onPress: (qid: number, values: any, name?: boolean) => void;
 }
 
-const SubmissionEditPage: FC<Props> = ({answer, questions, onPress}) => {
+const SubmissionEditSheet: FC<Props> = ({answer, questions, onPress}) => {
   const editorsMap = I.Map(editors); // TODO WITHOUT IMMUTABLE
 
   return (
@@ -38,4 +32,4 @@ const SubmissionEditPage: FC<Props> = ({answer, questions, onPress}) => {
   );
 };
 
-export default SubmissionEditPage;
+export default SubmissionEditSheet;

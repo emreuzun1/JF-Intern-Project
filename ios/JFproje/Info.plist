@@ -70,6 +70,9 @@
 		<string>Octicons.ttf</string>
 		<string>SimpleLineIcons.ttf</string>
 		<string>Zocial.ttf</string>
+		<string>sf-display-thin.ttf</string>
+		<string>sf-pro-bold.ttf</string>
+		<string>sf-pro-heavy.ttf</string>
 	</array>
 </dict>
 </plist>

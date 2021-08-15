@@ -1,9 +1,10 @@
 import React, {FC, useEffect, useMemo, useRef} from 'react';
-import {ScrollView, View, LogBox, VirtualizedList} from 'react-native';
+import {ScrollView, LogBox, VirtualizedList} from 'react-native';
 import {useSelector, connect} from 'react-redux';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {RouteProp} from '@react-navigation/native';
 import {BottomSheetModal, BottomSheetModalProvider} from '@gorhom/bottom-sheet';
+import styled from 'styled-components/native';
 
 import {RootStackParamList} from '../../Navigation/types';
 import {
@@ -19,8 +20,18 @@ import {
 
 import {SubmissionCard, SubmissionTitle} from '../../components';
 import Loading from '../../components/Loading';
-import {styles} from './style';
-import SubmissionEditPage from '../SubmissionEdit';
+import SubmissionEditSheet from '../SubmissionEditSheet';
+import {Colors} from '../../constants/Colors';
+
+const StyledScreenContainer = styled.View({
+  flex: 1,
+  backgroundColor: Colors.jotformGrey,
+});
+
+const StyledHeaderBackground = styled.View({
+  backgroundColor: Colors.darkerGrey,
+  width: '100%',
+});
 
 type SubmissionProps = StackNavigationProp<RootStackParamList, 'Submission'>;
 type SubmissionRootProp = RouteProp<RootStackParamList, 'Submission'>;
@@ -94,10 +105,10 @@ const SubmissionPage: FC<Props> = props => {
   }, []);
 
   return (
-    <View style={styles.screen}>
+    <StyledScreenContainer>
       <ScrollView horizontal>
         <ScrollViewWithSpinner isLoading={loading}>
-          <View style={styles.headerBackground}>
+          <StyledHeaderBackground>
             <VirtualizedList
               keyExtractor={(item: any, index: any) => {
                 return `${index}_${item.text}`;
@@ -111,7 +122,7 @@ const SubmissionPage: FC<Props> = props => {
                 <SubmissionTitle question={item} index={index} />
               )}
             />
-          </View>
+          </StyledHeaderBackground>
           <VirtualizedList
             data={submissions}
             initialNumToRender={7}
@@ -134,14 +145,14 @@ const SubmissionPage: FC<Props> = props => {
           index={1}
           snapPoints={snapPoints}
           onChange={handleSheetChanges}>
-          <SubmissionEditPage
+          <SubmissionEditSheet
             answer={selectedSubmission.submission}
             questions={questionData}
             onPress={handleSubmit}
           />
         </BottomSheetModal>
       </BottomSheetModalProvider>
-    </View>
+    </StyledScreenContainer>
   );
 };
 

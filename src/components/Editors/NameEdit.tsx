@@ -1,7 +1,20 @@
 import React from 'react';
-import {View, TextInput, StyleSheet, Text} from 'react-native';
+import {View, TextInput, Text} from 'react-native';
 import {Formik} from 'formik';
 import {ISubmissionEdit} from '../../Interfaces/SubmissionEditInterface';
+import * as Yup from 'yup';
+import {styles} from './styles';
+
+const nameValidationSchema = Yup.object().shape({
+  first: Yup.string()
+    .min(2, 'Too Short!')
+    .max(50, 'Too Long!')
+    .required('Required'),
+  last: Yup.string()
+    .min(2, 'Too Short!')
+    .max(50, 'Too Long!')
+    .required('Required'),
+});
 
 export function NameEdit({answer, question, onPress}: ISubmissionEdit) {
   const initialValues: any = answer.answer;
@@ -10,12 +23,20 @@ export function NameEdit({answer, question, onPress}: ISubmissionEdit) {
     <View>
       <Formik
         initialValues={initialValues}
-        onSubmit={(values: any) => onPress(question.qid, values, true)}>
-        {({handleChange, handleBlur, values, handleSubmit}) => (
+        onSubmit={(values: any) => onPress(question.qid, values, true)}
+        validationSchema={nameValidationSchema}>
+        {({
+          handleChange,
+          handleBlur,
+          values,
+          handleSubmit,
+          errors,
+          touched,
+        }) => (
           <View style={styles.container}>
             <Text style={styles.header}>Name</Text>
             <View style={styles.nameInputContainer}>
-              <View style={styles.insideContainer}>
+              <View style={styles.nameInsideContainer}>
                 <TextInput
                   style={styles.input}
                   value={values.first}
@@ -24,8 +45,11 @@ export function NameEdit({answer, question, onPress}: ISubmissionEdit) {
                   onEndEditing={handleSubmit}
                 />
                 <Text style={styles.subtitles}>First Name</Text>
+                {errors.first && touched.first ? (
+                  <Text style={styles.errorText}>{errors.first}</Text>
+                ) : null}
               </View>
-              <View style={styles.insideContainer}>
+              <View style={styles.nameInsideContainer}>
                 <TextInput
                   style={styles.input}
                   value={values.last}
@@ -34,6 +58,9 @@ export function NameEdit({answer, question, onPress}: ISubmissionEdit) {
                   onEndEditing={handleSubmit}
                 />
                 <Text style={styles.subtitles}>Last Name</Text>
+                {errors.last && touched.last ? (
+                  <Text style={styles.errorText}>{errors.last}</Text>
+                ) : null}
               </View>
             </View>
           </View>
@@ -42,47 +69,5 @@ export function NameEdit({answer, question, onPress}: ISubmissionEdit) {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    width: '100%',
-    marginTop: 24,
-  },
-
-  nameInputContainer: {
-    flexDirection: 'row',
-  },
-
-  header: {
-    marginLeft: 32,
-    fontFamily: 'sf-regular',
-    color: '#ccc',
-    fontSize: 20,
-  },
-
-  insideContainer: {
-    width: '40%',
-    marginLeft: 24,
-  },
-
-  input: {
-    width: '100%',
-    borderWidth: 0.5,
-    borderColor: 'white',
-    borderRadius: 6,
-    padding: 8,
-    color: '#ccc',
-    marginTop: 4,
-    marginLeft: 8,
-  },
-
-  subtitles: {
-    fontFamily: 'sf-display-thin',
-    fontSize: 13,
-    marginLeft: 10,
-    marginTop: 4,
-    color: '#c0c0c0',
-  },
-});
 
 export default NameEdit;
