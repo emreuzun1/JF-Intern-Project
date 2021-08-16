@@ -11,6 +11,7 @@ import {
   getSubmissions,
   requestQuestions,
   selectSubmission,
+  postSubmission,
 } from '../../redux/actions';
 import {IState} from '../../Interfaces/actionInterface';
 import {
@@ -39,12 +40,13 @@ type SubmissionRootProp = RouteProp<RootStackParamList, 'Submission'>;
 interface Props {
   navigation: SubmissionProps;
   route: SubmissionRootProp;
-  getSubmissions: (appkey: string, id: string) => void;
-  requestQuestions: (appkey: string, id: string) => void;
-  selectSubmission: (submission: any) => void;
   appKey: string;
   loading: boolean;
   selectedSubmission: any;
+  getSubmissions: (appkey: string, id: string) => void;
+  requestQuestions: (appkey: string, id: string) => void;
+  selectSubmission: (id: string, submission: any) => void;
+  postSubmission: (apikey: string, id: string, data: any) => void;
 }
 
 const ScrollViewWithSpinner = Loading(ScrollView);
@@ -55,9 +57,14 @@ const SubmissionPage: FC<Props> = props => {
   const {
     navigation,
     route,
+    // eslint-disable-next-line no-shadow
     getSubmissions,
+    // eslint-disable-next-line no-shadow
     requestQuestions,
+    // eslint-disable-next-line no-shadow
     selectSubmission,
+    // eslint-disable-next-line no-shadow
+    postSubmission,
     selectedSubmission,
     appKey,
     loading,
@@ -69,6 +76,7 @@ const SubmissionPage: FC<Props> = props => {
     getSubmissions(appKey, route.params.id);
     requestQuestions(appKey, route.params.id);
     LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   React.useLayoutEffect(() => {
@@ -88,19 +96,25 @@ const SubmissionPage: FC<Props> = props => {
   });
 
   const handleSubmit = (qid: number, values: any, name?: boolean) => {
-    console.log('qid:', qid, ' Name :', name, ' Values : ', values);
+    let formData = new FormData();
+    if (name) {
+      formData.append(`submission[${qid}][first]`, values.first);
+      formData.append(`submission[${qid}][last]`, values.last);
+    } else {
+      formData.append(`submission[${qid}]`, values);
+    }
+    postSubmission(appKey, selectedSubmission.id, formData);
   };
 
   const snapPoints = useMemo(() => ['0%', '95%'], []);
 
-  const handleOpen = (item: any) => {
-    selectSubmission(item);
+  const handleOpen = (id: string, answer: any) => {
+    selectSubmission(id, answer);
     bottomSheetModalRef.current?.present();
   };
 
   const handleSheetChanges = React.useCallback((index: number) => {
     if (index === -1) {
-      console.log('Closed!');
     }
   }, []);
 
@@ -166,6 +180,7 @@ const mapDispatchToProps = {
   getSubmissions,
   requestQuestions,
   selectSubmission,
+  postSubmission,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SubmissionPage);

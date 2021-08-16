@@ -28,10 +28,10 @@ function* getSubmissions(action: IActionInterface) {
 
 function* postSubmission(action: IActionInterface) {
   try {
-    const {apikey, id} = action.payload;
+    const {apikey, id, data} = action.payload;
     const {
       data: {responseCode},
-    } = yield call(postSubmissionApi, apikey, id);
+    } = yield call(postSubmissionApi, apikey, id, data);
     if (responseCode === 200) {
       console.log('SUCCESS!');
     }

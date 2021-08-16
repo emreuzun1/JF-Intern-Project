@@ -1,9 +1,14 @@
 import React, {FC} from 'react';
-import {View} from 'react-native';
+import style from 'styled-components/native';
 import I from 'immutable';
 
 import * as editors from '../../components/Editors';
-import {styles} from './style';
+import {Colors} from '../../constants/Colors';
+
+const StyledContainer = style.ScrollView({
+  flex: 1,
+  backgroundColor: Colors.jotformGrey,
+});
 
 interface Props {
   answer: any;
@@ -15,7 +20,7 @@ const SubmissionEditSheet: FC<Props> = ({answer, questions, onPress}) => {
   const editorsMap = I.Map(editors); // TODO WITHOUT IMMUTABLE
 
   return (
-    <View style={styles.screen}>
+    <StyledContainer>
       {questions.map((q: any, index: any) => {
         const Element = editorsMap.get(q.type.split('_', 2)[1], null);
         if (Element)
@@ -28,7 +33,7 @@ const SubmissionEditSheet: FC<Props> = ({answer, questions, onPress}) => {
             />
           );
       })}
-    </View>
+    </StyledContainer>
   );
 };
 

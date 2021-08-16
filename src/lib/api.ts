@@ -52,15 +52,10 @@ export function getSubmission(apikey: string, id: string) {
   return axios.get(`/submission/${id}?apiKey=${apikey}`);
 }
 
-/*
-export function postSubmissionApi(
-  apikey: string,
-  id: string,
-  qid: number,
-  input: string,
-) {
+export function postSubmissionApi(apikey: string, id: string, data: any) {
   return axios({
     method: 'POST',
     url: `/submission/${id}?apiKey=${apikey}`,
+    data,
   });
-}*/
+}

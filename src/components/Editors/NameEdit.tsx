@@ -1,72 +1,92 @@
 import React from 'react';
-import {View, TextInput, Text} from 'react-native';
 import {Formik} from 'formik';
 import {ISubmissionEdit} from '../../Interfaces/SubmissionEditInterface';
 import * as Yup from 'yup';
-import {styles} from './styles';
+import style from 'styled-components/native';
+import {Colors} from '../../constants/Colors';
 
-const nameValidationSchema = Yup.object().shape({
-  first: Yup.string()
-    .min(2, 'Too Short!')
-    .max(50, 'Too Long!')
-    .required('Required'),
-  last: Yup.string()
-    .min(2, 'Too Short!')
-    .max(50, 'Too Long!')
-    .required('Required'),
+const StyledContainer = style.View({
+  width: '100%',
+  marginTop: 24,
+});
+
+const StyledHeader = style.Text({
+  marginLeft: 32,
+  fontFamily: 'sf-pro-heavy',
+  color: Colors.grey,
+  fontSize: 20,
+});
+
+const StyledNameInputContainer = style.View({
+  flexDirection: 'row',
+  flexWrap: 'wrap',
+  flex: 1,
+});
+
+const StyledNameInsideContainer = style.View({
+  width: '40%',
+  marginLeft: 24,
+});
+
+const StyledInput = style.TextInput({
+  width: '100%',
+  borderWidth: 0.5,
+  borderColor: 'white',
+  borderRadius: 6,
+  padding: 8,
+  color: Colors.grey,
+  marginTop: 4,
+  marginLeft: 8,
+});
+
+const StyledSubTitles = style.Text({
+  fontFamily: 'sf-regular',
+  fontSize: 13,
+  marginLeft: 10,
+  marginTop: 4,
+  color: Colors.lightGrey,
+});
+
+const StyledErrorText = style.Text({
+  fontFamily: 'sf-regular',
+  fontSize: 13,
+  marginLeft: 10,
+  marginTop: 4,
+  color: Colors.lightRed,
 });
 
 export function NameEdit({answer, question, onPress}: ISubmissionEdit) {
   const initialValues: any = answer.answer;
 
+  const nameValidationSchema = Yup.object().shape({});
+
   return (
-    <View>
-      <Formik
-        initialValues={initialValues}
-        onSubmit={(values: any) => onPress(question.qid, values, true)}
-        validationSchema={nameValidationSchema}>
-        {({
-          handleChange,
-          handleBlur,
-          values,
-          handleSubmit,
-          errors,
-          touched,
-        }) => (
-          <View style={styles.container}>
-            <Text style={styles.header}>Name</Text>
-            <View style={styles.nameInputContainer}>
-              <View style={styles.nameInsideContainer}>
-                <TextInput
-                  style={styles.input}
-                  value={values.first}
-                  onBlur={handleBlur('first')}
-                  onChangeText={handleChange('first')}
+    <Formik
+      initialValues={initialValues}
+      onSubmit={(values: any) => onPress(question.qid, values, true)}
+      validationSchema={nameValidationSchema}>
+      {({handleChange, handleBlur, values, handleSubmit, errors, touched}) => (
+        <StyledContainer>
+          <StyledHeader>Name</StyledHeader>
+          <StyledNameInputContainer>
+            {Object.keys(initialValues).map(key => (
+              <StyledNameInsideContainer>
+                <StyledInput
+                  value={values[key]}
+                  onBlur={handleBlur(`${key}`)}
+                  onChangeText={handleChange(`${key}`)}
                   onEndEditing={handleSubmit}
                 />
-                <Text style={styles.subtitles}>First Name</Text>
-                {errors.first && touched.first ? (
-                  <Text style={styles.errorText}>{errors.first}</Text>
+                <StyledSubTitles>{question.sublabels[key]}</StyledSubTitles>
+                {errors[key] && touched[key] ? (
+                  <StyledErrorText>{errors[key]}</StyledErrorText>
                 ) : null}
-              </View>
-              <View style={styles.nameInsideContainer}>
-                <TextInput
-                  style={styles.input}
-                  value={values.last}
-                  onBlur={handleBlur('last')}
-                  onChangeText={handleChange('last')}
-                  onEndEditing={handleSubmit}
-                />
-                <Text style={styles.subtitles}>Last Name</Text>
-                {errors.last && touched.last ? (
-                  <Text style={styles.errorText}>{errors.last}</Text>
-                ) : null}
-              </View>
-            </View>
-          </View>
-        )}
-      </Formik>
-    </View>
+              </StyledNameInsideContainer>
+            ))}
+          </StyledNameInputContainer>
+        </StyledContainer>
+      )}
+    </Formik>
   );
 }
 

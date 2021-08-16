@@ -59,7 +59,8 @@ const Card: React.FC<ICard> = props => {
   }
 
   return (
-    <StyledContainerButton onPress={props.onPress.bind(this, answers)}>
+    <StyledContainerButton
+      onPress={props.onPress.bind(this, props.item.item.id, answers)}>
       <View>
         <StyledHeaderText>{answers[0].prettyFormat || null}</StyledHeaderText>
         <StyledLine />

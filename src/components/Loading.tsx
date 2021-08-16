@@ -1,6 +1,13 @@
 import React from 'react';
-import {ActivityIndicator, View, StyleSheet} from 'react-native';
+import {ActivityIndicator} from 'react-native';
+import style from 'styled-components/native';
 
+const StyledIndicator = style.View({
+  indicator: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});
 interface Props {
   isLoading: boolean;
   children: any;
@@ -11,9 +18,9 @@ const withLoading = (Comp: any) => {
   const WithLoading: React.FC<Props> = ({isLoading, children, ...props}) => {
     if (isLoading) {
       return (
-        <View style={styles.indicator}>
+        <StyledIndicator>
           <ActivityIndicator size="large" color="#fa8900" />
-        </View>
+        </StyledIndicator>
       );
     } else {
       return <Comp {...props}>{children}</Comp>;
@@ -21,12 +28,5 @@ const withLoading = (Comp: any) => {
   };
   return WithLoading;
 };
-
-const styles = StyleSheet.create({
-  indicator: {
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});
 
 export default withLoading;
