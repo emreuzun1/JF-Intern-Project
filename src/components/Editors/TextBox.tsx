@@ -44,6 +44,8 @@ export function TextBoxEdit({answer, question, onPress}: ISubmissionEdit) {
         <StyledContainer>
           <StyledHeader>{question.text}</StyledHeader>
           <StyledInput
+            underlineColorAndroid="transparent"
+            multiline={true}
             value={values.textbox}
             onChangeText={handleChange('textbox')}
             onEndEditing={handleSubmit}

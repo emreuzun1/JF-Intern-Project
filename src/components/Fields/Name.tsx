@@ -1,5 +1,6 @@
-import React, {FC} from 'react';
+import React from 'react';
 import style from 'styled-components/native';
+import {FieldProps} from '../../Interfaces/FieldProps';
 
 const StyledAnswerText = style.Text({
   marginHorizontal: 8,
@@ -10,11 +11,7 @@ const StyledAnswerText = style.Text({
 
 const EmptyView = style.View({});
 
-interface Props {
-  answer: any;
-}
-
-const Name: FC<Props> = ({answer}) => {
+export function Name({answer}: FieldProps) {
   if (answer) {
     return (
       <StyledAnswerText numberOfLines={1}>
@@ -24,6 +21,4 @@ const Name: FC<Props> = ({answer}) => {
   } else {
     return <EmptyView />;
   }
-};
-
-export default Name;
+}

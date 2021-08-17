@@ -9,7 +9,7 @@ const StyledAnswerText = style.Text({
   fontFamily: 'sf-regular',
 });
 
-export function Email({answer}: FieldProps) {
+export function TextBox({answer}: FieldProps) {
   return (
     <StyledAnswerText numberOfLines={1}>
       {answer.prettyFormat ? answer.prettyFormat : answer.answer}

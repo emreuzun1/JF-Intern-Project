@@ -1,32 +1,18 @@
-import React, {FC, useState} from 'react';
-import {View, Text} from 'react-native';
+import React from 'react';
+import style from 'styled-components/native';
+import {FieldProps} from '../../Interfaces/FieldProps';
 
-interface Props {
-  data: any;
-  style: any;
-}
+const StyledAnswerText = style.Text({
+  marginHorizontal: 8,
+  color: 'white',
+  fontSize: 14,
+  fontFamily: 'sf-regular',
+});
 
-const Phone: FC<Props> = props => {
-  var type_name = 'control_phone';
-  const [phone, setPhone] = useState<string>('');
-
-  const getName = () => {
-    Object.keys(props.data).map(key => {
-      if (props.data[key].type === type_name) {
-        setPhone(props.data[key].prettyFormat || props.data[key].answer);
-      }
-    });
-  };
-
-  React.useEffect(() => {
-    getName();
-  });
-
+export function Phone({answer}: FieldProps) {
   return (
-    <View>
-      <Text style={props.style}>{phone}</Text>
-    </View>
+    <StyledAnswerText numberOfLines={1}>
+      {answer.prettyFormat ? answer.prettyFormat : answer.answer}
+    </StyledAnswerText>
   );
-};
-
-export default Phone;
+}

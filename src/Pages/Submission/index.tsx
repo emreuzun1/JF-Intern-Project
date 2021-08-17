@@ -125,13 +125,17 @@ const SubmissionPage: FC<Props> = props => {
     requestQuestions(appKey, route.params.id);
     setRefreshing(true);
     wait(1000).then(() => setRefreshing(false));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleSheetChanges = React.useCallback((index: number) => {
-    if (index === -1) {
-      onRefresh();
-    }
-  }, []);
+  const handleSheetChanges = React.useCallback(
+    (index: number) => {
+      if (index === -1) {
+        onRefresh();
+      }
+    },
+    [onRefresh],
+  );
 
   const ListHeaderComponent = () => (
     <View>

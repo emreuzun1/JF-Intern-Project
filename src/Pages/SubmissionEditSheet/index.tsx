@@ -1,6 +1,5 @@
 import React, {FC} from 'react';
 import style from 'styled-components/native';
-import I from 'immutable';
 
 import * as editors from '../../components/Editors';
 import {Colors} from '../../constants/Colors';
@@ -17,12 +16,16 @@ interface Props {
 }
 
 const SubmissionEditSheet: FC<Props> = ({answer, questions, onPress}) => {
-  const editorsMap = I.Map(editors); // TODO WITHOUT IMMUTABLE
+  const newEditorsMap = new Map();
+  Object.keys(editors).map(key => {
+    // @ts-ignore: Unreachable code error
+    newEditorsMap.set(key, editors[key]);
+  });
 
   return (
     <StyledContainer>
       {questions.map((q: any, index: any) => {
-        const Element = editorsMap.get(q.type.split('_', 2)[1], null);
+        const Element = newEditorsMap.get(q.type.split('_', 2)[1]);
         if (Element)
           return (
             <Element

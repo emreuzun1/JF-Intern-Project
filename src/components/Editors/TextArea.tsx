@@ -28,6 +28,7 @@ const StyledInput = style.TextInput({
   padding: 8,
   color: Colors.grey,
   marginTop: 4,
+  alignSelf: 'flex-start',
 });
 
 export function TextAreaEdit({answer, question, onPress}: ISubmissionEdit) {
@@ -44,6 +45,8 @@ export function TextAreaEdit({answer, question, onPress}: ISubmissionEdit) {
         <StyledContainer>
           <StyledHeader>{question.text}</StyledHeader>
           <StyledInput
+            underlineColorAndroid="transparent"
+            multiline={true}
             value={values.textarea}
             onChangeText={handleChange('textarea')}
             onEndEditing={handleSubmit}

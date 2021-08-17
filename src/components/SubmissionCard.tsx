@@ -2,7 +2,7 @@ import React from 'react';
 import {View, Dimensions} from 'react-native';
 import styled from 'styled-components/native';
 
-import {Name} from './Fields';
+import * as fields from './Fields';
 import {useSelector} from 'react-redux';
 import {getOrderedAnswers} from '../redux/reducers/selector';
 import {Colors} from '../constants/Colors';
@@ -54,6 +54,13 @@ const Card: React.FC<ICard> = props => {
   const orderedAnswers = useSelector(getOrderedAnswers);
   const answers = orderedAnswers(props.item.item.id);
 
+  const fieldsMap = new Map();
+
+  Object.keys(fields).map(key => {
+    // @ts-ignore: Unreachable code error
+    fieldsMap.set(key, fields[key]);
+  });
+
   if (answers.length === 0) {
     return <View />;
   }
@@ -74,11 +81,13 @@ const Card: React.FC<ICard> = props => {
           if (index === 0) {
             return null;
           }
-          return (
-            <StyledTextContainer key={`${index}_${index + 1}`}>
-              <Name answer={answer} />
-            </StyledTextContainer>
-          );
+          const Element = fieldsMap.get(answer.type.split('_', 2)[1]);
+          if (Element)
+            return (
+              <StyledTextContainer key={`${index}_${index + 1}`}>
+                <Element answer={answer} />
+              </StyledTextContainer>
+            );
         })}
       </StyledAnswerContainer>
     </StyledContainerButton>

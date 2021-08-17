@@ -4,7 +4,7 @@ import {IActionInterface} from '../../Interfaces/actionInterface';
 import {QuestionType} from '../../Types/QuestionType';
 
 interface IDraft {
-  [key: string]: string | number | boolean;
+  [key: string]: any;
 }
 
 const initialState = {
@@ -16,6 +16,7 @@ export default (state = initialState, action: IActionInterface) =>
     switch (action.type) {
       case type.FORM_QUESTIONS_SUCCESS: {
         draft.data = action.payload;
+        break;
       }
     }
   });
