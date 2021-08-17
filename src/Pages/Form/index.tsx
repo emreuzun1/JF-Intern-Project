@@ -1,5 +1,5 @@
 import React, {FC, useEffect} from 'react';
-import {ScrollView, VirtualizedList, LogBox, Dimensions} from 'react-native';
+import {View, VirtualizedList, Dimensions} from 'react-native';
 import {useSelector, connect} from 'react-redux';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {RouteProp} from '@react-navigation/native';
@@ -16,11 +16,12 @@ import withLoading from '../../components/Loading';
 import FormCard from '../../components/FormCard';
 import {requestLogout} from '../../redux/actions';
 import {Colors} from '../../constants/Colors';
+import {FlatList} from 'react-native-gesture-handler';
 
 type FormProps = StackNavigationProp<RootStackParamList, 'Form'>;
 type FormRouteProp = RouteProp<RootStackParamList, 'Form'>;
 
-const ScrollViewWithLoading = withLoading(ScrollView);
+const ScrollViewWithLoading = withLoading(View);
 const {width} = Dimensions.get('screen');
 
 const StyledContainer = styled.View({
@@ -49,7 +50,10 @@ interface Props {
 
 const FormPage: FC<Props> = props => {
   const data = useSelector(getActiveForms);
+  // eslint-disable-next-line no-shadow
   const {navigation, requestLogout, getForm, loading} = props;
+  const emptyData = [] as any;
+  const renderNullItem = () => null;
 
   const logOut = async () => {
     await persistor.purge().then(() => {
@@ -62,15 +66,39 @@ const FormPage: FC<Props> = props => {
 
   useEffect(() => {
     getForm();
-    LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
-  }, []);
+  }, [getForm]);
 
+  // eslint-disable-next-line no-shadow
   const getItem = (data: any, index: number) => ({
     id: data[index].id,
     title: data[index].title,
     updated_at: data[index].updated_at,
     count: data[index].count,
   });
+
+  const ListHeaderComponent = () => (
+    <VirtualizedList
+      data={data}
+      initialNumToRender={9}
+      // eslint-disable-next-line no-shadow
+      getItemCount={(data: any) => data.length}
+      getItem={getItem}
+      keyExtractor={item => item.id}
+      renderItem={({item}) => (
+        <FormCard
+          title={item.title}
+          update_at={item.updated_at}
+          count={item.count}
+          onPress={() =>
+            navigation.navigate('Submission', {
+              id: item.id,
+              title: item.title,
+            })
+          }
+        />
+      )}
+    />
+  );
 
   return (
     <StyledContainer>
@@ -80,25 +108,10 @@ const FormPage: FC<Props> = props => {
         </StyledLogOutButton>
       </StyledTopContainer>
       <ScrollViewWithLoading isLoading={loading}>
-        <VirtualizedList
-          data={data}
-          initialNumToRender={9}
-          getItemCount={(data: any) => data.length}
-          getItem={getItem}
-          keyExtractor={item => item.id}
-          renderItem={({item}) => (
-            <FormCard
-              title={item.title}
-              update_at={item.updated_at}
-              count={item.count}
-              onPress={() =>
-                navigation.navigate('Submission', {
-                  id: item.id,
-                  title: item.title,
-                })
-              }
-            />
-          )}
+        <FlatList
+          data={emptyData}
+          renderItem={renderNullItem}
+          ListHeaderComponent={ListHeaderComponent}
         />
       </ScrollViewWithLoading>
     </StyledContainer>

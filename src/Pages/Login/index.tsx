@@ -1,5 +1,5 @@
-import {StackNavigationProp} from '@react-navigation/stack';
 import React from 'react';
+import {StackNavigationProp} from '@react-navigation/stack';
 import {Text, Dimensions} from 'react-native';
 import {connect} from 'react-redux';
 import {RouteProp} from '@react-navigation/native';
@@ -96,9 +96,12 @@ const Login = (props: Props) => {
   const initialValues: IFormValues = {username: '', password: ''};
   const {navigation, route} = props;
 
-  if (route.params.isLogged) {
-    navigation.navigate('Form');
-  }
+  React.useEffect(() => {
+    if (route.params.isLogged) {
+      navigation.navigate('Form');
+    }
+  }, [route.params.isLogged, navigation]);
+
   return (
     <StyledContainer>
       <StyledTopContainer>

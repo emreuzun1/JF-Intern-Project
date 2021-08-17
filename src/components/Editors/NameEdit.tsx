@@ -71,7 +71,7 @@ export function NameEdit({answer, question, onPress}: ISubmissionEdit) {
           <StyledHeader>{question.text}</StyledHeader>
           <StyledNameInputContainer>
             {Object.keys(initialValues).map(key => (
-              <StyledNameInsideContainer>
+              <StyledNameInsideContainer key={key}>
                 <StyledInput
                   value={values[key]}
                   onBlur={handleBlur(`${key}`)}

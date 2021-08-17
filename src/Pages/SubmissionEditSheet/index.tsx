@@ -29,7 +29,7 @@ const SubmissionEditSheet: FC<Props> = ({answer, questions, onPress}) => {
               answer={answer[index]}
               question={q}
               onPress={onPress}
-              key={`${q.id}_${index}`}
+              key={`${q.qid}_${index}`}
             />
           );
       })}

@@ -1,10 +1,5 @@
 import React, {FC, useEffect, useMemo, useRef} from 'react';
-import {
-  ScrollView,
-  LogBox,
-  VirtualizedList,
-  RefreshControl,
-} from 'react-native';
+import {VirtualizedList, RefreshControl, View, StyleSheet} from 'react-native';
 import {useSelector, connect} from 'react-redux';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {RouteProp} from '@react-navigation/native';
@@ -28,6 +23,7 @@ import {SubmissionCard, SubmissionTitle} from '../../components';
 import Loading from '../../components/Loading';
 import SubmissionEditSheet from '../SubmissionEditSheet';
 import {Colors} from '../../constants/Colors';
+import {FlatList} from 'react-native-gesture-handler';
 
 const StyledScreenContainer = styled.View({
   flex: 1,
@@ -64,7 +60,7 @@ interface Props {
   ) => void;
 }
 
-const ScrollViewWithSpinner = Loading(ScrollView);
+const ScrollViewWithSpinner = Loading(View);
 
 const SubmissionPage: FC<Props> = props => {
   const [refreshing, setRefreshing] = React.useState<boolean>(false);
@@ -85,20 +81,26 @@ const SubmissionPage: FC<Props> = props => {
     appKey,
     loading,
   } = props;
-
+  const emptyData = [] as any;
+  const renderNullItem = () => null;
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
 
   useEffect(() => {
     getSubmissions(appKey, route.params.id);
     requestQuestions(appKey, route.params.id);
-    LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [getSubmissions, requestQuestions, appKey, route.params.id]);
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: true,
       headerTitle: `${route.params.title}`,
+      headerStyle: {
+        backgroundColor: Colors.jotformGrey,
+      },
+      headerTitleStyle: {
+        fontFamily: 'sf-regular',
+        color: Colors.lightGrey,
+      },
     });
   });
 
@@ -131,45 +133,53 @@ const SubmissionPage: FC<Props> = props => {
     }
   }, []);
 
+  const ListHeaderComponent = () => (
+    <View>
+      <StyledHeaderBackground>
+        <VirtualizedList
+          keyExtractor={(item: any, index: any) => {
+            return `${index}_${item.text}`;
+          }}
+          contentContainerStyle={styles.headerContainer}
+          initialNumToRender={4}
+          data={questionData}
+          getItem={getTitleItem}
+          getItemCount={data => data.length}
+          renderItem={({item, index}) => (
+            <SubmissionTitle question={item} index={index} />
+          )}
+        />
+      </StyledHeaderBackground>
+      <VirtualizedList
+        data={submissions}
+        initialNumToRender={7}
+        getItem={getSubmissionItem}
+        getItemCount={data => data.length}
+        keyExtractor={item => item.item.id}
+        renderItem={({item}) => (
+          <SubmissionCard
+            item={item}
+            navigation={navigation}
+            onPress={handleOpen.bind(item)}
+          />
+        )}
+      />
+    </View>
+  );
+
   return (
     <StyledScreenContainer>
-      <ScrollView
-        horizontal
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }>
-        <ScrollViewWithSpinner isLoading={loading}>
-          <StyledHeaderBackground>
-            <VirtualizedList
-              keyExtractor={(item: any, index: any) => {
-                return `${index}_${item.text}`;
-              }}
-              horizontal
-              initialNumToRender={3}
-              data={questionData}
-              getItem={getTitleItem}
-              getItemCount={data => data.length}
-              renderItem={({item, index}) => (
-                <SubmissionTitle question={item} index={index} />
-              )}
-            />
-          </StyledHeaderBackground>
-          <VirtualizedList
-            data={submissions}
-            initialNumToRender={7}
-            getItem={getSubmissionItem}
-            getItemCount={data => data.length}
-            keyExtractor={item => item.item.id}
-            renderItem={({item}) => (
-              <SubmissionCard
-                item={item}
-                navigation={navigation}
-                onPress={handleOpen.bind(item)}
-              />
-            )}
-          />
-        </ScrollViewWithSpinner>
-      </ScrollView>
+      <ScrollViewWithSpinner isLoading={loading}>
+        <FlatList
+          horizontal
+          data={emptyData}
+          renderItem={renderNullItem}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
+          ListHeaderComponent={ListHeaderComponent}
+        />
+      </ScrollViewWithSpinner>
       <BottomSheetModalProvider>
         <BottomSheetModal
           ref={bottomSheetModalRef}
@@ -201,5 +211,7 @@ const mapDispatchToProps = {
   selectSubmission,
   postSubmission,
 };
+
+const styles = StyleSheet.create({headerContainer: {flexDirection: 'row'}});
 
 export default connect(mapStateToProps, mapDispatchToProps)(SubmissionPage);
