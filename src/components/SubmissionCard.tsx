@@ -62,7 +62,11 @@ const Card: React.FC<ICard> = props => {
     <StyledContainerButton
       onPress={props.onPress.bind(this, props.item.item.id, answers)}>
       <View>
-        <StyledHeaderText>{answers[0].prettyFormat || null}</StyledHeaderText>
+        <StyledHeaderText>
+          {answers[0].prettyFormat
+            ? answers[0].prettyFormat
+            : answers[0].answer}
+        </StyledHeaderText>
         <StyledLine />
       </View>
       <StyledAnswerContainer>
@@ -71,7 +75,7 @@ const Card: React.FC<ICard> = props => {
             return null;
           }
           return (
-            <StyledTextContainer key={`${index}_${answer.order}`}>
+            <StyledTextContainer key={`${index}_${index + 1}`}>
               <Name answer={answer} />
             </StyledTextContainer>
           );

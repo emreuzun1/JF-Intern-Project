@@ -8,16 +8,22 @@ const StyledAnswerText = style.Text({
   fontFamily: 'sf-regular',
 });
 
+const EmptyView = style.View({});
+
 interface Props {
   answer: any;
 }
 
-const Name: FC<Props> = props => {
-  return (
-    <StyledAnswerText numberOfLines={1}>
-      {props.answer.prettyFormat || props.answer.answer}
-    </StyledAnswerText>
-  );
+const Name: FC<Props> = ({answer}) => {
+  if (answer) {
+    return (
+      <StyledAnswerText numberOfLines={1}>
+        {answer.prettyFormat ? answer.prettyFormat : answer.answer}
+      </StyledAnswerText>
+    );
+  } else {
+    return <EmptyView />;
+  }
 };
 
 export default Name;

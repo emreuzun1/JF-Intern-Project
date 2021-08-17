@@ -1,8 +1,11 @@
 import React from 'react';
 import {Formik} from 'formik';
-import {ISubmissionEdit} from '../../Interfaces/SubmissionEditInterface';
 import * as Yup from 'yup';
+import TextInputMask from 'react-native-text-input-mask';
+import {StyleSheet} from 'react-native';
+
 import style from 'styled-components/native';
+import {ISubmissionEdit} from '../../Interfaces/SubmissionEditInterface';
 import {Colors} from '../../constants/Colors';
 
 const StyledContainer = style.View({
@@ -22,17 +25,6 @@ const StyledInputContainer = style.View({
   marginLeft: 24,
 });
 
-const StyledInput = style.TextInput({
-  width: '100%',
-  borderWidth: 0.5,
-  borderColor: 'white',
-  borderRadius: 6,
-  padding: 8,
-  color: Colors.grey,
-  marginTop: 4,
-  marginLeft: 8,
-});
-
 const StyledSubTitles = style.Text({
   fontFamily: 'sf-regular',
   fontSize: 13,
@@ -50,10 +42,7 @@ const StyledErrorText = style.Text({
 });
 
 const phoneValidationSchema = Yup.object().shape({
-  phone: Yup.string()
-    .min(0, 'Too Short!')
-    .max(255, 'Too Long')
-    .required('Required'),
+  phone: Yup.string().min(14, 'Too Short!').required('Required'),
 });
 
 export function PhoneEdit({answer, question, onPress}: ISubmissionEdit) {
@@ -66,18 +55,18 @@ export function PhoneEdit({answer, question, onPress}: ISubmissionEdit) {
       validationSchema={phoneValidationSchema}>
       {({handleChange, handleBlur, values, handleSubmit, errors, touched}) => (
         <StyledContainer>
-          <StyledHeader>Phone</StyledHeader>
+          <StyledHeader>{question.text}</StyledHeader>
           <StyledInputContainer>
-            <StyledInput
+            <TextInputMask
+              style={styles.textInputMask}
               value={values.phone}
               onChangeText={handleChange('phone')}
               onBlur={handleBlur('phone')}
               onEndEditing={handleSubmit}
               keyboardType="number-pad"
-              textContentType="telephoneNumber"
-              dataDetectorTypes="phoneNumber"
+              mask={'([000]) [000]-[00][00]'}
             />
-            <StyledSubTitles>Please enter a valid number.</StyledSubTitles>
+            <StyledSubTitles>{question.sublabels.masked}</StyledSubTitles>
             {errors.phone && touched.phone ? (
               <StyledErrorText>{errors.phone}</StyledErrorText>
             ) : null}
@@ -87,3 +76,16 @@ export function PhoneEdit({answer, question, onPress}: ISubmissionEdit) {
     </Formik>
   );
 }
+
+const styles = StyleSheet.create({
+  textInputMask: {
+    width: '100%',
+    borderWidth: 0.5,
+    borderColor: 'white',
+    borderRadius: 6,
+    padding: 8,
+    color: Colors.grey,
+    marginTop: 4,
+    marginLeft: 8,
+  },
+});

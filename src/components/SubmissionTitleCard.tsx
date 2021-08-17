@@ -1,7 +1,6 @@
 import React from 'react';
 import {View, Dimensions} from 'react-native';
 import styled from 'styled-components/native';
-
 import {Colors} from '../constants/Colors';
 
 const {width, height} = Dimensions.get('screen');
@@ -17,7 +16,7 @@ const StyledHeaders = styled.View({
 });
 
 const StyledTitleText = styled.Text({
-  fontSize: 12,
+  fontSize: 14,
   marginHorizontal: 12,
   color: Colors.grey,
   fontFamily: 'sf-pro-bold',
@@ -30,6 +29,7 @@ interface Props {
 
 const SubmissionText: React.FC<Props> = props => {
   const {question, index} = props.question;
+
   if (index !== 0)
     return (
       <StyledHeaders>

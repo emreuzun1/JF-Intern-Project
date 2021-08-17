@@ -10,13 +10,21 @@ export function getSubmissions(apikey: string, id: string) {
   };
 }
 
-export function postSubmission(apikey: string, id: string, data: FormData) {
+export function postSubmission(
+  apikey: string,
+  id: string,
+  qid: number,
+  values: any,
+  name?: boolean,
+) {
   return {
     type: type.FORM_SUBMISSIONPOST_REQUEST,
     payload: {
       apikey,
       id,
-      data,
+      qid,
+      values,
+      name,
     },
   };
 }

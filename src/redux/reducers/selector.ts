@@ -22,6 +22,8 @@ const supportedQuestions = [
   'control_email',
   'control_phone',
   'control_dropdown',
+  'control_textbox',
+  'control_textarea',
 ];
 
 export const getOrderedQuestions = createSelector(getQuestions, data => {

@@ -63,7 +63,7 @@ export function EmailEdit({answer, question, onPress}: ISubmissionEdit) {
       validationSchema={emailValidationSchema}>
       {({handleChange, handleBlur, values, handleSubmit, errors, touched}) => (
         <StyledContainer>
-          <StyledHeader>Email</StyledHeader>
+          <StyledHeader>{question.text}</StyledHeader>
           <StyledInputContainer>
             <StyledInput
               value={values.email}
@@ -72,7 +72,7 @@ export function EmailEdit({answer, question, onPress}: ISubmissionEdit) {
               onEndEditing={handleSubmit}
               keyboardType="email-address"
             />
-            <StyledSubTitles>example@example.com</StyledSubTitles>
+            <StyledSubTitles>{question.confirmationHint}</StyledSubTitles>
             {errors.email && touched.email ? (
               <StyledErrorText>{errors.email}</StyledErrorText>
             ) : null}

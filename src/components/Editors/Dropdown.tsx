@@ -4,7 +4,7 @@ import {ISubmissionEdit} from '../../Interfaces/SubmissionEditInterface';
 import SelectDropDown from 'react-native-select-dropdown';
 import {Colors} from '../../constants/Colors';
 
-export function Dropdown({question}: ISubmissionEdit) {
+export function Dropdown({question, answer, onPress}: ISubmissionEdit) {
   const data = question.options.split('|');
 
   return (
@@ -12,8 +12,9 @@ export function Dropdown({question}: ISubmissionEdit) {
       <Text style={styles.header}>{question.text}</Text>
       <SelectDropDown
         data={data}
+        defaultValue={answer.answer}
         onSelect={selectedItem => {
-          console.log(selectedItem);
+          onPress(question.qid, selectedItem);
         }}
         buttonTextAfterSelection={selectedItem => {
           return selectedItem;

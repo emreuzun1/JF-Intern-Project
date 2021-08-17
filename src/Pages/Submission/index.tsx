@@ -1,5 +1,10 @@
 import React, {FC, useEffect, useMemo, useRef} from 'react';
-import {ScrollView, LogBox, VirtualizedList} from 'react-native';
+import {
+  ScrollView,
+  LogBox,
+  VirtualizedList,
+  RefreshControl,
+} from 'react-native';
 import {useSelector, connect} from 'react-redux';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {RouteProp} from '@react-navigation/native';
@@ -34,6 +39,10 @@ const StyledHeaderBackground = styled.View({
   width: '100%',
 });
 
+const wait = (timeout: number) => {
+  return new Promise(resolve => setTimeout(resolve, timeout));
+};
+
 type SubmissionProps = StackNavigationProp<RootStackParamList, 'Submission'>;
 type SubmissionRootProp = RouteProp<RootStackParamList, 'Submission'>;
 
@@ -46,12 +55,19 @@ interface Props {
   getSubmissions: (appkey: string, id: string) => void;
   requestQuestions: (appkey: string, id: string) => void;
   selectSubmission: (id: string, submission: any) => void;
-  postSubmission: (apikey: string, id: string, data: any) => void;
+  postSubmission: (
+    apikey: string,
+    id: string,
+    qid: number,
+    values: any,
+    name?: boolean,
+  ) => void;
 }
 
 const ScrollViewWithSpinner = Loading(ScrollView);
 
 const SubmissionPage: FC<Props> = props => {
+  const [refreshing, setRefreshing] = React.useState<boolean>(false);
   const questionData = useSelector(getOrderedQuestions);
   const submissions = useSelector(getActiveSubmissions);
   const {
@@ -95,17 +111,6 @@ const SubmissionPage: FC<Props> = props => {
     item: data[index],
   });
 
-  const handleSubmit = (qid: number, values: any, name?: boolean) => {
-    let formData = new FormData();
-    if (name) {
-      formData.append(`submission[${qid}][first]`, values.first);
-      formData.append(`submission[${qid}][last]`, values.last);
-    } else {
-      formData.append(`submission[${qid}]`, values);
-    }
-    postSubmission(appKey, selectedSubmission.id, formData);
-  };
-
   const snapPoints = useMemo(() => ['0%', '95%'], []);
 
   const handleOpen = (id: string, answer: any) => {
@@ -113,14 +118,26 @@ const SubmissionPage: FC<Props> = props => {
     bottomSheetModalRef.current?.present();
   };
 
+  const onRefresh = React.useCallback(() => {
+    getSubmissions(appKey, route.params.id);
+    requestQuestions(appKey, route.params.id);
+    setRefreshing(true);
+    wait(1000).then(() => setRefreshing(false));
+  }, []);
+
   const handleSheetChanges = React.useCallback((index: number) => {
     if (index === -1) {
+      onRefresh();
     }
   }, []);
 
   return (
     <StyledScreenContainer>
-      <ScrollView horizontal>
+      <ScrollView
+        horizontal
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }>
         <ScrollViewWithSpinner isLoading={loading}>
           <StyledHeaderBackground>
             <VirtualizedList
@@ -162,7 +179,9 @@ const SubmissionPage: FC<Props> = props => {
           <SubmissionEditSheet
             answer={selectedSubmission.submission}
             questions={questionData}
-            onPress={handleSubmit}
+            onPress={(qid, values, name) =>
+              postSubmission(appKey, selectedSubmission.id, qid, values, name)
+            }
           />
         </BottomSheetModal>
       </BottomSheetModalProvider>

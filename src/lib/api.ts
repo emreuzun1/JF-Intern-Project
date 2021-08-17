@@ -52,10 +52,29 @@ export function getSubmission(apikey: string, id: string) {
   return axios.get(`/submission/${id}?apiKey=${apikey}`);
 }
 
-export function postSubmissionApi(apikey: string, id: string, data: any) {
+export function postSubmissionApi(
+  apikey: string,
+  id: string,
+  qid: number,
+  values: any,
+  name?: boolean,
+) {
+  let formData = new FormData();
+
+  if (name) {
+    Object.keys(values).map(key => {
+      formData.append(`submission[${qid}][${key}]`, values[key]);
+    });
+  } else {
+    formData.append(`submission[${qid}]`, values);
+  }
+
   return axios({
     method: 'POST',
     url: `/submission/${id}?apiKey=${apikey}`,
-    data,
+    data: formData,
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
   });
 }
