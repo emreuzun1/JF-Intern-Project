@@ -1,9 +1,9 @@
 import axios from './axios';
+import {QuestionType} from '../Types/QuestionType';
+import {ILoginResponseType} from '../Types/apiResponseType';
 
 export function requestLogin(username: string, password: string) {
-  return axios({
-    method: 'POST',
-    url: 'user/login',
+  return axios.post<ILoginResponseType>('user/login', {
     params: {
       username: username,
       password: password,
@@ -45,7 +45,7 @@ export function getSubmissionsApi(appKey: string, formId: string) {
 }
 
 export function getQuestions(apikey: string, id: string) {
-  return axios.get(`/form/${id}/questions?apiKey=${apikey}`);
+  return axios.get<QuestionType[]>(`/form/${id}/questions?apiKey=${apikey}`);
 }
 
 export function getSubmission(apikey: string, id: string) {

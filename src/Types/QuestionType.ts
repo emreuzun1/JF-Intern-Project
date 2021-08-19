@@ -4,4 +4,5 @@ export type QuestionType = {
   qid: number;
   text: string;
   type: string;
+  valid: true;
 };

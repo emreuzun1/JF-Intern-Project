@@ -1,10 +1,10 @@
 import {call, put, takeLatest} from 'redux-saga/effects';
 import {getQuestions} from '../../Lib/api';
-import {IActionInterface} from '../../Interfaces/actionInterface';
+import {QuestionAction} from '../../Interfaces/QuestionInterface';
 
 import {FORM_QUESTIONS_REQUEST, FORM_QUESTIONS_SUCCESS} from '../actionTypes';
 
-function* getFormQuestions(action: IActionInterface) {
+function* getFormQuestions(action: QuestionAction) {
   try {
     const {apikey, id} = action.payload;
     const {

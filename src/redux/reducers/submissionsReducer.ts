@@ -23,6 +23,11 @@ export default (state = initialState, action: any) =>
       case type.SUBMISSION_SELECT:
         draft.selectedSubmission = action.payload;
         break;
+      case type.RESET_SUBMISSIONS:
+        draft.data = [];
+        draft.loading = true;
+        draft.selectedSubmission = {};
+        break;
       default:
         return state;
     }

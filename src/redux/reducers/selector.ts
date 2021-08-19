@@ -30,6 +30,7 @@ export const getOrderedQuestions = createSelector(getQuestions, data => {
   const filtered = Object.values(data).filter(
     (question: any) => supportedQuestions.indexOf(question.type) > -1,
   );
+  Object.values(filtered).map((val: any) => console.log(val));
   return filtered.sort((a: any, b: any) => a.order - b.order);
 });
 

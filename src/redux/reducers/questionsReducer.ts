@@ -1,14 +1,13 @@
 import produce from 'immer';
 import * as type from '../actionTypes';
 import {IActionInterface} from '../../Interfaces/actionInterface';
-import {QuestionType} from '../../Types/QuestionType';
-
+import {DataState} from '../../Interfaces/QuestionInterface';
 interface IDraft {
   [key: string]: any;
 }
 
-const initialState = {
-  data: {} as QuestionType,
+const initialState: DataState = {
+  data: [],
 };
 
 export default (state = initialState, action: IActionInterface) =>
@@ -16,6 +15,14 @@ export default (state = initialState, action: IActionInterface) =>
     switch (action.type) {
       case type.FORM_QUESTIONS_SUCCESS: {
         draft.data = action.payload;
+        break;
+      }
+      case type.FORM_QUESTIONS_FILTER: {
+        console.log(action.payload.q);
+        break;
+      }
+      case type.RESET_QUESTIONS: {
+        draft.data = {};
         break;
       }
     }

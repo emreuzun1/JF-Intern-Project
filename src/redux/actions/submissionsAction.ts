@@ -38,3 +38,9 @@ export function selectSubmission(id: string, submission: any) {
     },
   };
 }
+
+export function resetSubmissions() {
+  return {
+    type: type.RESET_SUBMISSIONS,
+  };
+}

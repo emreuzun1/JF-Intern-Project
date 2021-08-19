@@ -21,7 +21,7 @@ import {FlatList} from 'react-native-gesture-handler';
 type FormProps = StackNavigationProp<RootStackParamList, 'Form'>;
 type FormRouteProp = RouteProp<RootStackParamList, 'Form'>;
 
-const ScrollViewWithLoading = withLoading(View);
+const ViewWithSpinner = withLoading(View);
 const {width} = Dimensions.get('screen');
 
 const StyledContainer = styled.View({
@@ -107,13 +107,13 @@ const FormPage: FC<Props> = props => {
           <Icon name="logout" size={24} color="#ccc" />
         </StyledLogOutButton>
       </StyledTopContainer>
-      <ScrollViewWithLoading isLoading={loading}>
+      <ViewWithSpinner isLoading={loading}>
         <FlatList
           data={emptyData}
           renderItem={renderNullItem}
           ListHeaderComponent={ListHeaderComponent}
         />
-      </ScrollViewWithLoading>
+      </ViewWithSpinner>
     </StyledContainer>
   );
 };

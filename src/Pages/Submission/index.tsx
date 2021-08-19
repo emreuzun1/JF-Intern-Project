@@ -1,10 +1,11 @@
 import React, {FC, useEffect, useMemo, useRef} from 'react';
-import {VirtualizedList, RefreshControl, View, StyleSheet} from 'react-native';
+import {RefreshControl, View} from 'react-native';
 import {useSelector, connect} from 'react-redux';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {RouteProp} from '@react-navigation/native';
 import {BottomSheetModal, BottomSheetModalProvider} from '@gorhom/bottom-sheet';
 import styled from 'styled-components/native';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 import {RootStackParamList} from '../../Navigation/types';
 import {
@@ -12,6 +13,8 @@ import {
   requestQuestions,
   selectSubmission,
   postSubmission,
+  resetQuestions,
+  resetSubmissions,
 } from '../../redux/actions';
 import {IState} from '../../Interfaces/actionInterface';
 import {
@@ -19,20 +22,25 @@ import {
   getOrderedQuestions,
 } from '../../redux/reducers/selector';
 
-import {SubmissionCard, SubmissionTitle} from '../../components';
 import Loading from '../../components/Loading';
 import SubmissionEditSheet from '../SubmissionEditSheet';
 import {Colors} from '../../constants/Colors';
 import {FlatList} from 'react-native-gesture-handler';
+import Titles from './Titles';
+import Answer from './Answers';
+import TitleModal from './TitleFilterModal';
 
 const StyledScreenContainer = styled.View({
   flex: 1,
   backgroundColor: Colors.jotformGrey,
 });
 
-const StyledHeaderBackground = styled.View({
-  backgroundColor: Colors.darkerGrey,
-  width: '100%',
+const BackButton = styled.TouchableOpacity({
+  marginLeft: 8,
+});
+
+const FilterButton = styled.TouchableOpacity({
+  marginRight: 8,
 });
 
 const wait = (timeout: number) => {
@@ -58,12 +66,15 @@ interface Props {
     values: any,
     name?: boolean,
   ) => void;
+  resetQuestions: () => void;
+  resetSubmissions: () => void;
 }
 
-const ScrollViewWithSpinner = Loading(View);
+const ViewWithSpinner = Loading(View);
 
 const SubmissionPage: FC<Props> = props => {
   const [refreshing, setRefreshing] = React.useState<boolean>(false);
+  const [modalVisible, setModalVisible] = React.useState<boolean>(false);
   const questionData = useSelector(getOrderedQuestions);
   const submissions = useSelector(getActiveSubmissions);
   const {
@@ -77,6 +88,10 @@ const SubmissionPage: FC<Props> = props => {
     selectSubmission,
     // eslint-disable-next-line no-shadow
     postSubmission,
+    // eslint-disable-next-line no-shadow
+    resetQuestions,
+    // eslint-disable-next-line no-shadow
+    resetSubmissions,
     selectedSubmission,
     appKey,
     loading,
@@ -90,6 +105,13 @@ const SubmissionPage: FC<Props> = props => {
     requestQuestions(appKey, route.params.id);
   }, [getSubmissions, requestQuestions, appKey, route.params.id]);
 
+  const goBack = async () => {
+    await resetQuestions();
+    await resetSubmissions();
+    wait(1000);
+    navigation.goBack();
+  };
+
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: true,
@@ -101,24 +123,20 @@ const SubmissionPage: FC<Props> = props => {
         fontFamily: 'sf-regular',
         color: Colors.lightGrey,
       },
+      headerLeft: () => (
+        <BackButton onPress={goBack}>
+          <Icon name="arrow-back" size={24} color={Colors.lightGrey} />
+        </BackButton>
+      ),
+      headerRight: () => (
+        <FilterButton onPress={() => setModalVisible(true)}>
+          <Icon name="filter" size={24} color={Colors.lightGrey} />
+        </FilterButton>
+      ),
     });
   });
 
-  const getTitleItem = (data: any, index: number) => ({
-    question: data[index],
-    index: index,
-  });
-
-  const getSubmissionItem = (data: any, index: number) => ({
-    item: data[index],
-  });
-
   const snapPoints = useMemo(() => ['0%', '95%'], []);
-
-  const handleOpen = (id: string, answer: any) => {
-    selectSubmission(id, answer);
-    bottomSheetModalRef.current?.present();
-  };
 
   const onRefresh = React.useCallback(() => {
     getSubmissions(appKey, route.params.id);
@@ -138,52 +156,34 @@ const SubmissionPage: FC<Props> = props => {
   );
 
   const ListHeaderComponent = () => (
-    <View>
-      <StyledHeaderBackground>
-        <VirtualizedList
-          keyExtractor={(item: any, index: any) => {
-            return `${index}_${item.text}`;
-          }}
-          contentContainerStyle={styles.headerContainer}
-          initialNumToRender={4}
-          data={questionData}
-          getItem={getTitleItem}
-          getItemCount={data => data.length}
-          renderItem={({item, index}) => (
-            <SubmissionTitle question={item} index={index} />
-          )}
-        />
-      </StyledHeaderBackground>
-      <VirtualizedList
-        data={submissions}
-        initialNumToRender={7}
-        getItem={getSubmissionItem}
-        getItemCount={data => data.length}
-        keyExtractor={item => item.item.id}
-        renderItem={({item}) => (
-          <SubmissionCard
-            item={item}
-            navigation={navigation}
-            onPress={handleOpen.bind(item)}
-          />
-        )}
+    <ViewWithSpinner isLoading={loading}>
+      <Titles questionData={questionData} />
+      <Answer
+        submissions={submissions}
+        navigation={navigation}
+        sheetModalRef={bottomSheetModalRef}
+        selectSubmission={selectSubmission}
       />
-    </View>
+    </ViewWithSpinner>
   );
 
   return (
     <StyledScreenContainer>
-      <ScrollViewWithSpinner isLoading={loading}>
-        <FlatList
-          horizontal
-          data={emptyData}
-          renderItem={renderNullItem}
-          refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-          }
-          ListHeaderComponent={ListHeaderComponent}
-        />
-      </ScrollViewWithSpinner>
+      <TitleModal
+        questions={questionData}
+        modalVisible={modalVisible}
+        setModalVisible={setModalVisible}
+      />
+      <FlatList
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        data={emptyData}
+        renderItem={renderNullItem}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+        ListHeaderComponent={ListHeaderComponent}
+      />
       <BottomSheetModalProvider>
         <BottomSheetModal
           ref={bottomSheetModalRef}
@@ -214,8 +214,8 @@ const mapDispatchToProps = {
   requestQuestions,
   selectSubmission,
   postSubmission,
+  resetQuestions,
+  resetSubmissions,
 };
-
-const styles = StyleSheet.create({headerContainer: {flexDirection: 'row'}});
 
 export default connect(mapStateToProps, mapDispatchToProps)(SubmissionPage);

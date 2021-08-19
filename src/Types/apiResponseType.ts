@@ -20,4 +20,5 @@ export type ILoginResponseType = {
   responseCode: number;
   message: string;
   content: IContent;
+  valid: true;
 };

@@ -9,3 +9,18 @@ export function requestQuestions(apikey: string, id: string) {
     },
   };
 }
+
+export function resetQuestions() {
+  return {
+    type: type.RESET_QUESTIONS,
+  };
+}
+
+export function filterQuestions(q: any) {
+  return {
+    type: type.FORM_QUESTIONS_FILTER,
+    payload: {
+      q: q,
+    },
+  };
+}

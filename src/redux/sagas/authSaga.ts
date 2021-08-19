@@ -21,8 +21,9 @@ function* loginWithUsername(action: IActionLoginInterface) {
   try {
     const {email, password} = action.payload;
     const {
-      data: {content, responseCode},
+      data: {content, responseCode, valid},
     } = yield call(requestLogin, email, password);
+    console.log(valid);
     if (responseCode === 200) {
       yield put({type: USER_LOGIN_SUCCESS, payload: content});
       RootNavigation.navigate('Form', {});
