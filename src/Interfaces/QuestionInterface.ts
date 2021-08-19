@@ -8,15 +8,19 @@ export interface QuestionAction {
   payload: QuestionPayload;
 }
 
-export interface DataState {
-  data: QuestionType[];
+export interface QuestionState {
+  data: QuestionInterface[];
 }
 
-export interface QuestionType {
+export interface QuestionInterface {
   headerType: string;
   name: string;
   qid: number;
   text: string;
   type: string;
+  order: number;
+  options?: string;
+  confirmationHint?: string;
+  sublabels?: string[] | {masked: any} | undefined;
   valid: true;
 }

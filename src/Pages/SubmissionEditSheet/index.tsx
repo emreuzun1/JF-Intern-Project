@@ -3,6 +3,7 @@ import style from 'styled-components/native';
 
 import * as editors from '../../components/Editors';
 import {Colors} from '../../constants/Colors';
+import {QuestionInterface} from '../../Interfaces/QuestionInterface';
 
 const StyledContainer = style.ScrollView({
   flex: 1,
@@ -11,7 +12,7 @@ const StyledContainer = style.ScrollView({
 
 interface Props {
   answer: any;
-  questions: any;
+  questions: QuestionInterface[];
   onPress: (qid: number, values: any, name?: boolean) => void;
 }
 
@@ -24,9 +25,9 @@ const SubmissionEditSheet: FC<Props> = ({answer, questions, onPress}) => {
 
   return (
     <StyledContainer>
-      {questions.map((q: any, index: any) => {
+      {questions.map((q: QuestionInterface, index: number) => {
         const Element = newEditorsMap.get(q.type.split('_', 2)[1]);
-        if (Element)
+        if (Element) {
           return (
             <Element
               answer={answer[index]}
@@ -35,6 +36,7 @@ const SubmissionEditSheet: FC<Props> = ({answer, questions, onPress}) => {
               key={`${q.qid}_${index}`}
             />
           );
+        }
       })}
     </StyledContainer>
   );

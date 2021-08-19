@@ -5,14 +5,16 @@ import SelectDropDown from 'react-native-select-dropdown';
 import {Colors} from '../../constants/Colors';
 
 export function Dropdown({question, answer, onPress}: ISubmissionEdit) {
-  const data = question.options.split('|');
+  const data = question.options!.split('|');
+
+  const value = answer!.answer;
 
   return (
     <View style={styles.container}>
       <Text style={styles.header}>{question.text}</Text>
       <SelectDropDown
         data={data}
-        defaultValue={answer.answer}
+        defaultValue={value}
         onSelect={selectedItem => {
           onPress(question.qid, selectedItem);
         }}

@@ -46,7 +46,9 @@ const phoneValidationSchema = Yup.object().shape({
 });
 
 export function PhoneEdit({answer, question, onPress}: ISubmissionEdit) {
-  const initialValues: any = {phone: answer.prettyFormat};
+  const initialValues: any = {
+    phone: answer!.prettyFormat,
+  };
 
   return (
     <Formik
@@ -66,7 +68,12 @@ export function PhoneEdit({answer, question, onPress}: ISubmissionEdit) {
               keyboardType="number-pad"
               mask={'([000]) [000]-[00][00]'}
             />
-            <StyledSubTitles>{question.sublabels.masked}</StyledSubTitles>
+            <StyledSubTitles>
+              {
+                // @ts-ignore: Unreachable code error
+                question.sublabels!.masked
+              }
+            </StyledSubTitles>
             {errors.phone && touched.phone ? (
               <StyledErrorText>{errors.phone}</StyledErrorText>
             ) : null}

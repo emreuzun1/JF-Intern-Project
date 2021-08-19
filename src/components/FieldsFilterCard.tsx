@@ -3,7 +3,7 @@ import {Switch, View} from 'react-native';
 import style from 'styled-components/native';
 import {useDispatch} from 'react-redux';
 
-import {QuestionType} from '../Types/QuestionType';
+import {QuestionInterface} from '../Interfaces/QuestionInterface';
 import {filterQuestions} from '../redux/actions/questionsAction';
 import {Colors} from '../constants/Colors';
 
@@ -24,7 +24,7 @@ const StyledFieldFilterText = style.Text({
 });
 
 interface IFieldsFilterProps {
-  data: QuestionType;
+  data: QuestionInterface;
   index: number;
 }
 

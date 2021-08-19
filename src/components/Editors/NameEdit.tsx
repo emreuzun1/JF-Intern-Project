@@ -57,7 +57,7 @@ const StyledErrorText = style.Text({
 });
 
 export function NameEdit({answer, question, onPress}: ISubmissionEdit) {
-  const initialValues: any = answer.answer;
+  const initialValues: any = answer!.answer;
 
   const nameValidationSchema = Yup.object().shape({});
 
@@ -78,7 +78,13 @@ export function NameEdit({answer, question, onPress}: ISubmissionEdit) {
                   onChangeText={handleChange(`${key}`)}
                   onEndEditing={handleSubmit}
                 />
-                <StyledSubTitles>{question.sublabels[key]}</StyledSubTitles>
+
+                <StyledSubTitles>
+                  {
+                    // @ts-ignore: Unreachable code error
+                    question.sublabels![key]
+                  }
+                </StyledSubTitles>
                 {errors[key] && touched[key] ? (
                   <StyledErrorText>{errors[key]}</StyledErrorText>
                 ) : null}

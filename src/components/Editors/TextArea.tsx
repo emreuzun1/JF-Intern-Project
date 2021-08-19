@@ -32,7 +32,7 @@ const StyledInput = style.TextInput({
 });
 
 export function TextAreaEdit({answer, question, onPress}: ISubmissionEdit) {
-  const initialValues: any = {textarea: answer.answer};
+  const initialValues: any = {textarea: answer!.answer};
 
   const nameValidationSchema = Yup.object().shape({});
 

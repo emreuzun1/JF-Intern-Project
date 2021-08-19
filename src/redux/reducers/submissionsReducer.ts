@@ -1,7 +1,8 @@
 import produce from 'immer';
+import {SubmissionState} from '../../Interfaces/SubmissionInterface';
 import * as type from '../actionTypes';
 
-const initialState = {
+const initialState: SubmissionState = {
   data: [],
   loading: true,
   selectedSubmission: {},

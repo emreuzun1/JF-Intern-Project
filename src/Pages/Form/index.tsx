@@ -17,6 +17,7 @@ import FormCard from '../../components/FormCard';
 import {requestLogout} from '../../redux/actions';
 import {Colors} from '../../constants/Colors';
 import {FlatList} from 'react-native-gesture-handler';
+import {FormInterface} from '../../Interfaces/FormsInterface';
 
 type FormProps = StackNavigationProp<RootStackParamList, 'Form'>;
 type FormRouteProp = RouteProp<RootStackParamList, 'Form'>;
@@ -43,13 +44,13 @@ const StyledLogOutButton = styled.TouchableOpacity({
 interface Props {
   navigation: FormProps;
   route: FormRouteProp;
-  requestLogout: () => void;
-  getForm: () => void;
   loading: boolean;
+  getForm: () => void;
+  requestLogout: () => void;
 }
 
 const FormPage: FC<Props> = props => {
-  const data = useSelector(getActiveForms);
+  const data: FormInterface[] = useSelector(getActiveForms);
   // eslint-disable-next-line no-shadow
   const {navigation, requestLogout, getForm, loading} = props;
   const emptyData = [] as any;
@@ -81,7 +82,7 @@ const FormPage: FC<Props> = props => {
       data={data}
       initialNumToRender={9}
       // eslint-disable-next-line no-shadow
-      getItemCount={(data: any) => data.length}
+      getItemCount={(data: FormInterface[]) => data.length}
       getItem={getItem}
       keyExtractor={item => item.id}
       renderItem={({item}) => (

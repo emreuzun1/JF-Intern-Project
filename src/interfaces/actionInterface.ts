@@ -1,3 +1,7 @@
+import {FormState} from './FormsInterface';
+import {QuestionState} from './QuestionInterface';
+import {SubmissionState} from './SubmissionInterface';
+
 export interface IActionInterface {
   type: string;
   payload: any;
@@ -21,7 +25,7 @@ export type IActionType = (action: IActionInterface) => void;
 
 export interface IState {
   auth: any;
-  form: any;
-  submissions: any;
-  questions: any;
+  form: FormState;
+  submissions: SubmissionState;
+  questions: QuestionState;
 }

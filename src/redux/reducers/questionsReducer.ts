@@ -1,12 +1,12 @@
 import produce from 'immer';
 import * as type from '../actionTypes';
 import {IActionInterface} from '../../Interfaces/actionInterface';
-import {DataState} from '../../Interfaces/QuestionInterface';
+import {QuestionState} from '../../Interfaces/QuestionInterface';
 interface IDraft {
   [key: string]: any;
 }
 
-const initialState: DataState = {
+const initialState: QuestionState = {
   data: [],
 };
 

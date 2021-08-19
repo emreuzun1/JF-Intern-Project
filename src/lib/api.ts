@@ -1,14 +1,16 @@
 import axios from './axios';
-import {QuestionType} from '../Types/QuestionType';
-import {ILoginResponseType} from '../Types/apiResponseType';
+import {QuestionInterface} from '../Interfaces/QuestionInterface';
+import {FormType} from '../Interfaces/FormsInterface';
 
 export function requestLogin(username: string, password: string) {
-  return axios.post<ILoginResponseType>('user/login', {
+  return axios({
+    method: 'POST',
+    url: 'user/login',
     params: {
       username: username,
       password: password,
       access: 'full',
-      appName: 'JFProje',
+      appName: 'JFTable',
     },
   });
 }
@@ -36,16 +38,18 @@ export function requestRegister(
   });
 }
 
-export function getForms() {
-  return axios.get('/user/forms');
-}
+export const getForms = () => {
+  return axios.get<FormType>('/user/forms');
+};
 
 export function getSubmissionsApi(appKey: string, formId: string) {
   return axios.get(`/form/${formId}/submissions?apiKey=${appKey}`);
 }
 
 export function getQuestions(apikey: string, id: string) {
-  return axios.get<QuestionType[]>(`/form/${id}/questions?apiKey=${apikey}`);
+  return axios.get<QuestionInterface[]>(
+    `/form/${id}/questions?apiKey=${apikey}`,
+  );
 }
 
 export function getSubmission(apikey: string, id: string) {

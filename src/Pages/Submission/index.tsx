@@ -6,6 +6,7 @@ import {RouteProp} from '@react-navigation/native';
 import {BottomSheetModal, BottomSheetModalProvider} from '@gorhom/bottom-sheet';
 import styled from 'styled-components/native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import ActionButton from 'react-native-action-button';
 
 import {RootStackParamList} from '../../Navigation/types';
 import {
@@ -29,8 +30,10 @@ import {FlatList} from 'react-native-gesture-handler';
 import Titles from './Titles';
 import Answer from './Answers';
 import TitleModal from './TitleFilterModal';
+import {SubmissionInterface} from '../../Interfaces/SubmissionInterface';
+import {QuestionInterface} from '../../Interfaces/QuestionInterface';
 
-const StyledScreenContainer = styled.View({
+const StyledScreenContainer = styled.SafeAreaView({
   flex: 1,
   backgroundColor: Colors.jotformGrey,
 });
@@ -75,8 +78,8 @@ const ViewWithSpinner = Loading(View);
 const SubmissionPage: FC<Props> = props => {
   const [refreshing, setRefreshing] = React.useState<boolean>(false);
   const [modalVisible, setModalVisible] = React.useState<boolean>(false);
-  const questionData = useSelector(getOrderedQuestions);
-  const submissions = useSelector(getActiveSubmissions);
+  const questionData: QuestionInterface[] = useSelector(getOrderedQuestions);
+  const submissions: SubmissionInterface[] = useSelector(getActiveSubmissions);
   const {
     navigation,
     route,
@@ -191,7 +194,7 @@ const SubmissionPage: FC<Props> = props => {
           snapPoints={snapPoints}
           onChange={handleSheetChanges}>
           <SubmissionEditSheet
-            answer={selectedSubmission.submission}
+            answer={selectedSubmission ? selectedSubmission.submission : null}
             questions={questionData}
             onPress={(qid, values, name) =>
               postSubmission(appKey, selectedSubmission.id, qid, values, name)
@@ -199,6 +202,10 @@ const SubmissionPage: FC<Props> = props => {
           />
         </BottomSheetModal>
       </BottomSheetModalProvider>
+      <ActionButton
+        buttonColor={Colors.lightBlue}
+        onPress={() => console.log('Action Button')}
+      />
     </StyledScreenContainer>
   );
 };

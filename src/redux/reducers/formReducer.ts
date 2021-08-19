@@ -1,7 +1,8 @@
 import produce from 'immer';
 import * as type from '../actionTypes';
+import {FormState} from '../../Interfaces/FormsInterface';
 
-const initialState = {
+const initialState: FormState = {
   data: [],
   loading: true,
 };
