@@ -1,5 +1,5 @@
 import React, {FC, useEffect, useMemo, useRef} from 'react';
-import {RefreshControl, View} from 'react-native';
+import {RefreshControl, ScrollView, View} from 'react-native';
 import {useSelector, connect} from 'react-redux';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {RouteProp} from '@react-navigation/native';
@@ -21,12 +21,13 @@ import {IState} from '../../Interfaces/actionInterface';
 import {
   getActiveSubmissions,
   getOrderedQuestions,
+  getVisibleQuestions,
 } from '../../redux/reducers/selector';
 
 import Loading from '../../components/Loading';
 import SubmissionEditSheet from '../SubmissionEditSheet';
 import {Colors} from '../../constants/Colors';
-import {FlatList} from 'react-native-gesture-handler';
+import {FlatList} from 'react-native';
 import Titles from './Titles';
 import Answer from './Answers';
 import TitleModal from './TitleFilterModal';
@@ -78,7 +79,10 @@ const ViewWithSpinner = Loading(View);
 const SubmissionPage: FC<Props> = props => {
   const [refreshing, setRefreshing] = React.useState<boolean>(false);
   const [modalVisible, setModalVisible] = React.useState<boolean>(false);
-  const questionData: QuestionInterface[] = useSelector(getOrderedQuestions);
+  const visibleQuestions: QuestionInterface[] =
+    useSelector(getVisibleQuestions);
+  const orderedQuestions: QuestionInterface[] =
+    useSelector(getOrderedQuestions);
   const submissions: SubmissionInterface[] = useSelector(getActiveSubmissions);
   const {
     navigation,
@@ -139,7 +143,7 @@ const SubmissionPage: FC<Props> = props => {
     });
   });
 
-  const snapPoints = useMemo(() => ['0%', '95%'], []);
+  const snapPoints = useMemo(() => ['0%', '50%', '95%'], []);
 
   const onRefresh = React.useCallback(() => {
     getSubmissions(appKey, route.params.id);
@@ -160,33 +164,38 @@ const SubmissionPage: FC<Props> = props => {
 
   const ListHeaderComponent = () => (
     <ViewWithSpinner isLoading={loading}>
-      <Titles questionData={questionData} />
-      <Answer
-        submissions={submissions}
-        navigation={navigation}
-        sheetModalRef={bottomSheetModalRef}
-        selectSubmission={selectSubmission}
-      />
+      <Titles questionData={visibleQuestions} />
     </ViewWithSpinner>
+  );
+
+  const ListFooterComponent = () => (
+    <Answer
+      submissions={submissions}
+      navigation={navigation}
+      sheetModalRef={bottomSheetModalRef}
+      selectSubmission={selectSubmission}
+    />
   );
 
   return (
     <StyledScreenContainer>
       <TitleModal
-        questions={questionData}
+        visibleQuestions={visibleQuestions}
+        questions={orderedQuestions}
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}
       />
-      <FlatList
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        data={emptyData}
-        renderItem={renderNullItem}
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }
-        ListHeaderComponent={ListHeaderComponent}
-      />
+      <ScrollView horizontal>
+        <FlatList
+          data={emptyData}
+          renderItem={renderNullItem}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
+          ListHeaderComponent={ListHeaderComponent}
+          ListFooterComponent={ListFooterComponent}
+        />
+      </ScrollView>
       <BottomSheetModalProvider>
         <BottomSheetModal
           ref={bottomSheetModalRef}
@@ -195,7 +204,7 @@ const SubmissionPage: FC<Props> = props => {
           onChange={handleSheetChanges}>
           <SubmissionEditSheet
             answer={selectedSubmission ? selectedSubmission.submission : null}
-            questions={questionData}
+            questions={visibleQuestions}
             onPress={(qid, values, name) =>
               postSubmission(appKey, selectedSubmission.id, qid, values, name)
             }

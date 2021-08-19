@@ -4,9 +4,10 @@ import styled from 'styled-components/native';
 
 import {Colors} from '../../constants/Colors';
 import {SubmissionTitleCard} from '../../components';
+import {QuestionInterface} from '../../Interfaces/QuestionInterface';
 
 interface ITitleProps {
-  questionData: any;
+  questionData: QuestionInterface[];
 }
 
 const StyledHeaderBackground = styled.View({
@@ -18,19 +19,22 @@ const Titles: FC<ITitleProps> = ({questionData}) => {
   return (
     <StyledHeaderBackground>
       <VirtualizedList
-        keyExtractor={(item: any, index: any) => {
+        horizontal
+        scrollEnabled={false}
+        keyExtractor={(item: any, index: number) => {
           return `${index}_${item.text}`;
         }}
         contentContainerStyle={styles.headerContainer}
         initialNumToRender={4}
         data={questionData}
-        getItem={(data: any, index: number) => ({
+        // @ts-ignore: Unreachable code error
+        getItem={(data: QuestionInterface[], index: number) => ({
           question: data[index],
           index: index,
         })}
         getItemCount={data => data.length}
-        renderItem={({item, index}) => (
-          <SubmissionTitleCard question={item} index={index} />
+        renderItem={({item: {question}, index}) => (
+          <SubmissionTitleCard question={question} index={index} />
         )}
       />
     </StyledHeaderBackground>

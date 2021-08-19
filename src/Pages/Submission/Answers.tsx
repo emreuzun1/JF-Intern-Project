@@ -26,6 +26,7 @@ const Answer: FC<IAnswerProps> = ({
 
   return (
     <VirtualizedList
+      scrollEnabled={true}
       data={submissions}
       initialNumToRender={7}
       getItem={(data: any, index: number) => ({

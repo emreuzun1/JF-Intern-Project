@@ -24,13 +24,26 @@ const StyledFieldFilterText = style.Text({
 });
 
 interface IFieldsFilterProps {
-  data: QuestionInterface;
+  question: QuestionInterface;
+  visibleQuestions: QuestionInterface[];
   index: number;
 }
 
-const FieldsFilterCard: FC<IFieldsFilterProps> = ({data, index}) => {
-  const [isEnabled, setIsEnabled] = useState<boolean>(false);
+const FieldsFilterCard: FC<IFieldsFilterProps> = ({
+  question,
+  index,
+  visibleQuestions,
+}) => {
   const dispatch = useDispatch();
+  const [isEnabled, setIsEnabled] = useState<boolean>(false);
+
+  React.useEffect(() => {
+    visibleQuestions.map((q: QuestionInterface) => {
+      if (q.qid === question.qid) {
+        setIsEnabled(true);
+      }
+    });
+  }, [question.qid, visibleQuestions]);
 
   if (index === 0) {
     return <View />;
@@ -38,12 +51,12 @@ const FieldsFilterCard: FC<IFieldsFilterProps> = ({data, index}) => {
 
   const changeEnabled = () => {
     setIsEnabled(!isEnabled);
-    dispatch(filterQuestions(data));
+    dispatch(filterQuestions(question.qid, isEnabled));
   };
 
   return (
     <StyledFieldFilterContainer>
-      <StyledFieldFilterText>{data.text}</StyledFieldFilterText>
+      <StyledFieldFilterText>{question.text}</StyledFieldFilterText>
       <Switch
         trackColor={{false: Colors.jotformGrey, true: Colors.jotformOrange}}
         thumbColor={isEnabled ? Colors.jotformOrange : Colors.jotformGrey}

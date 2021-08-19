@@ -8,6 +8,8 @@ interface IDraft {
 
 const initialState: QuestionState = {
   data: [],
+  visibleQuestions: [],
+  inVisibleQuestions: [],
 };
 
 export default (state = initialState, action: IActionInterface) =>
@@ -15,14 +17,31 @@ export default (state = initialState, action: IActionInterface) =>
     switch (action.type) {
       case type.FORM_QUESTIONS_SUCCESS: {
         draft.data = action.payload;
+        Object.values(action.payload).map((value: any) =>
+          draft.visibleQuestions.push(value.qid),
+        );
         break;
       }
       case type.FORM_QUESTIONS_FILTER: {
-        console.log(action.payload.q);
+        if (action.payload.action) {
+          draft.inVisibleQuestions.push(action.payload.qid);
+          const index = draft.visibleQuestions.indexOf(action.payload.qid);
+          if (index > -1) {
+            draft.visibleQuestions.splice(index, 1);
+          }
+        } else {
+          draft.visibleQuestions.push(action.payload.qid);
+          const index = draft.inVisibleQuestions.indexOf(action.payload.qid);
+          if (index > -1) {
+            draft.inVisibleQuestions.splice(index, 1);
+          }
+        }
         break;
       }
       case type.RESET_QUESTIONS: {
-        draft.data = {};
+        draft.data = [];
+        draft.visibleQuestions = [];
+        draft.inVisibleQuestions = [];
         break;
       }
     }

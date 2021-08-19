@@ -2,6 +2,7 @@ import React from 'react';
 import {View, Dimensions} from 'react-native';
 import styled from 'styled-components/native';
 import {Colors} from '../constants/Colors';
+import {QuestionInterface} from '../Interfaces/QuestionInterface';
 
 const {width, height} = Dimensions.get('screen');
 
@@ -23,13 +24,11 @@ const StyledTitleText = styled.Text({
 });
 
 interface Props {
-  question: any;
+  question: QuestionInterface;
   index: number;
 }
 
-const SubmissionText: React.FC<Props> = props => {
-  const {question, index} = props.question;
-
+const SubmissionText: React.FC<Props> = ({question, index}) => {
   if (index !== 0)
     return (
       <StyledHeaders>

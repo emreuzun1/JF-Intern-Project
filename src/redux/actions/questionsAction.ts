@@ -16,11 +16,12 @@ export function resetQuestions() {
   };
 }
 
-export function filterQuestions(q: any) {
+export function filterQuestions(qid: number, action: boolean) {
   return {
     type: type.FORM_QUESTIONS_FILTER,
     payload: {
-      q: q,
+      action: action,
+      qid: qid,
     },
   };
 }

@@ -10,6 +10,8 @@ export interface QuestionAction {
 
 export interface QuestionState {
   data: QuestionInterface[];
+  visibleQuestions: number[];
+  inVisibleQuestions: number[];
 }
 
 export interface QuestionInterface {

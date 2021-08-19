@@ -5,6 +5,7 @@ import Modal from 'react-native-modal';
 
 import FieldsFilterCard from '../../components/FieldsFilterCard';
 import {Colors} from '../../constants/Colors';
+import {QuestionInterface} from '../../Interfaces/QuestionInterface';
 
 const {height} = Dimensions.get('screen');
 
@@ -31,7 +32,8 @@ const StyledModalHeaderText = style.Text({
 
 interface ITitleModalProps {
   modalVisible: boolean;
-  questions: any;
+  visibleQuestions: QuestionInterface[];
+  questions: QuestionInterface[];
   setModalVisible: (val: boolean) => void;
 }
 
@@ -39,6 +41,7 @@ const TitleModal: FC<ITitleModalProps> = ({
   questions,
   modalVisible,
   setModalVisible,
+  visibleQuestions,
 }) => {
   return (
     <Modal
@@ -50,8 +53,13 @@ const TitleModal: FC<ITitleModalProps> = ({
         <StyledModalHeader>
           <StyledModalHeaderText>Fields</StyledModalHeaderText>
         </StyledModalHeader>
-        {questions.map((data: any, index: number) => (
-          <FieldsFilterCard data={data} index={index} key={`${index}_`} />
+        {questions.map((question: QuestionInterface, index: number) => (
+          <FieldsFilterCard
+            question={question}
+            index={index}
+            key={`${index}_`}
+            visibleQuestions={visibleQuestions}
+          />
         ))}
       </StyledModalContainer>
     </Modal>
