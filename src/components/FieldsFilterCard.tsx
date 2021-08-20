@@ -9,7 +9,7 @@ import {Colors} from '../constants/Colors';
 
 const StyledFieldFilterContainer = style.View({
   width: '100%',
-  height: 30,
+  height: 50,
   borderBottomWidth: 0.5,
   justifyContent: 'space-between',
   flexDirection: 'row',
@@ -19,7 +19,6 @@ const StyledFieldFilterContainer = style.View({
 
 const StyledFieldFilterText = style.Text({
   fontSize: 15,
-  fontFamily: 'sf-regular',
   marginLeft: 8,
 });
 
@@ -62,6 +61,7 @@ const FieldsFilterCard: FC<IFieldsFilterProps> = ({
         thumbColor={isEnabled ? Colors.jotformOrange : Colors.jotformGrey}
         value={isEnabled}
         onChange={() => changeEnabled()}
+        ios_backgroundColor={Colors.jotformGrey}
       />
     </StyledFieldFilterContainer>
   );

@@ -127,7 +127,6 @@ const SubmissionPage: FC<Props> = props => {
         backgroundColor: Colors.jotformGrey,
       },
       headerTitleStyle: {
-        fontFamily: 'sf-regular',
         color: Colors.lightGrey,
       },
       headerLeft: () => (
@@ -146,6 +145,7 @@ const SubmissionPage: FC<Props> = props => {
   const snapPoints = useMemo(() => ['0%', '50%', '95%'], []);
 
   const onRefresh = React.useCallback(() => {
+    resetQuestions();
     getSubmissions(appKey, route.params.id);
     requestQuestions(appKey, route.params.id);
     setRefreshing(true);

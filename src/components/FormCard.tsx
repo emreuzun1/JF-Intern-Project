@@ -27,20 +27,19 @@ const StyledImage = styled.Image({
 const StyledTitle = styled.Text({
   fontSize: 18,
   color: Colors.lightGrey,
-  fontFamily: 'sf-pro-heavy',
 });
 
 const StyledUpdateText = styled.Text({
   fontSize: 12,
   color: Colors.lightGrey,
-  fontFamily: 'sf-regular',
+  marginTop: 4,
 });
 
-const StyledLine = styled.Text({
+const StyledLine = styled.View({
   width: width / 1.2,
   borderBottomWidth: 1,
   borderColor: Colors.lightGrey,
-  marginTop: -8,
+  marginTop: 8,
 });
 
 interface IFormCard {

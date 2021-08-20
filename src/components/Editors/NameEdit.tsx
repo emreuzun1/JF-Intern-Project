@@ -13,7 +13,6 @@ const StyledContainer = style.View({
 
 const StyledHeader = style.Text({
   marginLeft: 32,
-  fontFamily: 'sf-pro-heavy',
   color: Colors.grey,
   fontSize: 20,
 });
@@ -41,7 +40,6 @@ const StyledInput = style.TextInput({
 });
 
 const StyledSubTitles = style.Text({
-  fontFamily: 'sf-regular',
   fontSize: 13,
   marginLeft: 10,
   marginTop: 4,
@@ -49,7 +47,6 @@ const StyledSubTitles = style.Text({
 });
 
 const StyledErrorText = style.Text({
-  fontFamily: 'sf-regular',
   fontSize: 13,
   marginLeft: 10,
   marginTop: 4,

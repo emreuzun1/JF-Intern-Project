@@ -17,9 +17,11 @@ export default (state = initialState, action: IActionInterface) =>
     switch (action.type) {
       case type.FORM_QUESTIONS_SUCCESS: {
         draft.data = action.payload;
-        Object.values(action.payload).map((value: any) =>
-          draft.visibleQuestions.push(value.qid),
-        );
+        if (draft.visibleQuestions.length === 0) {
+          Object.values(action.payload).map((value: any) =>
+            draft.visibleQuestions.push(value.qid),
+          );
+        }
         break;
       }
       case type.FORM_QUESTIONS_FILTER: {
@@ -40,8 +42,6 @@ export default (state = initialState, action: IActionInterface) =>
       }
       case type.RESET_QUESTIONS: {
         draft.data = [];
-        draft.visibleQuestions = [];
-        draft.inVisibleQuestions = [];
         break;
       }
     }

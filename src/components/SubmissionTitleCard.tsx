@@ -10,7 +10,7 @@ const StyledHeaders = styled.View({
   height: height / 20,
   width: width / 2,
   flexDirection: 'row',
-  borderRightWidth: 0.15,
+  borderRightWidth: 0.3,
   borderColor: Colors.lightGrey,
   alignItems: 'center',
   padding: 8,
@@ -20,7 +20,6 @@ const StyledTitleText = styled.Text({
   fontSize: 14,
   marginHorizontal: 12,
   color: Colors.grey,
-  fontFamily: 'sf-pro-bold',
 });
 
 interface Props {

@@ -6,7 +6,6 @@ const StyledAnswerText = style.Text({
   marginHorizontal: 8,
   color: 'white',
   fontSize: 14,
-  fontFamily: 'sf-regular',
 });
 
 const EmptyView = style.View({});

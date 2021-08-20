@@ -26,7 +26,6 @@ const StyledModalHeader = style.View({
 
 const StyledModalHeaderText = style.Text({
   fontSize: 22,
-  fontFamily: 'sf-pro-regular',
   marginLeft: 12,
 });
 

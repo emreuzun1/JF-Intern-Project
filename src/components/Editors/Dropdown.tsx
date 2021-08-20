@@ -45,7 +45,6 @@ const styles = StyleSheet.create({
   },
 
   header: {
-    fontFamily: 'sf-pro-heavy',
     color: Colors.grey,
     fontSize: 20,
   },
@@ -55,7 +54,6 @@ const styles = StyleSheet.create({
   },
   text: {
     color: Colors.lightGrey,
-    fontFamily: 'sf-regular',
   },
   button: {
     backgroundColor: 'transparent',

@@ -25,7 +25,7 @@ type FormRouteProp = RouteProp<RootStackParamList, 'Form'>;
 const ViewWithSpinner = withLoading(View);
 const {width} = Dimensions.get('screen');
 
-const StyledContainer = styled.View({
+const StyledContainer = styled.SafeAreaView({
   flex: 1,
   backgroundColor: Colors.jotformGrey,
   padding: 24,
@@ -39,7 +39,7 @@ const StyledTopContainer = styled.View({
 });
 
 const StyledLogOutButton = styled.TouchableOpacity({
-  marginRight: width / 10,
+  marginRight: width / 20,
 });
 interface Props {
   navigation: FormProps;

@@ -13,7 +13,6 @@ const StyledContainer = style.View({
 });
 
 const StyledHeader = style.Text({
-  fontFamily: 'sf-pro-heavy',
   color: Colors.grey,
   fontSize: 20,
 });

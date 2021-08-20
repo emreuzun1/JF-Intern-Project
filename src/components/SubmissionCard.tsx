@@ -21,14 +21,13 @@ const StyledHeaderText = styled.Text({
   color: Colors.lightGrey,
   marginTop: 8,
   marginLeft: 8,
-  fontFamily: 'sf-pro-heavy',
 });
 
-const StyledLine = styled.Text({
+const StyledLine = styled.View({
   width: '100%',
   borderBottomWidth: 0.5,
   borderColor: Colors.lightGrey,
-  marginTop: -8,
+  marginTop: 8,
 });
 
 const StyledAnswerContainer = styled.View({
@@ -38,10 +37,11 @@ const StyledAnswerContainer = styled.View({
 
 const StyledTextContainer = styled.View({
   width: width / 2,
+  height : '80%',
   borderRightWidth: 0.3,
   borderColor: Colors.lightGrey,
   justifyContent: 'center',
-  padding: 6,
+  padding : 6,
 });
 
 interface ICard {

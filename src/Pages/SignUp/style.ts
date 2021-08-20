@@ -46,7 +46,6 @@ export const styles = StyleSheet.create({
   registerText: {
     color: 'white',
     fontSize: 18,
-    fontFamily: 'sf-regular',
   },
 
   input: {
