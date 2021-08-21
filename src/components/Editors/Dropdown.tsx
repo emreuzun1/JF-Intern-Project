@@ -7,7 +7,7 @@ import {Colors} from '../../constants/Colors';
 export function Dropdown({question, answer, onPress}: ISubmissionEdit) {
   const data = question.options!.split('|');
 
-  const value = answer!.answer;
+  const value = answer ? answer!.answer : '';
 
   return (
     <View style={styles.container}>

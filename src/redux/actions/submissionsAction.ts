@@ -10,7 +10,7 @@ export function getSubmissions(apikey: string, id: string) {
   };
 }
 
-export function postSubmission(
+export function editSubmission(
   apikey: string,
   id: string,
   qid: number,
@@ -29,6 +29,17 @@ export function postSubmission(
   };
 }
 
+export function postNewSubmission(apikey: string, id: string, data: any) {
+  return {
+    type: type.NEW_SUBMISSION_POST,
+    payload: {
+      apikey,
+      id,
+      data,
+    },
+  };
+}
+
 export function selectSubmission(id: string, submission: any) {
   return {
     type: type.SUBMISSION_SELECT,
@@ -42,5 +53,11 @@ export function selectSubmission(id: string, submission: any) {
 export function resetSubmissions() {
   return {
     type: type.RESET_SUBMISSIONS,
+  };
+}
+
+export function resetSelectedSubmission() {
+  return {
+    type: type.RESET_SELECTEDSUBMISSION,
   };
 }

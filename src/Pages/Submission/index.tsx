@@ -13,9 +13,11 @@ import {
   getSubmissions,
   requestQuestions,
   selectSubmission,
-  postSubmission,
+  editSubmission,
+  postNewSubmission,
   resetQuestions,
   resetSubmissions,
+  resetSelectedSubmission,
 } from '../../redux/actions';
 import {IState} from '../../Interfaces/actionInterface';
 import {
@@ -63,15 +65,17 @@ interface Props {
   getSubmissions: (appkey: string, id: string) => void;
   requestQuestions: (appkey: string, id: string) => void;
   selectSubmission: (id: string, submission: any) => void;
-  postSubmission: (
+  editSubmission: (
     apikey: string,
     id: string,
     qid: number,
     values: any,
     name?: boolean,
   ) => void;
+  postNewSubmission: (appkey: string, id: string, data: any) => void;
   resetQuestions: () => void;
   resetSubmissions: () => void;
+  resetSelectedSubmission: () => void;
 }
 
 const ViewWithSpinner = Loading(View);
@@ -94,11 +98,15 @@ const SubmissionPage: FC<Props> = props => {
     // eslint-disable-next-line no-shadow
     selectSubmission,
     // eslint-disable-next-line no-shadow
-    postSubmission,
+    editSubmission,
+    // eslint-disable-next-line no-shadow
+    postNewSubmission,
     // eslint-disable-next-line no-shadow
     resetQuestions,
     // eslint-disable-next-line no-shadow
     resetSubmissions,
+    // eslint-disable-next-line no-shadow
+    resetSelectedSubmission,
     selectedSubmission,
     appKey,
     loading,
@@ -118,6 +126,25 @@ const SubmissionPage: FC<Props> = props => {
     wait(1000);
     navigation.goBack();
   };
+
+  const onRefresh = React.useCallback(() => {
+    resetQuestions();
+    resetSelectedSubmission();
+    getSubmissions(appKey, route.params.id);
+    requestQuestions(appKey, route.params.id);
+    setRefreshing(true);
+    wait(1000).then(() => setRefreshing(false));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const handleSheetChanges = React.useCallback(
+    (index: number) => {
+      if (index === -1) {
+        onRefresh();
+      }
+    },
+    [onRefresh],
+  );
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -143,24 +170,6 @@ const SubmissionPage: FC<Props> = props => {
   });
 
   const snapPoints = useMemo(() => ['0%', '50%', '95%'], []);
-
-  const onRefresh = React.useCallback(() => {
-    resetQuestions();
-    getSubmissions(appKey, route.params.id);
-    requestQuestions(appKey, route.params.id);
-    setRefreshing(true);
-    wait(1000).then(() => setRefreshing(false));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const handleSheetChanges = React.useCallback(
-    (index: number) => {
-      if (index === -1) {
-        onRefresh();
-      }
-    },
-    [onRefresh],
-  );
 
   const ListHeaderComponent = () => (
     <ViewWithSpinner isLoading={loading}>
@@ -205,15 +214,18 @@ const SubmissionPage: FC<Props> = props => {
           <SubmissionEditSheet
             answer={selectedSubmission ? selectedSubmission.submission : null}
             questions={visibleQuestions}
-            onPress={(qid, values, name) =>
-              postSubmission(appKey, selectedSubmission.id, qid, values, name)
+            editPost={(qid, values, name) =>
+              editSubmission(appKey, selectedSubmission.id, qid, values, name)
+            }
+            submitPost={values =>
+              postNewSubmission(appKey, route.params.id, values)
             }
           />
         </BottomSheetModal>
       </BottomSheetModalProvider>
       <ActionButton
         buttonColor={Colors.lightBlue}
-        onPress={() => console.log('Action Button')}
+        onPress={() => bottomSheetModalRef.current?.present()}
       />
     </StyledScreenContainer>
   );
@@ -229,9 +241,11 @@ const mapDispatchToProps = {
   getSubmissions,
   requestQuestions,
   selectSubmission,
-  postSubmission,
+  editSubmission,
+  postNewSubmission,
   resetQuestions,
   resetSubmissions,
+  resetSelectedSubmission,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SubmissionPage);

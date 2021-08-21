@@ -1,6 +1,7 @@
 import axios from './axios';
 import {QuestionInterface} from '../Interfaces/QuestionInterface';
 import {FormType} from '../Interfaces/FormsInterface';
+import {SubmissionAnswerInterface} from '../Interfaces/SubmissionAnswerInterface';
 
 export function requestLogin(username: string, password: string) {
   return axios({
@@ -56,7 +57,7 @@ export function getSubmission(apikey: string, id: string) {
   return axios.get(`/submission/${id}?apiKey=${apikey}`);
 }
 
-export function postSubmissionApi(
+export function editSubmissionApi(
   apikey: string,
   id: string,
   qid: number,
@@ -81,4 +82,24 @@ export function postSubmissionApi(
       'Content-Type': 'multipart/form-data',
     },
   });
+}
+
+export function postNewSubmission(
+  apikey: string,
+  id: string,
+  data: Map<number, SubmissionAnswerInterface>,
+) {
+  let formData = new FormData();
+  Array.from(data.keys()).forEach(key => {
+    formData.append(`submission[${key}]`, data.get(key));
+  });
+  /*
+  return axios({
+    method: 'POST',
+    url: `/form/${id}/submissions?apiKey=${apikey}`,
+    data: formData,
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });*/
 }

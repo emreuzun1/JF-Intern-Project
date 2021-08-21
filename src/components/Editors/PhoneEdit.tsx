@@ -44,7 +44,7 @@ const phoneValidationSchema = Yup.object().shape({
 
 export function PhoneEdit({answer, question, onPress}: ISubmissionEdit) {
   const initialValues: any = {
-    phone: answer!.prettyFormat,
+    phone: answer ? answer!.prettyFormat : '',
   };
 
   return (
@@ -84,6 +84,7 @@ export function PhoneEdit({answer, question, onPress}: ISubmissionEdit) {
 const styles = StyleSheet.create({
   textInputMask: {
     width: '100%',
+    height: 40,
     borderWidth: 0.5,
     borderColor: 'white',
     borderRadius: 6,

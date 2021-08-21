@@ -51,7 +51,7 @@ const emailValidationSchema = Yup.object().shape({
 });
 
 export function EmailEdit({answer, question, onPress}: ISubmissionEdit) {
-  const initialValues: any = {email: answer!.answer};
+  const initialValues: any = {email: answer ? answer!.answer : ''};
 
   return (
     <Formik

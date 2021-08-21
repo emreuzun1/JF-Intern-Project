@@ -30,6 +30,7 @@ const StyledNameInsideContainer = style.View({
 
 const StyledInput = style.TextInput({
   width: '100%',
+  height: 40,
   borderWidth: 0.5,
   borderColor: 'white',
   borderRadius: 6,
@@ -54,8 +55,7 @@ const StyledErrorText = style.Text({
 });
 
 export function NameEdit({answer, question, onPress}: ISubmissionEdit) {
-  const initialValues: any = answer!.answer;
-
+  const initialValues: any = answer ? answer!.answer : {first: '', last: ''};
   const nameValidationSchema = Yup.object().shape({});
 
   return (

@@ -5,7 +5,7 @@ import * as type from '../actionTypes';
 const initialState: SubmissionState = {
   data: [],
   loading: true,
-  selectedSubmission: {},
+  selectedSubmission: null,
 };
 
 export default (state = initialState, action: any) =>
@@ -27,7 +27,10 @@ export default (state = initialState, action: any) =>
       case type.RESET_SUBMISSIONS:
         draft.data = [];
         draft.loading = true;
-        draft.selectedSubmission = {};
+        draft.selectedSubmission = null;
+        break;
+      case type.RESET_SELECTEDSUBMISSION:
+        draft.selectedSubmission = null;
         break;
       default:
         return state;

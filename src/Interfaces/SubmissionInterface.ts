@@ -3,7 +3,7 @@ import {SubmissionAnswerInterface} from './SubmissionAnswerInterface';
 export interface SubmissionState {
   data: SubmissionInterface[];
   loading: boolean;
-  selectedSubmission: SubmissionAnswerInterface | {} | null;
+  selectedSubmission: SubmissionAnswerInterface | null;
 }
 
 export interface SubmissionInterface {
