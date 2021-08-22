@@ -91,10 +91,11 @@ const FormPage: FC<Props> = props => {
           title={item.title}
           update_at={item.updated_at}
           count={item.count}
-          onPress={() =>
+          onPress={(color: string) =>
             navigation.navigate('Submission', {
               id: item.id,
               title: item.title,
+              color: color,
             })
           }
         />

@@ -49,7 +49,7 @@ interface IFormCard {
   color: string;
   update_at: string;
   count: number | string;
-  onPress: () => void;
+  onPress: (color: string) => void;
 }
 
 const FormCard: React.FC<IFormCard> = ({
@@ -60,12 +60,12 @@ const FormCard: React.FC<IFormCard> = ({
   onPress,
 }) => {
   return (
-    <StyledFormContainer onPress={onPress}>
+    <StyledFormContainer onPress={() => onPress(color)}>
       <StyledImageContainer>
         <StyledImage
           source={require('../img/form-icon,.jpg')}
           // @ts-ignore: Unreachable code error
-          imageColor={color}
+          imageColor={color.main}
         />
       </StyledImageContainer>
       <View>

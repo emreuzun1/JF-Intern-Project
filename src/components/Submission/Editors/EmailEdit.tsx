@@ -14,6 +14,7 @@ const StyledHeader = style.Text({
   marginLeft: 32,
   color: Colors.grey,
   fontSize: 20,
+  maxWidth: '80%',
 });
 
 const StyledInputContainer = style.View({
@@ -63,6 +64,7 @@ export function EmailEdit({answer, question, onPress}: ISubmissionEdit) {
           <StyledHeader>{question.text}</StyledHeader>
           <StyledInputContainer>
             <StyledInput
+              autoCapitalize="none"
               value={values.email}
               onChangeText={handleChange('email')}
               onBlur={handleBlur('email')}

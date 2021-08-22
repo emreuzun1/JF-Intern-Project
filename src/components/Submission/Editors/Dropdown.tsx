@@ -47,6 +47,7 @@ const styles = StyleSheet.create({
   header: {
     color: Colors.grey,
     fontSize: 20,
+    maxWidth: '80%',
   },
 
   row: {

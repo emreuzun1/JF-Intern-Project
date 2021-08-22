@@ -17,6 +17,7 @@ const StyledHeader = style.Text({
   marginLeft: 32,
   color: Colors.grey,
   fontSize: 20,
+  maxWidth: '80%',
 });
 
 const StyledInputContainer = style.View({

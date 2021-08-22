@@ -25,7 +25,7 @@ export function Header({question, onEdit}: ITitleEdit) {
     <Formik
       initialValues={initialValue}
       onSubmit={value => onEdit(question.qid, value)}>
-      {({handleChange, values, handleSubmit, errors, touched}) => (
+      {({handleChange, values, handleSubmit}) => (
         <StyledHeaderContainer>
           <StyledHeaderTextInput
             // @ts-ignore: Unreachable code error

@@ -6,6 +6,7 @@ import {useDispatch} from 'react-redux';
 import {QuestionInterface} from '../Interfaces/QuestionInterface';
 import {filterQuestions} from '../redux/actions/questionsAction';
 import {Colors} from '../constants/Colors';
+import { ColorInterface } from '../Interfaces/ColorInterface';
 
 const StyledFieldFilterContainer = style.View({
   width: '100%',
@@ -20,18 +21,21 @@ const StyledFieldFilterContainer = style.View({
 const StyledFieldFilterText = style.Text({
   fontSize: 15,
   marginLeft: 8,
+  maxWidth: '80%',
 });
 
 interface IFieldsFilterProps {
   question: QuestionInterface;
   visibleQuestions: QuestionInterface[];
   index: number;
+  color: ColorInterface;
 }
 
 const FieldsFilterCard: FC<IFieldsFilterProps> = ({
   question,
   index,
   visibleQuestions,
+  color,
 }) => {
   const dispatch = useDispatch();
   const [isEnabled, setIsEnabled] = useState<boolean>(false);
@@ -57,8 +61,8 @@ const FieldsFilterCard: FC<IFieldsFilterProps> = ({
     <StyledFieldFilterContainer>
       <StyledFieldFilterText>{question.text}</StyledFieldFilterText>
       <Switch
-        trackColor={{false: Colors.jotformGrey, true: Colors.jotformOrange}}
-        thumbColor={isEnabled ? Colors.jotformOrange : Colors.jotformGrey}
+        trackColor={{false: Colors.jotformGrey, true: color.sub}}
+        thumbColor={isEnabled ? color.main : Colors.jotformGrey}
         value={isEnabled}
         onChange={() => changeEnabled()}
         ios_backgroundColor={Colors.jotformGrey}

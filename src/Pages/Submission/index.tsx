@@ -37,6 +37,7 @@ import Answer from './Answers';
 import TitleModal from './TitleFilterModal';
 import {SubmissionInterface} from '../../Interfaces/SubmissionInterface';
 import {QuestionInterface} from '../../Interfaces/QuestionInterface';
+import {ColorInterface} from '../../Interfaces/ColorInterface';
 
 const StyledScreenContainer = styled.SafeAreaView({
   flex: 1,
@@ -122,6 +123,7 @@ const SubmissionPage: FC<Props> = ({
   const emptyData = [] as any;
   const renderNullItem = () => null;
   const submissionEditSheetModal = useRef<BottomSheetModal>(null);
+  const color: ColorInterface = route.params.color;
 
   useEffect(() => {
     getSubmissions(appKey, route.params.id);
@@ -160,10 +162,10 @@ const SubmissionPage: FC<Props> = ({
       headerShown: true,
       headerTitle: `${route.params.title}`,
       headerStyle: {
-        backgroundColor: Colors.jotformGrey,
+        backgroundColor: `${color.main}`,
       },
       headerTitleStyle: {
-        color: Colors.lightGrey,
+        color: `${color.sub}`,
       },
       headerLeft: () => (
         <StyledBackButton onPress={goBack}>
@@ -200,6 +202,7 @@ const SubmissionPage: FC<Props> = ({
   return (
     <StyledScreenContainer>
       <TitleModal
+        color={color}
         visibleQuestions={visibleQuestions}
         questions={orderedQuestions}
         modalVisible={modalVisible}
@@ -229,7 +232,7 @@ const SubmissionPage: FC<Props> = ({
           onChange={handleSheetChanges}>
           <SubmissionEditSheet
             answer={selectedSubmission ? selectedSubmission.submission : null}
-            questions={visibleQuestions}
+            questions={orderedQuestions}
             editPost={(qid, values, name) =>
               editSubmission(appKey, selectedSubmission.id, qid, values, name)
             }

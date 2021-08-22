@@ -4,32 +4,34 @@ import style from 'styled-components/native';
 import Modal from 'react-native-modal';
 
 import FieldsFilterCard from '../../components/FieldsFilterCard';
-import {Colors} from '../../constants/Colors';
 import {QuestionInterface} from '../../Interfaces/QuestionInterface';
+import {ColorInterface} from '../../Interfaces/ColorInterface';
 
 const {height} = Dimensions.get('screen');
 
-const StyledModalContainer = style.View({
+const StyledModalContainer = style.View(({color}) => ({
   width: '100%',
   height: height / 2,
-  backgroundColor: Colors.lightYellow,
+  backgroundColor: color,
   position: 'absolute',
   bottom: 0,
-});
+}));
 
-const StyledModalHeader = style.View({
+const StyledModalHeader = style.View(({color}) => ({
   width: '100%',
-  backgroundColor: Colors.jotformOrange,
+  backgroundColor: color,
   height: 50,
   justifyContent: 'center',
-});
+}));
 
-const StyledModalHeaderText = style.Text({
+const StyledModalHeaderText = style.Text(({color}) => ({
   fontSize: 22,
   marginLeft: 12,
-});
+  color: color,
+}));
 
 interface ITitleModalProps {
+  color: ColorInterface;
   modalVisible: boolean;
   visibleQuestions: QuestionInterface[];
   questions: QuestionInterface[];
@@ -41,6 +43,7 @@ const TitleModal: FC<ITitleModalProps> = ({
   modalVisible,
   setModalVisible,
   visibleQuestions,
+  color,
 }) => {
   return (
     <Modal
@@ -48,12 +51,15 @@ const TitleModal: FC<ITitleModalProps> = ({
       animationIn="slideInUp"
       swipeDirection="down"
       onSwipeComplete={() => setModalVisible(false)}>
-      <StyledModalContainer>
-        <StyledModalHeader>
-          <StyledModalHeaderText>Fields</StyledModalHeaderText>
+      <StyledModalContainer color={color.main}>
+        <StyledModalHeader color={color.sub}>
+          <StyledModalHeaderText color={color.main}>
+            Fields
+          </StyledModalHeaderText>
         </StyledModalHeader>
         {questions.map((question: QuestionInterface, index: number) => (
           <FieldsFilterCard
+            color={color}
             question={question}
             index={index}
             key={`${index}_`}
