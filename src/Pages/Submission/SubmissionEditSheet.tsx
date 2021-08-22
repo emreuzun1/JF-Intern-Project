@@ -1,5 +1,5 @@
 import React, {FC} from 'react';
-import {View} from 'react-native';
+import {Alert} from 'react-native';
 import style from 'styled-components/native';
 
 import * as editors from '../../components/Submission/Editors';
@@ -19,7 +19,6 @@ const StyledSubmitButtonContainer = style.View({
 const StyledSubmitButton = style.Button({
   width: 100,
   height: 40,
-  color: Colors.jotformOrange,
   justifyContent: 'center',
   alignItems: 'center',
   borderRadius: 8,
@@ -30,6 +29,7 @@ interface Props {
   questions: QuestionInterface[];
   editPost: (qid: number, values: any, name?: boolean) => void;
   submitPost: (values: any) => void;
+  deletePost: () => void;
 }
 
 const SubmissionEditSheet: FC<Props> = ({
@@ -37,6 +37,7 @@ const SubmissionEditSheet: FC<Props> = ({
   questions,
   editPost,
   submitPost,
+  deletePost,
 }) => {
   const newEditorsMap = new Map();
   Object.keys(editors).map(key => {
@@ -44,6 +45,24 @@ const SubmissionEditSheet: FC<Props> = ({
     newEditorsMap.set(key, editors[key]);
   });
   let valuesMap = new Map();
+
+  const deleteAlert = () => {
+    Alert.alert(
+      'Are you sure?',
+      'Do you really want to delete this submission?',
+      [
+        {
+          text: 'YES',
+          onPress: () => deletePost(),
+          style: 'destructive',
+        },
+        {
+          text: 'NO',
+          style: 'cancel',
+        },
+      ],
+    );
+  };
   return (
     <StyledContainer>
       {questions.map((q: QuestionInterface, index: number) => {
@@ -69,10 +88,17 @@ const SubmissionEditSheet: FC<Props> = ({
         }
       })}
       {answer ? (
-        <View />
+        <StyledSubmitButtonContainer>
+          <StyledSubmitButton
+            color={Colors.lightRed}
+            title="Delete Submission"
+            onPress={deleteAlert}
+          />
+        </StyledSubmitButtonContainer>
       ) : (
         <StyledSubmitButtonContainer>
           <StyledSubmitButton
+            color={Colors.jotformOrange}
             title="Submit"
             onPress={() => submitPost(valuesMap)}
           />

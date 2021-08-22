@@ -11,12 +11,13 @@ import ActionButton from 'react-native-action-button';
 
 import {RootStackParamList} from '../../Navigation/types';
 import {
-  getSubmissions,
   requestQuestions,
+  resetQuestions,
+  getSubmissions,
   selectSubmission,
   editSubmission,
   postNewSubmission,
-  resetQuestions,
+  deleteSubmission,
   resetSubmissions,
   resetSelectedSubmission,
 } from '../../redux/actions';
@@ -25,7 +26,6 @@ import {
   getActiveSubmissions,
   getOrderedQuestions,
   getVisibleQuestions,
-  getOrderedTitles,
 } from '../../redux/reducers/selector';
 
 import Loading from '../../components/Loading';
@@ -37,7 +37,6 @@ import Answer from './Answers';
 import TitleModal from './TitleFilterModal';
 import {SubmissionInterface} from '../../Interfaces/SubmissionInterface';
 import {QuestionInterface} from '../../Interfaces/QuestionInterface';
-import TitleEditSheet from './TitleEditSheet';
 
 const StyledScreenContainer = styled.SafeAreaView({
   flex: 1,
@@ -83,6 +82,7 @@ interface Props {
   resetQuestions: () => void;
   resetSubmissions: () => void;
   resetSelectedSubmission: () => void;
+  deleteSubmission: (apikey: string, submissionId: string) => void;
 }
 
 const ViewWithSpinner = Loading(View);
@@ -106,6 +106,8 @@ const SubmissionPage: FC<Props> = ({
   resetSubmissions,
   // eslint-disable-next-line no-shadow
   resetSelectedSubmission,
+  // eslint-disable-next-line no-shadow
+  deleteSubmission,
   selectedSubmission,
   appKey,
   loading,
@@ -117,11 +119,9 @@ const SubmissionPage: FC<Props> = ({
   const orderedQuestions: QuestionInterface[] =
     useSelector(getOrderedQuestions);
   const submissions: SubmissionInterface[] = useSelector(getActiveSubmissions);
-  const orderedTitles: QuestionInterface[] = useSelector(getOrderedTitles);
   const emptyData = [] as any;
   const renderNullItem = () => null;
   const submissionEditSheetModal = useRef<BottomSheetModal>(null);
-  const titleEditSheetModalRef = useRef<BottomSheetModal>(null);
 
   useEffect(() => {
     getSubmissions(appKey, route.params.id);
@@ -136,6 +136,7 @@ const SubmissionPage: FC<Props> = ({
   };
 
   const onRefresh = React.useCallback(() => {
+    submissionEditSheetModal.current?.close();
     resetQuestions();
     resetSelectedSubmission();
     getSubmissions(appKey, route.params.id);
@@ -171,10 +172,6 @@ const SubmissionPage: FC<Props> = ({
       ),
       headerRight: () => (
         <StyledHeaderButtonsView>
-          <StyledHeaderButton
-            onPress={() => titleEditSheetModalRef.current?.present()}>
-            <Icon name="edit" size={24} color={Colors.lightGrey} />
-          </StyledHeaderButton>
           <StyledHeaderButton onPress={() => setModalVisible(true)}>
             <Icon name="filter" size={24} color={Colors.lightGrey} />
           </StyledHeaderButton>
@@ -236,19 +233,15 @@ const SubmissionPage: FC<Props> = ({
             editPost={(qid, values, name) =>
               editSubmission(appKey, selectedSubmission.id, qid, values, name)
             }
-            submitPost={values =>
-              postNewSubmission(appKey, route.params.id, values)
-            }
+            submitPost={values => {
+              postNewSubmission(appKey, route.params.id, values);
+              onRefresh();
+            }}
+            deletePost={() => {
+              deleteSubmission(appKey, selectedSubmission.id);
+              onRefresh();
+            }}
           />
-        </BottomSheetModal>
-      </BottomSheetModalProvider>
-      <BottomSheetModalProvider>
-        <BottomSheetModal
-          ref={titleEditSheetModalRef}
-          index={1}
-          snapPoints={snapPoints}
-          onChange={handleSheetChanges}>
-          <TitleEditSheet titles={orderedTitles} />
         </BottomSheetModal>
       </BottomSheetModalProvider>
     </StyledScreenContainer>
@@ -270,6 +263,7 @@ const mapDispatchToProps = {
   resetQuestions,
   resetSubmissions,
   resetSelectedSubmission,
+  deleteSubmission,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SubmissionPage);

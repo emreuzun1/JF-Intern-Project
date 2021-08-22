@@ -40,6 +40,16 @@ export function postNewSubmission(apikey: string, id: string, data: any) {
   };
 }
 
+export function deleteSubmission(apikey: string, submissionId: string) {
+  return {
+    type: type.SUBMISSION_DELETE_REQUEST,
+    payload: {
+      apikey,
+      submissionId,
+    },
+  };
+}
+
 export function selectSubmission(id: string, submission: any) {
   return {
     type: type.SUBMISSION_SELECT,

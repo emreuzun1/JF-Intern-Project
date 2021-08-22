@@ -94,6 +94,7 @@ export function postNewSubmission(
     if (typeof data.get(key) === 'object') {
       let nameObj = data.get(key);
       Object.keys(nameObj!).forEach(subkey => {
+        // @ts-ignore: Unreachable code error
         formData.append(`submission[${key}][${subkey}]`, nameObj[subkey]);
       });
     } else {
@@ -108,5 +109,12 @@ export function postNewSubmission(
     headers: {
       'Content-Type': 'multipart/form-data',
     },
+  });
+}
+
+export function deleteSubmissionApi(apikey: string, submissionId: string) {
+  return axios({
+    method: 'DELETE',
+    url: `/submission/${submissionId}?apiKey=${apikey}`,
   });
 }

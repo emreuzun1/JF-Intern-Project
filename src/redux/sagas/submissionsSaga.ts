@@ -3,8 +3,10 @@ import {
   getSubmissionsApi,
   editSubmissionApi,
   postNewSubmission,
+  deleteSubmissionApi,
 } from '../../Lib/api';
 import {IActionInterface} from '../../Interfaces/actionInterface';
+import Toast from 'react-native-toast-message';
 
 import {
   FORM_SUBMISSION_REQUEST,
@@ -12,6 +14,7 @@ import {
   FORM_SUBMISSION_FAIL,
   FORM_SUBMISSIONPOST_REQUEST,
   NEW_SUBMISSION_POST,
+  SUBMISSION_DELETE_REQUEST,
 } from '../actionTypes';
 
 function* getSubmissions(action: IActionInterface) {
@@ -50,10 +53,30 @@ function* postNewSubmissionSaga(action: IActionInterface) {
   } catch (err) {}
 }
 
+function* deleteSubmission(action: IActionInterface) {
+  try {
+    const {apikey, submissionId} = action.payload;
+    const {
+      data: {responseCode, content},
+    } = yield call(deleteSubmissionApi, apikey, submissionId);
+    if (responseCode === 200) {
+      Toast.show({
+        type: 'success',
+        text1: 'Deleted',
+        text2: `${content}`,
+        position: 'top',
+        visibilityTime: 2000,
+        topOffset: 30,
+      });
+    }
+  } catch (err) {}
+}
+
 const submissionSaga = [
   takeLatest(FORM_SUBMISSION_REQUEST, getSubmissions),
   takeLatest(FORM_SUBMISSIONPOST_REQUEST, editSubmission),
   takeLatest(NEW_SUBMISSION_POST, postNewSubmissionSaga),
+  takeLatest(SUBMISSION_DELETE_REQUEST, deleteSubmission),
 ];
 
 export default submissionSaga;

@@ -44,9 +44,8 @@ const phoneValidationSchema = Yup.object().shape({
 
 export function PhoneEdit({answer, question, onPress}: ISubmissionEdit) {
   const initialValues: any = {
-    phone: answer ? answer!.answer : '',
+    phone: answer ? answer!.prettyFormat : '',
   };
-  console.log(answer);
 
   return (
     <Formik

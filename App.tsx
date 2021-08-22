@@ -3,6 +3,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
 import {navigationRef} from './src/Navigation/RootNavigation';
+import Toast from 'react-native-toast-message';
 
 import MainNavigator from './src/Navigation/MainNavigator';
 import {store, persistor} from './src/redux/store';
@@ -26,6 +27,7 @@ const App = () => {
         loading={null}
         persistor={persistor}>
         <NavigationContainer ref={navigationRef}>
+          <Toast ref={ref => Toast.setRef(ref)} />
           <MainNavigator loggedIn={loggedIn} />
         </NavigationContainer>
       </PersistGate>
