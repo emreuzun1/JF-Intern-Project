@@ -1,9 +1,9 @@
 import React from 'react';
 import {Formik} from 'formik';
-import {ISubmissionEdit} from '../../Interfaces/SubmissionEditInterface';
+import {ISubmissionEdit} from '../../../Interfaces/SubmissionEditInterface';
 import * as Yup from 'yup';
 import style from 'styled-components/native';
-import {Colors} from '../../constants/Colors';
+import {Colors} from '../../../constants/Colors';
 
 const StyledContainer = style.View({
   width: '100%',
@@ -69,7 +69,7 @@ export function EmailEdit({answer, question, onPress}: ISubmissionEdit) {
               onEndEditing={handleSubmit}
               keyboardType="email-address"
             />
-            <StyledSubTitles>{question.confirmationHint}</StyledSubTitles>
+            <StyledSubTitles>{question.subLabel}</StyledSubTitles>
             {errors.email && touched.email ? (
               <StyledErrorText>{errors.email}</StyledErrorText>
             ) : null}

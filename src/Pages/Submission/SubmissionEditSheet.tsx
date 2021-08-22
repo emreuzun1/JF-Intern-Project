@@ -2,7 +2,7 @@ import React, {FC} from 'react';
 import {View} from 'react-native';
 import style from 'styled-components/native';
 
-import * as editors from '../../components/Editors';
+import * as editors from '../../components/Submission/Editors';
 import {Colors} from '../../constants/Colors';
 import {QuestionInterface} from '../../Interfaces/QuestionInterface';
 import {SubmissionAnswerInterface} from '../../Interfaces/SubmissionAnswerInterface';

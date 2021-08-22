@@ -53,7 +53,7 @@ const StyledTextInput = styled.TextInput({
   backgroundColor: Colors.lightGrey,
   borderRadius: 5,
   width: width / 1.6,
-  height : 50,
+  height: 50,
   marginVertical: 10,
   fontSize: 16,
 });
@@ -116,14 +116,14 @@ const Login = (props: Props) => {
           {({handleChange, handleBlur, handleSubmit, values}) => (
             <StyledInputContainer>
               <StyledTextInput
-                autoCapitalize = 'none'
+                autoCapitalize="none"
                 placeholder=" Username"
                 value={values.username}
                 onBlur={handleBlur('username')}
                 onChangeText={handleChange('username')}
               />
               <StyledTextInput
-                autoCapitalize = 'none'
+                autoCapitalize="none"
                 placeholder=" Password"
                 value={values.password}
                 secureTextEntry

@@ -2,9 +2,9 @@ import React from 'react';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
 
-import {ISubmissionEdit} from '../../Interfaces/SubmissionEditInterface';
+import {ISubmissionEdit} from '../../../Interfaces/SubmissionEditInterface';
 import style from 'styled-components/native';
-import {Colors} from '../../constants/Colors';
+import {Colors} from '../../../constants/Colors';
 
 const StyledContainer = style.View({
   width: '100%',

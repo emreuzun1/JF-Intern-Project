@@ -13,7 +13,8 @@ export const Colors = {
   grey: '#9c9c9c',
 };
 
-export const getRandomColorIndex = () => {
+export const getRandomColor = () => {
   const colors = Object.keys(Colors);
-  return colors[Math.floor(Math.random() * colors.length)];
+  // @ts-ignore: Unreachable code error
+  return Colors[colors[Math.floor(Math.random() * colors.length)]];
 };

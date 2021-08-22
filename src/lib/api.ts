@@ -91,9 +91,16 @@ export function postNewSubmission(
 ) {
   let formData = new FormData();
   Array.from(data.keys()).forEach(key => {
-    formData.append(`submission[${key}]`, data.get(key));
+    if (typeof data.get(key) === 'object') {
+      let nameObj = data.get(key);
+      Object.keys(nameObj!).forEach(subkey => {
+        formData.append(`submission[${key}][${subkey}]`, nameObj[subkey]);
+      });
+    } else {
+      formData.append(`submission[${key}]`, data.get(key));
+    }
   });
-  /*
+
   return axios({
     method: 'POST',
     url: `/form/${id}/submissions?apiKey=${apikey}`,
@@ -101,5 +108,5 @@ export function postNewSubmission(
     headers: {
       'Content-Type': 'multipart/form-data',
     },
-  });*/
+  });
 }

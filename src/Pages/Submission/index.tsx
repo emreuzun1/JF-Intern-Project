@@ -5,7 +5,8 @@ import {StackNavigationProp} from '@react-navigation/stack';
 import {RouteProp} from '@react-navigation/native';
 import {BottomSheetModal, BottomSheetModalProvider} from '@gorhom/bottom-sheet';
 import styled from 'styled-components/native';
-import Icon from 'react-native-vector-icons/Ionicons';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import ActionButton from 'react-native-action-button';
 
 import {RootStackParamList} from '../../Navigation/types';
@@ -24,10 +25,11 @@ import {
   getActiveSubmissions,
   getOrderedQuestions,
   getVisibleQuestions,
+  getOrderedTitles,
 } from '../../redux/reducers/selector';
 
 import Loading from '../../components/Loading';
-import SubmissionEditSheet from '../SubmissionEditSheet';
+import SubmissionEditSheet from './SubmissionEditSheet';
 import {Colors} from '../../constants/Colors';
 import {FlatList} from 'react-native';
 import Titles from './Titles';
@@ -35,18 +37,23 @@ import Answer from './Answers';
 import TitleModal from './TitleFilterModal';
 import {SubmissionInterface} from '../../Interfaces/SubmissionInterface';
 import {QuestionInterface} from '../../Interfaces/QuestionInterface';
+import TitleEditSheet from './TitleEditSheet';
 
 const StyledScreenContainer = styled.SafeAreaView({
   flex: 1,
   backgroundColor: Colors.jotformGrey,
 });
 
-const BackButton = styled.TouchableOpacity({
+const StyledBackButton = styled.TouchableOpacity({
   marginLeft: 8,
 });
 
-const FilterButton = styled.TouchableOpacity({
-  marginRight: 8,
+const StyledHeaderButtonsView = styled.View({
+  flexDirection: 'row',
+});
+
+const StyledHeaderButton = styled.TouchableOpacity({
+  marginRight: 12,
 });
 
 const wait = (timeout: number) => {
@@ -80,7 +87,29 @@ interface Props {
 
 const ViewWithSpinner = Loading(View);
 
-const SubmissionPage: FC<Props> = props => {
+const SubmissionPage: FC<Props> = ({
+  navigation,
+  route,
+  // eslint-disable-next-line no-shadow
+  getSubmissions,
+  // eslint-disable-next-line no-shadow
+  requestQuestions,
+  // eslint-disable-next-line no-shadow
+  selectSubmission,
+  // eslint-disable-next-line no-shadow
+  editSubmission,
+  // eslint-disable-next-line no-shadow
+  postNewSubmission,
+  // eslint-disable-next-line no-shadow
+  resetQuestions,
+  // eslint-disable-next-line no-shadow
+  resetSubmissions,
+  // eslint-disable-next-line no-shadow
+  resetSelectedSubmission,
+  selectedSubmission,
+  appKey,
+  loading,
+}) => {
   const [refreshing, setRefreshing] = React.useState<boolean>(false);
   const [modalVisible, setModalVisible] = React.useState<boolean>(false);
   const visibleQuestions: QuestionInterface[] =
@@ -88,32 +117,11 @@ const SubmissionPage: FC<Props> = props => {
   const orderedQuestions: QuestionInterface[] =
     useSelector(getOrderedQuestions);
   const submissions: SubmissionInterface[] = useSelector(getActiveSubmissions);
-  const {
-    navigation,
-    route,
-    // eslint-disable-next-line no-shadow
-    getSubmissions,
-    // eslint-disable-next-line no-shadow
-    requestQuestions,
-    // eslint-disable-next-line no-shadow
-    selectSubmission,
-    // eslint-disable-next-line no-shadow
-    editSubmission,
-    // eslint-disable-next-line no-shadow
-    postNewSubmission,
-    // eslint-disable-next-line no-shadow
-    resetQuestions,
-    // eslint-disable-next-line no-shadow
-    resetSubmissions,
-    // eslint-disable-next-line no-shadow
-    resetSelectedSubmission,
-    selectedSubmission,
-    appKey,
-    loading,
-  } = props;
+  const orderedTitles: QuestionInterface[] = useSelector(getOrderedTitles);
   const emptyData = [] as any;
   const renderNullItem = () => null;
-  const bottomSheetModalRef = useRef<BottomSheetModal>(null);
+  const submissionEditSheetModal = useRef<BottomSheetModal>(null);
+  const titleEditSheetModalRef = useRef<BottomSheetModal>(null);
 
   useEffect(() => {
     getSubmissions(appKey, route.params.id);
@@ -157,14 +165,20 @@ const SubmissionPage: FC<Props> = props => {
         color: Colors.lightGrey,
       },
       headerLeft: () => (
-        <BackButton onPress={goBack}>
-          <Icon name="arrow-back" size={24} color={Colors.lightGrey} />
-        </BackButton>
+        <StyledBackButton onPress={goBack}>
+          <Ionicons name="arrow-back" size={24} color={Colors.lightGrey} />
+        </StyledBackButton>
       ),
       headerRight: () => (
-        <FilterButton onPress={() => setModalVisible(true)}>
-          <Icon name="filter" size={24} color={Colors.lightGrey} />
-        </FilterButton>
+        <StyledHeaderButtonsView>
+          <StyledHeaderButton
+            onPress={() => titleEditSheetModalRef.current?.present()}>
+            <Icon name="edit" size={24} color={Colors.lightGrey} />
+          </StyledHeaderButton>
+          <StyledHeaderButton onPress={() => setModalVisible(true)}>
+            <Icon name="filter" size={24} color={Colors.lightGrey} />
+          </StyledHeaderButton>
+        </StyledHeaderButtonsView>
       ),
     });
   });
@@ -181,7 +195,7 @@ const SubmissionPage: FC<Props> = props => {
     <Answer
       submissions={submissions}
       navigation={navigation}
-      sheetModalRef={bottomSheetModalRef}
+      sheetModalRef={submissionEditSheetModal}
       selectSubmission={selectSubmission}
     />
   );
@@ -203,11 +217,16 @@ const SubmissionPage: FC<Props> = props => {
           }
           ListHeaderComponent={ListHeaderComponent}
           ListFooterComponent={ListFooterComponent}
+          stickyHeaderIndices={[0]}
         />
       </ScrollView>
+      <ActionButton
+        buttonColor={Colors.lightBlue}
+        onPress={() => submissionEditSheetModal.current?.present()}
+      />
       <BottomSheetModalProvider>
         <BottomSheetModal
-          ref={bottomSheetModalRef}
+          ref={submissionEditSheetModal}
           index={1}
           snapPoints={snapPoints}
           onChange={handleSheetChanges}>
@@ -223,10 +242,15 @@ const SubmissionPage: FC<Props> = props => {
           />
         </BottomSheetModal>
       </BottomSheetModalProvider>
-      <ActionButton
-        buttonColor={Colors.lightBlue}
-        onPress={() => bottomSheetModalRef.current?.present()}
-      />
+      <BottomSheetModalProvider>
+        <BottomSheetModal
+          ref={titleEditSheetModalRef}
+          index={1}
+          snapPoints={snapPoints}
+          onChange={handleSheetChanges}>
+          <TitleEditSheet titles={orderedTitles} />
+        </BottomSheetModal>
+      </BottomSheetModalProvider>
     </StyledScreenContainer>
   );
 };

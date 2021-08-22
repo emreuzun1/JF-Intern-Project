@@ -22,6 +22,26 @@ export const getActiveSubmissions = createSelector(
   },
 );
 
+const supportedTitles = [
+  'control_head',
+  'control_fullname',
+  'control_email',
+  'control_phone',
+  'control_dropdown',
+  'control_textbox',
+  'control_textarea',
+];
+
+export const getOrderedTitles = createSelector(getQuestions, data => {
+  const filtered = Object.values(data).filter(
+    (question: QuestionInterface) =>
+      supportedTitles.indexOf(question.type) > -1,
+  );
+  return filtered.sort(
+    (a: QuestionInterface, b: QuestionInterface) => a.order - b.order,
+  );
+});
+
 const supportedQuestions = [
   'control_fullname',
   'control_email',

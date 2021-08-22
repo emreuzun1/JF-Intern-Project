@@ -1,6 +1,6 @@
 import React from 'react';
 import style from 'styled-components/native';
-import {FieldProps} from '../../Interfaces/FieldProps';
+import {FieldProps} from '../../../Interfaces/FieldProps';
 
 const StyledAnswerText = style.Text({
   marginHorizontal: 8,

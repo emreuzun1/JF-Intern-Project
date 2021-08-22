@@ -24,5 +24,6 @@ export interface QuestionInterface {
   options?: string;
   confirmationHint?: string;
   sublabels?: string[] | {masked: any} | undefined;
+  subLabel?: string;
   valid: true;
 }

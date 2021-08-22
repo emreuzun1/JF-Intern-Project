@@ -15,7 +15,7 @@ import Icon from 'react-native-vector-icons/AntDesign';
 import withLoading from '../../components/Loading';
 import FormCard from '../../components/FormCard';
 import {requestLogout} from '../../redux/actions';
-import {Colors} from '../../constants/Colors';
+import {Colors, getRandomColor} from '../../constants/Colors';
 import {FlatList} from 'react-native-gesture-handler';
 import {FormInterface} from '../../Interfaces/FormsInterface';
 
@@ -87,6 +87,7 @@ const FormPage: FC<Props> = props => {
       keyExtractor={item => item.id}
       renderItem={({item}) => (
         <FormCard
+          color={getRandomColor()}
           title={item.title}
           update_at={item.updated_at}
           count={item.count}

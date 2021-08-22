@@ -1,8 +1,8 @@
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
-import {ISubmissionEdit} from '../../Interfaces/SubmissionEditInterface';
+import {ISubmissionEdit} from '../../../Interfaces/SubmissionEditInterface';
 import SelectDropDown from 'react-native-select-dropdown';
-import {Colors} from '../../constants/Colors';
+import {Colors} from '../../../constants/Colors';
 
 export function Dropdown({question, answer, onPress}: ISubmissionEdit) {
   const data = question.options!.split('|');

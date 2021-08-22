@@ -1,6 +1,6 @@
 import React from 'react';
 import style from 'styled-components/native';
-import {FieldProps} from '../../Interfaces/FieldProps';
+import {FieldProps} from '../../../Interfaces/FieldProps';
 
 const StyledAnswerText = style.Text({
   marginHorizontal: 8,
@@ -8,7 +8,7 @@ const StyledAnswerText = style.Text({
   fontSize: 14,
 });
 
-export function Dropdown({answer}: FieldProps) {
+export function Phone({answer}: FieldProps) {
   return (
     <StyledAnswerText numberOfLines={1}>
       {answer.prettyFormat ? answer.prettyFormat : answer.answer}

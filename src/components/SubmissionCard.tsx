@@ -2,7 +2,7 @@ import React from 'react';
 import {View, Dimensions} from 'react-native';
 import styled from 'styled-components/native';
 
-import * as fields from './Fields';
+import * as fields from './Submission/Fields';
 import {useSelector} from 'react-redux';
 import {getOrderedAnswers} from '../redux/reducers/selector';
 import {Colors} from '../constants/Colors';
@@ -37,11 +37,11 @@ const StyledAnswerContainer = styled.View({
 
 const StyledTextContainer = styled.View({
   width: width / 2,
-  height : '80%',
+  height: '80%',
   borderRightWidth: 0.3,
   borderColor: Colors.lightGrey,
   justifyContent: 'center',
-  padding : 6,
+  padding: 6,
 });
 
 interface ICard {

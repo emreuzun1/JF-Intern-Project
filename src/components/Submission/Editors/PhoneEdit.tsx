@@ -5,8 +5,8 @@ import TextInputMask from 'react-native-text-input-mask';
 import {StyleSheet} from 'react-native';
 
 import style from 'styled-components/native';
-import {ISubmissionEdit} from '../../Interfaces/SubmissionEditInterface';
-import {Colors} from '../../constants/Colors';
+import {ISubmissionEdit} from '../../../Interfaces/SubmissionEditInterface';
+import {Colors} from '../../../constants/Colors';
 
 const StyledContainer = style.View({
   width: '100%',
@@ -44,8 +44,9 @@ const phoneValidationSchema = Yup.object().shape({
 
 export function PhoneEdit({answer, question, onPress}: ISubmissionEdit) {
   const initialValues: any = {
-    phone: answer ? answer!.prettyFormat : '',
+    phone: answer ? answer!.answer : '',
   };
+  console.log(answer);
 
   return (
     <Formik

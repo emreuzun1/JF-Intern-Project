@@ -18,11 +18,13 @@ const StyledImageContainer = styled.View({
   justifyContent: 'center',
 });
 
-const StyledImage = styled.Image({
+// @ts-ignore: Unreachable code error
+const StyledImage = styled.Image(({imageColor}) => ({
   width: 36,
   height: 36,
   marginRight: 6,
-});
+  backgroundColor: imageColor,
+}));
 
 const StyledTitle = styled.Text({
   fontSize: 18,
@@ -44,21 +46,32 @@ const StyledLine = styled.View({
 
 interface IFormCard {
   title: string;
+  color: string;
   update_at: string;
   count: number | string;
   onPress: () => void;
 }
 
-const FormCard: React.FC<IFormCard> = props => {
+const FormCard: React.FC<IFormCard> = ({
+  title,
+  color,
+  update_at,
+  count,
+  onPress,
+}) => {
   return (
-    <StyledFormContainer onPress={props.onPress}>
+    <StyledFormContainer onPress={onPress}>
       <StyledImageContainer>
-        <StyledImage source={require('../img/form-icon,.jpg')} />
+        <StyledImage
+          source={require('../img/form-icon,.jpg')}
+          // @ts-ignore: Unreachable code error
+          imageColor={color}
+        />
       </StyledImageContainer>
       <View>
-        <StyledTitle>{props.title}</StyledTitle>
+        <StyledTitle>{title}</StyledTitle>
         <StyledUpdateText>
-          {props.count} Submissions. Last updated at : {props.update_at}
+          {count} Submissions. Last updated at : {update_at}
         </StyledUpdateText>
         <StyledLine />
       </View>
