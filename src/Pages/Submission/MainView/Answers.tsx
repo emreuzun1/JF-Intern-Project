@@ -1,7 +1,7 @@
 import React, {FC, useCallback} from 'react';
 import {VirtualizedList} from 'react-native';
 
-import {SubmissionCard} from '../../components/';
+import {SubmissionCard} from '../../../components';
 
 interface IAnswerProps {
   submissions: any;

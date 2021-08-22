@@ -42,6 +42,8 @@ export default (state = initialState, action: IActionInterface) =>
       }
       case type.RESET_QUESTIONS: {
         draft.data = [];
+        draft.visibleQuestions = [];
+        draft.inVisibleQuestions = [];
         break;
       }
     }

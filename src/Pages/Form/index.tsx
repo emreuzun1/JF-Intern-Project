@@ -2,7 +2,7 @@ import React, {FC, useEffect} from 'react';
 import {View, VirtualizedList, Dimensions} from 'react-native';
 import {useSelector, connect} from 'react-redux';
 import {StackNavigationProp} from '@react-navigation/stack';
-import {RouteProp} from '@react-navigation/native';
+import {RouteProp, useIsFocused} from '@react-navigation/native';
 import styled from 'styled-components/native';
 
 import {RootStackParamList} from '../../Navigation/types';
@@ -18,6 +18,7 @@ import {requestLogout} from '../../redux/actions';
 import {Colors, getRandomColor} from '../../constants/Colors';
 import {FlatList} from 'react-native-gesture-handler';
 import {FormInterface} from '../../Interfaces/FormsInterface';
+import {ColorInterface} from '../../Interfaces/ColorInterface';
 
 type FormProps = StackNavigationProp<RootStackParamList, 'Form'>;
 type FormRouteProp = RouteProp<RootStackParamList, 'Form'>;
@@ -55,6 +56,7 @@ const FormPage: FC<Props> = props => {
   const {navigation, requestLogout, getForm, loading} = props;
   const emptyData = [] as any;
   const renderNullItem = () => null;
+  const isFocused = useIsFocused();
 
   const logOut = async () => {
     await persistor.purge().then(() => {
@@ -67,7 +69,7 @@ const FormPage: FC<Props> = props => {
 
   useEffect(() => {
     getForm();
-  }, [getForm]);
+  }, [getForm, isFocused]);
 
   // eslint-disable-next-line no-shadow
   const getItem = (data: any, index: number) => ({
@@ -91,7 +93,7 @@ const FormPage: FC<Props> = props => {
           title={item.title}
           update_at={item.updated_at}
           count={item.count}
-          onPress={(color: string) =>
+          onPress={(color: ColorInterface) =>
             navigation.navigate('Submission', {
               id: item.id,
               title: item.title,

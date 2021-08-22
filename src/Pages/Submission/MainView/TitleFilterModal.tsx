@@ -3,9 +3,9 @@ import {Dimensions} from 'react-native';
 import style from 'styled-components/native';
 import Modal from 'react-native-modal';
 
-import FieldsFilterCard from '../../components/FieldsFilterCard';
-import {QuestionInterface} from '../../Interfaces/QuestionInterface';
-import {ColorInterface} from '../../Interfaces/ColorInterface';
+import FieldsFilterCard from '../../../components/FieldsFilterCard';
+import {QuestionInterface} from '../../../Interfaces/QuestionInterface';
+import {ColorInterface} from '../../../Interfaces/ColorInterface';
 
 const {height} = Dimensions.get('screen');
 

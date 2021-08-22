@@ -4,6 +4,7 @@ import {View} from 'react-native';
 import styled from 'styled-components/native';
 
 import {Colors} from '../constants/Colors';
+import {ColorInterface} from '../Interfaces/ColorInterface';
 
 const {width} = Dimensions.get('screen');
 
@@ -46,10 +47,10 @@ const StyledLine = styled.View({
 
 interface IFormCard {
   title: string;
-  color: string;
+  color: ColorInterface;
   update_at: string;
   count: number | string;
-  onPress: (color: string) => void;
+  onPress: (color: ColorInterface) => void;
 }
 
 const FormCard: React.FC<IFormCard> = ({

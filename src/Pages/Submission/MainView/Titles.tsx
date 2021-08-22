@@ -2,9 +2,9 @@ import React, {FC} from 'react';
 import {VirtualizedList, StyleSheet} from 'react-native';
 import styled from 'styled-components/native';
 
-import {Colors} from '../../constants/Colors';
-import {SubmissionTitleCard} from '../../components';
-import {QuestionInterface} from '../../Interfaces/QuestionInterface';
+import {Colors} from '../../../constants/Colors';
+import {SubmissionTitleCard} from '../../../components';
+import {QuestionInterface} from '../../../Interfaces/QuestionInterface';
 
 interface ITitleProps {
   questionData: QuestionInterface[];
