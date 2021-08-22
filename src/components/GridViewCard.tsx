@@ -1,0 +1,89 @@
+import React, {FC} from 'react';
+import {Dimensions, Text, View, StyleSheet, ScrollView} from 'react-native';
+
+import * as fields from './Submission/Fields';
+import {QuestionInterface} from '../Interfaces/QuestionInterface';
+import {useSelector} from 'react-redux';
+import {SubmissionInterface} from '../Interfaces/SubmissionInterface';
+import {getOrderedAnswers} from '../redux/reducers/selector';
+import {Colors} from '../constants/Colors';
+
+const {height} = Dimensions.get('screen');
+
+interface GridViewProps {
+  submission: SubmissionInterface;
+  questions: QuestionInterface[];
+}
+
+const GridViewCard: FC<GridViewProps> = ({submission, questions}) => {
+  const orderedAnswers = useSelector(getOrderedAnswers);
+  const answers = orderedAnswers(submission.id);
+
+  const fieldsMap = new Map();
+
+  Object.keys(fields).map(key => {
+    // @ts-ignore: Unreachable code error
+    fieldsMap.set(key, fields[key]);
+  });
+
+  if (answers.length === 0) {
+    return <View />;
+  }
+  return (
+    <ScrollView style={styles.container}>
+      <View style={styles.headerContainer}>
+        <Text style={styles.headerText}>{answers[0].prettyFormat}</Text>
+      </View>
+      {answers.map((answer, index) => {
+        if (index === 0) {
+          return null;
+        }
+        const Element = fieldsMap.get(answer.type.split('_', 2)[1]);
+        if (Element)
+          return (
+            <View key={`${index}_${index + 1}`} style={styles.answerContainer}>
+              <Text style={styles.titleText}>{questions[index].text}</Text>
+              <Element answer={answer} />
+            </View>
+          );
+      })}
+    </ScrollView>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    width: '90%',
+    backgroundColor: Colors.darkerGrey,
+    height: height / 4,
+    margin: 20,
+    borderRadius: 8,
+    shadowColor: 'black',
+    shadowOffset: {width: -2, height: 6},
+    shadowOpacity: 0.3,
+    shadowRadius: 3,
+  },
+  headerContainer: {
+    width: '100%',
+    borderBottomWidth: 0.5,
+    borderColor: Colors.lightGrey,
+    padding: 8,
+  },
+  headerText: {
+    fontSize: 20,
+    color: Colors.lightGrey,
+  },
+  titleText: {
+    marginLeft: 8,
+    marginBottom: 4,
+    color: Colors.lightGrey,
+    fontWeight: '300',
+  },
+
+  answerContainer: {
+    padding: 8,
+    marginTop: 8,
+  },
+});
+
+export default GridViewCard;

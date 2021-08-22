@@ -2,9 +2,10 @@ import React, {FC, useCallback} from 'react';
 import {VirtualizedList} from 'react-native';
 
 import {SubmissionCard} from '../../../components';
+import {SubmissionInterface} from '../../../Interfaces/SubmissionInterface';
 
 interface IAnswerProps {
-  submissions: any;
+  submissions: SubmissionInterface[];
   navigation: any;
   sheetModalRef: any;
   selectSubmission: (id: string, answer: any) => void;

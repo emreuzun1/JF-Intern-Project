@@ -1,19 +1,20 @@
 import React, {FC, useEffect} from 'react';
 import {useSelector, connect} from 'react-redux';
 import styled from 'styled-components/native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import IconFontAwesome from 'react-native-vector-icons/FontAwesome';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import IconAntDesign from 'react-native-vector-icons/AntDesign';
 
 import {
   requestQuestions,
-  resetQuestions,
   getSubmissions,
   selectSubmission,
   editSubmission,
   postNewSubmission,
   deleteSubmission,
-  resetSubmissions,
   resetSelectedSubmission,
+  resetQuestions,
+  resetSubmissions,
 } from '../../redux/actions';
 import {IState} from '../../Interfaces/actionInterface';
 import {
@@ -27,6 +28,7 @@ import {SubmissionInterface} from '../../Interfaces/SubmissionInterface';
 import {QuestionInterface} from '../../Interfaces/QuestionInterface';
 import {ColorInterface} from '../../Interfaces/ColorInterface';
 import {SubmissionPageProps} from '../../Interfaces/SubmissionPageProps';
+import GridView from './GridView';
 
 const StyledScreenContainer = styled.SafeAreaView({
   flex: 1,
@@ -44,30 +46,26 @@ const StyledHeaderButton = styled.TouchableOpacity({
   marginRight: 12,
 });
 
-const wait = (timeout: number) => {
-  return new Promise(resolve => setTimeout(resolve, timeout));
-};
-
 const SubmissionPage: FC<SubmissionPageProps> = props => {
-  const {appKey, route, navigation} = props;
+  // eslint-disable-next-line no-shadow
+  const {appKey, route, navigation, getSubmissions, requestQuestions} = props;
   const visibleQuestions: QuestionInterface[] =
     useSelector(getVisibleQuestions);
   const orderedQuestions: QuestionInterface[] =
     useSelector(getOrderedQuestions);
   const submissions: SubmissionInterface[] = useSelector(getActiveSubmissions);
   const color: ColorInterface = route.params.color;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [modalVisible, setModalVisible] = React.useState<boolean>(false);
+  const [mainView, setMainView] = React.useState<boolean>(true);
 
   useEffect(() => {
     getSubmissions(appKey, route.params.id);
     requestQuestions(appKey, route.params.id);
-  }, [appKey, route.params.id]);
+  }, [getSubmissions, requestQuestions, appKey, route.params.id]);
 
   const goBack = async () => {
-    await resetQuestions();
-    await resetSubmissions();
-    wait(1000);
-    props.navigation.goBack();
+    navigation.goBack();
   };
 
   React.useLayoutEffect(() => {
@@ -87,8 +85,17 @@ const SubmissionPage: FC<SubmissionPageProps> = props => {
       ),
       headerRight: () => (
         <StyledHeaderButtonsView>
+          {mainView ? (
+            <StyledHeaderButton onPress={() => setMainView(false)}>
+              <IconAntDesign name="table" size={24} color={color.sub} />
+            </StyledHeaderButton>
+          ) : (
+            <StyledHeaderButton onPress={() => setMainView(true)}>
+              <Ionicons name="grid" size={24} color={color.sub} />
+            </StyledHeaderButton>
+          )}
           <StyledHeaderButton onPress={() => setModalVisible(true)}>
-            <Icon name="filter" size={24} color={color.sub} />
+            <IconFontAwesome name="filter" size={24} color={color.sub} />
           </StyledHeaderButton>
         </StyledHeaderButtonsView>
       ),
@@ -97,15 +104,25 @@ const SubmissionPage: FC<SubmissionPageProps> = props => {
 
   return (
     <StyledScreenContainer>
-      <MainView
-        props={props}
-        visibleQuestions={visibleQuestions}
-        orderedQuestions={orderedQuestions}
-        submissions={submissions}
-        color={color}
-        modalVisible={modalVisible}
-        setModalVisible={setModalVisible}
-      />
+      {mainView ? (
+        <MainView
+          props={props}
+          visibleQuestions={visibleQuestions}
+          orderedQuestions={orderedQuestions}
+          submissions={submissions}
+          color={color}
+          modalVisible={modalVisible}
+          setModalVisible={setModalVisible}
+        />
+      ) : (
+        <GridView
+          props={props}
+          visibleQuestions={visibleQuestions}
+          orderedQuestions={orderedQuestions}
+          submissions={submissions}
+          color={color}
+        />
+      )}
     </StyledScreenContainer>
   );
 };
@@ -122,10 +139,10 @@ const mapDispatchToProps = {
   selectSubmission,
   editSubmission,
   postNewSubmission,
-  resetQuestions,
-  resetSubmissions,
   resetSelectedSubmission,
   deleteSubmission,
+  resetQuestions,
+  resetSubmissions,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SubmissionPage);

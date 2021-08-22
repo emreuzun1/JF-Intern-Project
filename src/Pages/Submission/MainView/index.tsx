@@ -1,5 +1,8 @@
 import React, {FC, useMemo, useRef} from 'react';
 import {FlatList, RefreshControl, ScrollView, View} from 'react-native';
+import ActionButton from 'react-native-action-button';
+import {BottomSheetModal, BottomSheetModalProvider} from '@gorhom/bottom-sheet';
+import style from 'styled-components/native';
 
 import Loading from '../../../components/Loading';
 import Titles from './Titles';
@@ -9,10 +12,13 @@ import {SubmissionPageProps} from '../../../Interfaces/SubmissionPageProps';
 import {QuestionInterface} from '../../../Interfaces/QuestionInterface';
 import {SubmissionInterface} from '../../../Interfaces/SubmissionInterface';
 import {ColorInterface} from '../../../Interfaces/ColorInterface';
-import ActionButton from 'react-native-action-button';
-import {BottomSheetModal, BottomSheetModalProvider} from '@gorhom/bottom-sheet';
 import SubmissionEditSheet from '../SubmissionEditSheet';
 import {Colors} from '../../../constants/Colors';
+
+const StyledContainer = style.View({
+  flex: 1,
+  backgroundColor: Colors.jotformGrey,
+});
 
 const wait = (timeout: number) => {
   return new Promise(resolve => setTimeout(resolve, timeout));
@@ -94,7 +100,7 @@ const MainView: FC<Props> = ({
     />
   );
   return (
-    <View>
+    <StyledContainer>
       <TitleModal
         color={color}
         visibleQuestions={visibleQuestions}
@@ -141,7 +147,7 @@ const MainView: FC<Props> = ({
           />
         </BottomSheetModal>
       </BottomSheetModalProvider>
-    </View>
+    </StyledContainer>
   );
 };
 

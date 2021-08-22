@@ -14,7 +14,11 @@ import Icon from 'react-native-vector-icons/AntDesign';
 
 import withLoading from '../../components/Loading';
 import FormCard from '../../components/FormCard';
-import {requestLogout} from '../../redux/actions';
+import {
+  requestLogout,
+  resetQuestions,
+  resetSubmissions,
+} from '../../redux/actions';
 import {Colors, getRandomColor} from '../../constants/Colors';
 import {FlatList} from 'react-native-gesture-handler';
 import {FormInterface} from '../../Interfaces/FormsInterface';
@@ -48,12 +52,25 @@ interface Props {
   loading: boolean;
   getForm: () => void;
   requestLogout: () => void;
+  resetQuestions: () => void;
+  resetSubmissions: () => void;
 }
 
 const FormPage: FC<Props> = props => {
   const data: FormInterface[] = useSelector(getActiveForms);
-  // eslint-disable-next-line no-shadow
-  const {navigation, requestLogout, getForm, loading} = props;
+
+  const {
+    navigation,
+    // eslint-disable-next-line no-shadow
+    requestLogout,
+    // eslint-disable-next-line no-shadow
+    getForm,
+    loading,
+    // eslint-disable-next-line no-shadow
+    resetQuestions,
+    // eslint-disable-next-line no-shadow
+    resetSubmissions,
+  } = props;
   const emptyData = [] as any;
   const renderNullItem = () => null;
   const isFocused = useIsFocused();
@@ -68,8 +85,10 @@ const FormPage: FC<Props> = props => {
   };
 
   useEffect(() => {
+    resetQuestions();
+    resetSubmissions();
     getForm();
-  }, [getForm, isFocused]);
+  }, [getForm, isFocused, resetQuestions, resetSubmissions]);
 
   // eslint-disable-next-line no-shadow
   const getItem = (data: any, index: number) => ({
@@ -131,6 +150,8 @@ const mapStateToProps = (state: IState) => {
 const mapDispatchToProps = {
   requestLogout,
   getForm,
+  resetQuestions,
+  resetSubmissions,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(FormPage);
