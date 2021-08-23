@@ -45,7 +45,11 @@ const phoneValidationSchema = Yup.object().shape({
 
 export function PhoneEdit({answer, question, onPress}: ISubmissionEdit) {
   const initialValues: any = {
-    phone: answer ? answer!.prettyFormat : '',
+    phone: answer
+      ? answer!.prettyFormat
+        ? answer!.prettyFormat
+        : answer!.answer
+      : '',
   };
 
   return (

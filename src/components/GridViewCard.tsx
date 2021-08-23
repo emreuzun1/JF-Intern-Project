@@ -1,5 +1,12 @@
 import React, {FC} from 'react';
-import {Dimensions, Text, View, StyleSheet, ScrollView} from 'react-native';
+import {
+  Dimensions,
+  Text,
+  View,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+} from 'react-native';
 
 import * as fields from './Submission/Fields';
 import {QuestionInterface} from '../Interfaces/QuestionInterface';
@@ -13,11 +20,26 @@ const {height} = Dimensions.get('screen');
 interface GridViewProps {
   submission: SubmissionInterface;
   questions: QuestionInterface[];
+  sheetRef: any;
+  selectSubmission: (id: string, answer: any) => void;
 }
 
-const GridViewCard: FC<GridViewProps> = ({submission, questions}) => {
+const GridViewCard: FC<GridViewProps> = ({
+  submission,
+  questions,
+  sheetRef,
+  selectSubmission,
+}) => {
   const orderedAnswers = useSelector(getOrderedAnswers);
   const answers = orderedAnswers(submission.id);
+
+  const handleOpen = React.useCallback(
+    (id: string, answer: any) => {
+      selectSubmission(id, answer);
+      sheetRef.current?.present();
+    },
+    [selectSubmission, sheetRef],
+  );
 
   const fieldsMap = new Map();
 
@@ -31,22 +53,28 @@ const GridViewCard: FC<GridViewProps> = ({submission, questions}) => {
   }
   return (
     <ScrollView style={styles.container}>
-      <View style={styles.headerContainer}>
-        <Text style={styles.headerText}>{answers[0].prettyFormat}</Text>
-      </View>
-      {answers.map((answer, index) => {
-        if (index === 0) {
-          return null;
-        }
-        const Element = fieldsMap.get(answer.type.split('_', 2)[1]);
-        if (Element)
-          return (
-            <View key={`${index}_${index + 1}`} style={styles.answerContainer}>
-              <Text style={styles.titleText}>{questions[index].text}</Text>
-              <Element answer={answer} />
-            </View>
-          );
-      })}
+      <TouchableOpacity onPress={() => handleOpen(submission.id, answers)}>
+        <View style={styles.headerContainer}>
+          <Text style={styles.headerText}>
+            {answers[0].prettyFormat || answers[0].answer}
+          </Text>
+        </View>
+        {answers.map((answer, index) => {
+          if (index === 0) {
+            return null;
+          }
+          const Element = fieldsMap.get(answer.type.split('_', 2)[1]);
+          if (Element)
+            return (
+              <View
+                key={`${index}_${index + 1}`}
+                style={styles.answerContainer}>
+                <Text style={styles.titleText}>{questions[index].text}</Text>
+                <Element answer={answer} />
+              </View>
+            );
+        })}
+      </TouchableOpacity>
     </ScrollView>
   );
 };

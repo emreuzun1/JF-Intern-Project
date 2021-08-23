@@ -1,5 +1,5 @@
 import React, {FC} from 'react';
-import {VirtualizedList} from 'react-native';
+import {RefreshControl, VirtualizedList} from 'react-native';
 import style from 'styled-components/native';
 
 import GridViewCard from '../../../components/GridViewCard';
@@ -20,9 +20,20 @@ interface Props {
   orderedQuestions: QuestionInterface[];
   submissions: SubmissionInterface[];
   color: ColorInterface;
+  sheetRef: any;
+  refreshing: boolean;
+  selectSubmission: (id: string, answer: any) => void;
+  onRefresh: () => void;
 }
 
-const GridView: FC<Props> = ({orderedQuestions, submissions}) => {
+const GridView: FC<Props> = ({
+  orderedQuestions,
+  submissions,
+  sheetRef,
+  refreshing,
+  selectSubmission,
+  onRefresh,
+}) => {
   return (
     <StyledContainer>
       <VirtualizedList
@@ -31,11 +42,19 @@ const GridView: FC<Props> = ({orderedQuestions, submissions}) => {
         getItem={(data: any, index: number) => ({
           item: data[index],
         })}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
         getItemCount={data => data.length}
         keyExtractor={item => item.item.id}
         renderItem={({item}) => {
           return (
-            <GridViewCard submission={item.item} questions={orderedQuestions} />
+            <GridViewCard
+              submission={item.item}
+              questions={orderedQuestions}
+              sheetRef={sheetRef}
+              selectSubmission={selectSubmission}
+            />
           );
         }}
       />

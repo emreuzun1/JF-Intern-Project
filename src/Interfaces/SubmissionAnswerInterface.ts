@@ -7,7 +7,8 @@ export type SubmissionAnswerInterface = {
         last: string;
         suffix?: string;
       }
-    | {answer: string};
+    | {answer: string}
+    | {full: string};
   text: string;
   prettyFormat: string | undefined;
   order: number;

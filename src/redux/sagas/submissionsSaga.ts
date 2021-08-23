@@ -41,7 +41,6 @@ function* editSubmission(action: IActionInterface) {
       data: {responseCode},
     } = yield call(editSubmissionApi, apikey, id, qid, values, name);
     if (responseCode === 200) {
-      console.log('SUCCESS!');
     }
   } catch (err) {}
 }

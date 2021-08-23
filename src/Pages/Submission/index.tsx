@@ -1,4 +1,5 @@
-import React, {FC, useEffect} from 'react';
+/* eslint-disable no-shadow */
+import React, {FC, useEffect, useMemo, useRef} from 'react';
 import {useSelector, connect} from 'react-redux';
 import styled from 'styled-components/native';
 import IconFontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -29,6 +30,8 @@ import {QuestionInterface} from '../../Interfaces/QuestionInterface';
 import {ColorInterface} from '../../Interfaces/ColorInterface';
 import {SubmissionPageProps} from '../../Interfaces/SubmissionPageProps';
 import GridView from './GridView';
+import {BottomSheetModal, BottomSheetModalProvider} from '@gorhom/bottom-sheet';
+import SubmissionEditSheet from './SubmissionEditSheet';
 
 const StyledScreenContainer = styled.SafeAreaView({
   flex: 1,
@@ -46,18 +49,35 @@ const StyledHeaderButton = styled.TouchableOpacity({
   marginRight: 12,
 });
 
+const wait = (timeout: number) => {
+  return new Promise(resolve => setTimeout(resolve, timeout));
+};
+
 const SubmissionPage: FC<SubmissionPageProps> = props => {
-  // eslint-disable-next-line no-shadow
-  const {appKey, route, navigation, getSubmissions, requestQuestions} = props;
+  const {
+    appKey,
+    route,
+    navigation,
+    selectedSubmission,
+    getSubmissions,
+    requestQuestions,
+    selectSubmission,
+    editSubmission,
+    deleteSubmission,
+    postNewSubmission,
+    resetSelectedSubmission,
+  } = props;
   const visibleQuestions: QuestionInterface[] =
     useSelector(getVisibleQuestions);
   const orderedQuestions: QuestionInterface[] =
     useSelector(getOrderedQuestions);
   const submissions: SubmissionInterface[] = useSelector(getActiveSubmissions);
   const color: ColorInterface = route.params.color;
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [modalVisible, setModalVisible] = React.useState<boolean>(false);
   const [mainView, setMainView] = React.useState<boolean>(true);
+  const submissionEditSheetModal = useRef<BottomSheetModal>(null);
+  const snapPoints = useMemo(() => ['0%', '50%', '95%'], []);
+  const [refreshing, setRefreshing] = React.useState<boolean>(false);
 
   useEffect(() => {
     getSubmissions(appKey, route.params.id);
@@ -87,11 +107,11 @@ const SubmissionPage: FC<SubmissionPageProps> = props => {
         <StyledHeaderButtonsView>
           {mainView ? (
             <StyledHeaderButton onPress={() => setMainView(false)}>
-              <IconAntDesign name="table" size={24} color={color.sub} />
+              <Ionicons name="grid" size={24} color={color.sub} />
             </StyledHeaderButton>
           ) : (
             <StyledHeaderButton onPress={() => setMainView(true)}>
-              <Ionicons name="grid" size={24} color={color.sub} />
+              <IconAntDesign name="table" size={24} color={color.sub} />
             </StyledHeaderButton>
           )}
           <StyledHeaderButton onPress={() => setModalVisible(true)}>
@@ -101,6 +121,26 @@ const SubmissionPage: FC<SubmissionPageProps> = props => {
       ),
     });
   });
+
+  const onRefresh = React.useCallback(() => {
+    submissionEditSheetModal.current?.close();
+    resetQuestions();
+    resetSelectedSubmission();
+    getSubmissions(appKey, route.params.id);
+    requestQuestions(appKey, route.params.id);
+    setRefreshing(true);
+    wait(1000).then(() => setRefreshing(false));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const handleSheetChanges = React.useCallback(
+    (index: number) => {
+      if (index === -1) {
+        onRefresh();
+      }
+    },
+    [onRefresh],
+  );
 
   return (
     <StyledScreenContainer>
@@ -113,6 +153,10 @@ const SubmissionPage: FC<SubmissionPageProps> = props => {
           color={color}
           modalVisible={modalVisible}
           setModalVisible={setModalVisible}
+          sheetRef={submissionEditSheetModal}
+          selectSubmission={selectSubmission}
+          refreshing={refreshing}
+          onRefresh={onRefresh}
         />
       ) : (
         <GridView
@@ -121,8 +165,35 @@ const SubmissionPage: FC<SubmissionPageProps> = props => {
           orderedQuestions={orderedQuestions}
           submissions={submissions}
           color={color}
+          sheetRef={submissionEditSheetModal}
+          selectSubmission={selectSubmission}
+          refreshing={refreshing}
+          onRefresh={onRefresh}
         />
       )}
+      <BottomSheetModalProvider>
+        <BottomSheetModal
+          ref={submissionEditSheetModal}
+          index={1}
+          snapPoints={snapPoints}
+          onChange={handleSheetChanges}>
+          <SubmissionEditSheet
+            answer={selectedSubmission ? selectedSubmission.submission : null}
+            questions={orderedQuestions}
+            editPost={(qid, values, name) => {
+              editSubmission(appKey, selectedSubmission.id, qid, values, name);
+            }}
+            submitPost={values => {
+              postNewSubmission(appKey, route.params.id, values);
+              onRefresh();
+            }}
+            deletePost={() => {
+              deleteSubmission(appKey, selectedSubmission.id);
+              onRefresh();
+            }}
+          />
+        </BottomSheetModal>
+      </BottomSheetModalProvider>
     </StyledScreenContainer>
   );
 };

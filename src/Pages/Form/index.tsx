@@ -1,3 +1,4 @@
+/* eslint-disable no-label-var */
 import React, {FC, useEffect} from 'react';
 import {View, VirtualizedList, Dimensions} from 'react-native';
 import {useSelector, connect} from 'react-redux';
@@ -85,9 +86,12 @@ const FormPage: FC<Props> = props => {
   };
 
   useEffect(() => {
-    resetQuestions();
-    resetSubmissions();
-    getForm();
+    let isActive = true;
+    if (isActive) {
+      resetQuestions();
+      resetSubmissions();
+      getForm();
+    }
   }, [getForm, isFocused, resetQuestions, resetSubmissions]);
 
   // eslint-disable-next-line no-shadow
