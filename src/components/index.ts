@@ -1,5 +1,15 @@
 import SubmissionTitleCard from './SubmissionTitleCard';
 import SubmissionCard from './SubmissionCard';
-import Waiting from './Loading';
+import Loading from './Loading';
+import CardViewCard from './CardViewCard';
+import FieldsFilterCard from './FieldsFilterCard';
+import FormCard from './FormCard';
 
-export {SubmissionTitleCard, SubmissionCard, Waiting};
+export {
+  SubmissionTitleCard,
+  SubmissionCard,
+  Loading,
+  CardViewCard,
+  FieldsFilterCard,
+  FormCard,
+};

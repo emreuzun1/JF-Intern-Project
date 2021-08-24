@@ -6,7 +6,7 @@ import {useDispatch} from 'react-redux';
 import {QuestionInterface} from '../Interfaces/QuestionInterface';
 import {filterQuestions} from '../redux/actions/questionsAction';
 import {Colors} from '../constants/Colors';
-import { ColorInterface } from '../Interfaces/ColorInterface';
+import {ColorInterface} from '../Interfaces/ColorInterface';
 
 const StyledFieldFilterContainer = style.View({
   width: '100%',

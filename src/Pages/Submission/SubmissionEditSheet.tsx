@@ -8,13 +8,14 @@ import {QuestionInterface} from '../../Interfaces/QuestionInterface';
 import {SubmissionAnswerInterface} from '../../Interfaces/SubmissionAnswerInterface';
 
 const StyledContainer = style.ScrollView({
-  flex: 1,
+  display: 'flex',
   backgroundColor: Colors.jotformGrey,
 });
 
 const StyledSubmitButtonContainer = style.View({
   width: '100%',
   alignItems: 'center',
+  padding: 20,
 });
 const StyledSubmitButton = style.Button({
   width: 100,

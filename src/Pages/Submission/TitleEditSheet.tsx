@@ -1,9 +1,9 @@
 import React, {FC} from 'react';
 import style from 'styled-components/native';
 
-import {Colors} from '../../../constants/Colors';
-import {QuestionInterface} from '../../../Interfaces/QuestionInterface';
-import * as editors from '../../../components/Form/Editors';
+import {Colors} from '../../constants/Colors';
+import {QuestionInterface} from '../../Interfaces/QuestionInterface';
+import * as editors from '../../components/Form/Editors';
 
 interface Props {
   titles: QuestionInterface[];

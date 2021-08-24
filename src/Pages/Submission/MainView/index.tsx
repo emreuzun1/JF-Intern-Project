@@ -1,12 +1,10 @@
 import React, {FC} from 'react';
 import {FlatList, RefreshControl, ScrollView, View} from 'react-native';
-import ActionButton from 'react-native-action-button';
 import style from 'styled-components/native';
 
 import Loading from '../../../components/Loading';
-import Titles from './Titles';
+import Titles from '../Titles';
 import Answer from './Answers';
-import TitleModal from './TitleFilterModal';
 import {SubmissionPageProps} from '../../../Interfaces/SubmissionPageProps';
 import {QuestionInterface} from '../../../Interfaces/QuestionInterface';
 import {SubmissionInterface} from '../../../Interfaces/SubmissionInterface';
@@ -37,11 +35,7 @@ interface Props {
 const MainView: FC<Props> = ({
   props: {navigation, loading},
   visibleQuestions,
-  color,
-  orderedQuestions,
   submissions,
-  modalVisible,
-  setModalVisible,
   sheetRef,
   refreshing,
   selectSubmission,
@@ -66,13 +60,6 @@ const MainView: FC<Props> = ({
   );
   return (
     <StyledContainer>
-      <TitleModal
-        color={color}
-        visibleQuestions={visibleQuestions}
-        questions={orderedQuestions}
-        modalVisible={modalVisible}
-        setModalVisible={setModalVisible}
-      />
       <ScrollView horizontal>
         <FlatList
           data={emptyData}
@@ -85,10 +72,6 @@ const MainView: FC<Props> = ({
           stickyHeaderIndices={[0]}
         />
       </ScrollView>
-      <ActionButton
-        buttonColor={Colors.lightBlue}
-        onPress={() => sheetRef.current?.present()}
-      />
     </StyledContainer>
   );
 };

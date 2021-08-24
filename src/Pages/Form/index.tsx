@@ -1,34 +1,33 @@
-/* eslint-disable no-label-var */
+/* eslint-disable no-shadow */
 import React, {FC, useEffect} from 'react';
-import {View, VirtualizedList, Dimensions} from 'react-native';
+import {View, VirtualizedList, Dimensions, FlatList} from 'react-native';
 import {useSelector, connect} from 'react-redux';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {RouteProp, useIsFocused} from '@react-navigation/native';
 import styled from 'styled-components/native';
+import Icon from 'react-native-vector-icons/AntDesign';
 
 import {RootStackParamList} from '../../Navigation/types';
 import {getForm} from '../../redux/actions/formAction';
 import {getActiveForms} from '../../redux/reducers/selector';
 import {IState} from '../../Interfaces/actionInterface';
 import {persistor} from '../../redux/store';
-import Icon from 'react-native-vector-icons/AntDesign';
 
-import withLoading from '../../components/Loading';
-import FormCard from '../../components/FormCard';
+import {Loading} from '../../components';
+import {FormCard} from '../../components';
 import {
   requestLogout,
   resetQuestions,
   resetSubmissions,
 } from '../../redux/actions';
-import {Colors, getRandomColor} from '../../constants/Colors';
-import {FlatList} from 'react-native-gesture-handler';
+import {Colors, getColor} from '../../constants/Colors';
 import {FormInterface} from '../../Interfaces/FormsInterface';
 import {ColorInterface} from '../../Interfaces/ColorInterface';
 
 type FormProps = StackNavigationProp<RootStackParamList, 'Form'>;
 type FormRouteProp = RouteProp<RootStackParamList, 'Form'>;
 
-const ViewWithSpinner = withLoading(View);
+const ViewWithSpinner = Loading(View);
 const {width} = Dimensions.get('screen');
 
 const StyledContainer = styled.SafeAreaView({
@@ -37,16 +36,10 @@ const StyledContainer = styled.SafeAreaView({
   padding: 24,
 });
 
-const StyledTopContainer = styled.View({
-  width: width,
-  height: 50,
-  alignItems: 'flex-end',
-  paddingHorizontal: 12,
-});
-
-const StyledLogOutButton = styled.TouchableOpacity({
+const StyledLogOutContainer = styled.TouchableOpacity({
   marginRight: width / 20,
 });
+
 interface Props {
   navigation: FormProps;
   route: FormRouteProp;
@@ -62,14 +55,10 @@ const FormPage: FC<Props> = props => {
 
   const {
     navigation,
-    // eslint-disable-next-line no-shadow
-    requestLogout,
-    // eslint-disable-next-line no-shadow
-    getForm,
     loading,
-    // eslint-disable-next-line no-shadow
+    requestLogout,
+    getForm,
     resetQuestions,
-    // eslint-disable-next-line no-shadow
     resetSubmissions,
   } = props;
   const emptyData = [] as any;
@@ -94,7 +83,25 @@ const FormPage: FC<Props> = props => {
     }
   }, [getForm, isFocused, resetQuestions, resetSubmissions]);
 
-  // eslint-disable-next-line no-shadow
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerShown: true,
+      headerTitle: 'My Forms',
+      headerTitleStyle: {
+        color: Colors.lightGrey,
+      },
+      headerStyle: {
+        backgroundColor: Colors.darkerGrey,
+      },
+      headerLeft: () => <View />,
+      headerRight: () => (
+        <StyledLogOutContainer onPress={logOut}>
+          <Icon name="logout" size={24} color="#ccc" />
+        </StyledLogOutContainer>
+      ),
+    });
+  });
+
   const getItem = (data: any, index: number) => ({
     id: data[index].id,
     title: data[index].title,
@@ -106,13 +113,12 @@ const FormPage: FC<Props> = props => {
     <VirtualizedList
       data={data}
       initialNumToRender={9}
-      // eslint-disable-next-line no-shadow
       getItemCount={(data: FormInterface[]) => data.length}
       getItem={getItem}
       keyExtractor={item => item.id}
-      renderItem={({item}) => (
+      renderItem={({item, index}) => (
         <FormCard
-          color={getRandomColor()}
+          color={getColor(index)}
           title={item.title}
           update_at={item.updated_at}
           count={item.count}
@@ -130,11 +136,6 @@ const FormPage: FC<Props> = props => {
 
   return (
     <StyledContainer>
-      <StyledTopContainer>
-        <StyledLogOutButton onPress={logOut}>
-          <Icon name="logout" size={24} color="#ccc" />
-        </StyledLogOutButton>
-      </StyledTopContainer>
       <ViewWithSpinner isLoading={loading}>
         <FlatList
           data={emptyData}

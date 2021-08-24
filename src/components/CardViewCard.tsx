@@ -17,14 +17,14 @@ import {Colors} from '../constants/Colors';
 
 const {height} = Dimensions.get('screen');
 
-interface GridViewProps {
+interface CardViewProps {
   submission: SubmissionInterface;
   questions: QuestionInterface[];
   sheetRef: any;
   selectSubmission: (id: string, answer: any) => void;
 }
 
-const GridViewCard: FC<GridViewProps> = ({
+const CardViewCard: FC<CardViewProps> = ({
   submission,
   questions,
   sheetRef,
@@ -114,4 +114,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default GridViewCard;
+export default CardViewCard;

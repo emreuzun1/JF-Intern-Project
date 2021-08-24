@@ -2,7 +2,7 @@ import React, {FC} from 'react';
 import {RefreshControl, VirtualizedList} from 'react-native';
 import style from 'styled-components/native';
 
-import GridViewCard from '../../../components/GridViewCard';
+import {CardViewCard} from '../../../components';
 import {Colors} from '../../../constants/Colors';
 import {ColorInterface} from '../../../Interfaces/ColorInterface';
 import {QuestionInterface} from '../../../Interfaces/QuestionInterface';
@@ -26,8 +26,8 @@ interface Props {
   onRefresh: () => void;
 }
 
-const GridView: FC<Props> = ({
-  orderedQuestions,
+const CardView: FC<Props> = ({
+  visibleQuestions,
   submissions,
   sheetRef,
   refreshing,
@@ -49,9 +49,9 @@ const GridView: FC<Props> = ({
         keyExtractor={item => item.item.id}
         renderItem={({item}) => {
           return (
-            <GridViewCard
+            <CardViewCard
               submission={item.item}
-              questions={orderedQuestions}
+              questions={visibleQuestions}
               sheetRef={sheetRef}
               selectSubmission={selectSubmission}
             />
@@ -62,4 +62,4 @@ const GridView: FC<Props> = ({
   );
 };
 
-export default GridView;
+export default CardView;

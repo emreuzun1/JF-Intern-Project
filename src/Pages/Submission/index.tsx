@@ -4,6 +4,7 @@ import {useSelector, connect} from 'react-redux';
 import styled from 'styled-components/native';
 import IconFontAwesome from 'react-native-vector-icons/FontAwesome';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import IconAntDesign from 'react-native-vector-icons/AntDesign';
 
 import {
@@ -29,9 +30,12 @@ import {SubmissionInterface} from '../../Interfaces/SubmissionInterface';
 import {QuestionInterface} from '../../Interfaces/QuestionInterface';
 import {ColorInterface} from '../../Interfaces/ColorInterface';
 import {SubmissionPageProps} from '../../Interfaces/SubmissionPageProps';
-import GridView from './GridView';
+import CardView from './CardView';
 import {BottomSheetModal, BottomSheetModalProvider} from '@gorhom/bottom-sheet';
 import SubmissionEditSheet from './SubmissionEditSheet';
+import {Colors} from '../../constants/Colors';
+import ActionButton from 'react-native-action-button';
+import TitleModal from './TitleFilterModal';
 
 const StyledScreenContainer = styled.SafeAreaView({
   flex: 1,
@@ -107,7 +111,7 @@ const SubmissionPage: FC<SubmissionPageProps> = props => {
         <StyledHeaderButtonsView>
           {mainView ? (
             <StyledHeaderButton onPress={() => setMainView(false)}>
-              <Ionicons name="grid" size={24} color={color.sub} />
+              <MaterialCommunityIcons name="card" size={24} color={color.sub} />
             </StyledHeaderButton>
           ) : (
             <StyledHeaderButton onPress={() => setMainView(true)}>
@@ -144,6 +148,13 @@ const SubmissionPage: FC<SubmissionPageProps> = props => {
 
   return (
     <StyledScreenContainer>
+      <TitleModal
+        color={color}
+        visibleQuestions={visibleQuestions}
+        questions={orderedQuestions}
+        modalVisible={modalVisible}
+        setModalVisible={setModalVisible}
+      />
       {mainView ? (
         <MainView
           props={props}
@@ -159,7 +170,7 @@ const SubmissionPage: FC<SubmissionPageProps> = props => {
           onRefresh={onRefresh}
         />
       ) : (
-        <GridView
+        <CardView
           props={props}
           visibleQuestions={visibleQuestions}
           orderedQuestions={orderedQuestions}
@@ -171,6 +182,10 @@ const SubmissionPage: FC<SubmissionPageProps> = props => {
           onRefresh={onRefresh}
         />
       )}
+      <ActionButton
+        buttonColor={Colors.lightBlue}
+        onPress={() => submissionEditSheetModal.current?.present()}
+      />
       <BottomSheetModalProvider>
         <BottomSheetModal
           ref={submissionEditSheetModal}

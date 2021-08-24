@@ -1,33 +1,37 @@
 import React, {FC} from 'react';
-import {Dimensions} from 'react-native';
+import {Dimensions, ViewProps} from 'react-native';
 import style from 'styled-components/native';
 import Modal from 'react-native-modal';
 
-import FieldsFilterCard from '../../../components/FieldsFilterCard';
-import {QuestionInterface} from '../../../Interfaces/QuestionInterface';
-import {ColorInterface} from '../../../Interfaces/ColorInterface';
+import {FieldsFilterCard} from '../../components';
+import {QuestionInterface} from '../../Interfaces/QuestionInterface';
+import {ColorInterface} from '../../Interfaces/ColorInterface';
 
 const {height} = Dimensions.get('screen');
 
-const StyledModalContainer = style.View(({color}) => ({
+interface Color extends ViewProps {
+  color: ColorInterface;
+}
+
+const StyledModalContainer = style.View<Color>(({color}) => ({
   width: '100%',
   height: height / 2,
-  backgroundColor: color,
+  backgroundColor: color.main,
   position: 'absolute',
   bottom: 0,
 }));
 
-const StyledModalHeader = style.View(({color}) => ({
+const StyledModalHeader = style.View<Color>(({color}) => ({
   width: '100%',
-  backgroundColor: color,
+  backgroundColor: color.sub,
   height: 50,
   justifyContent: 'center',
 }));
 
-const StyledModalHeaderText = style.Text(({color}) => ({
+const StyledModalHeaderText = style.Text<Color>(({color}) => ({
   fontSize: 22,
   marginLeft: 12,
-  color: color,
+  color: color.main,
 }));
 
 interface ITitleModalProps {
@@ -51,11 +55,9 @@ const TitleModal: FC<ITitleModalProps> = ({
       animationIn="slideInUp"
       swipeDirection="down"
       onSwipeComplete={() => setModalVisible(false)}>
-      <StyledModalContainer color={color.main}>
-        <StyledModalHeader color={color.sub}>
-          <StyledModalHeaderText color={color.main}>
-            Fields
-          </StyledModalHeaderText>
+      <StyledModalContainer color={color}>
+        <StyledModalHeader color={color}>
+          <StyledModalHeaderText color={color}>Fields</StyledModalHeaderText>
         </StyledModalHeader>
         {questions.map((question: QuestionInterface, index: number) => (
           <FieldsFilterCard
