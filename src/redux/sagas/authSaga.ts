@@ -36,7 +36,10 @@ function* loginWithUsername(action: IActionLoginInterface) {
     } else {
       ToastAndroid.show('Login failed!', ToastAndroid.SHORT);
     }
-    yield put({type: USER_LOGIN_FAIL, error: err.message});
+    yield put({
+      type: USER_LOGIN_FAIL,
+      error: 'Username or password is not correct!',
+    });
   }
 }
 

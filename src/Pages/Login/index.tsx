@@ -9,8 +9,7 @@ import {RootStackParamList} from '../../Navigation/types';
 import {requestLogin} from '../../redux/actions';
 import {Formik} from 'formik';
 import {Colors} from '../../constants/Colors';
-
-const logoImg = require('../../img/jotform-logo.png');
+import logoImg from '../../img/jotform-logo.png';
 const {width} = Dimensions.get('screen');
 
 type LoginProps = StackNavigationProp<RootStackParamList, 'Login'>;
@@ -85,6 +84,7 @@ const StyledSignUpText = styled.Text({
 interface Props {
   navigation: LoginProps;
   route: LoginRouteProps;
+  err: string;
   requestLogin: (username: string, password: string) => void;
 }
 interface IFormValues {
@@ -94,7 +94,7 @@ interface IFormValues {
 
 const Login = (props: Props) => {
   const initialValues: IFormValues = {username: '', password: ''};
-  const {navigation, route} = props;
+  const {navigation, route, err} = props;
 
   React.useEffect(() => {
     if (route.params.isLogged) {
@@ -136,6 +136,7 @@ const Login = (props: Props) => {
             </StyledInputContainer>
           )}
         </Formik>
+        <Text>{err}</Text>
         <StyledSignUpButton onPress={() => navigation.navigate('SignUp')}>
           <Text>
             Don't you have an account?
@@ -148,8 +149,8 @@ const Login = (props: Props) => {
 };
 
 const mapStateToProps = (state: any) => {
-  const {appKey} = state.auth;
-  return {appKey};
+  const {appKey, err} = state.auth;
+  return {appKey, err};
 };
 
 const mapDispatchToProps = {

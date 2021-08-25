@@ -5,7 +5,7 @@ import {useSelector, connect} from 'react-redux';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {RouteProp, useIsFocused} from '@react-navigation/native';
 import styled from 'styled-components/native';
-import Icon from 'react-native-vector-icons/AntDesign';
+import IconAntDesign from 'react-native-vector-icons/AntDesign';
 
 import {RootStackParamList} from '../../Navigation/types';
 import {getForm} from '../../redux/actions/formAction';
@@ -96,7 +96,7 @@ const FormPage: FC<Props> = props => {
       headerLeft: () => <View />,
       headerRight: () => (
         <StyledLogOutContainer onPress={logOut}>
-          <Icon name="logout" size={24} color="#ccc" />
+          <IconAntDesign name="logout" size={24} color="#ccc" />
         </StyledLogOutContainer>
       ),
     });

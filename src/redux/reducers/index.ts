@@ -3,12 +3,14 @@ import auth from './authReducer';
 import form from './formReducer';
 import submissions from './submissionsReducer';
 import questions from './questionsReducer';
+import {localizeReducer} from 'react-localize-redux';
 
 const rootReducer = combineReducers({
-  auth,
-  form,
-  submissions,
-  questions,
+  auth: auth,
+  form: form,
+  submissions: submissions,
+  questions: questions,
+  localize: localizeReducer,
 });
 
 export default rootReducer;

@@ -37,7 +37,7 @@ import {Colors} from '../../constants/Colors';
 import ActionButton from 'react-native-action-button';
 import TitleModal from './TitleFilterModal';
 
-const StyledScreenContainer = styled.SafeAreaView({
+const StyledScreenContainer = styled.View({
   flex: 1,
 });
 
