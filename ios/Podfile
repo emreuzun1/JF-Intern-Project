@@ -16,7 +16,6 @@ target 'JFproje' do
   pod 'React-RCTText', :path => '../node_modules/react-native/Libraries/Text', :modular_headers => true
 
 
-  pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-async-storage/async-storage'
 
   target 'JFprojeTests' do
     inherit! :complete

@@ -12,12 +12,10 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		3B85E2D6D94A4C1C87518429 /* sf-pro-bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C18BFD84405D414795B6925B /* sf-pro-bold.ttf */; };
-		7052194D40D6650376B5889C /* libPods-JFproje.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F4E5EFC9A5CCE4E52224C500 /* libPods-JFproje.a */; };
 		79028E5663F6B0F63ED3A972 /* libPods-JFproje-JFprojeTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D378140D5CE395393CD8A961 /* libPods-JFproje-JFprojeTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		B79E9C6737AD4C2E8B208E63 /* sf-pro-heavy.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CCC81FC6BFD84928AB24D589 /* sf-pro-heavy.ttf */; };
 		C7CB115C3BFD459CA7833530 /* sf-regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = B11759B8413143F4B3AA776C /* sf-regular.otf */; };
-		DD2E6EAB26D03F5000236192 /* ios in Resources */ = {isa = PBXBuildFile; fileRef = DD2E6EAA26D03F5000236192 /* ios */; };
 		DD2E6EAF26D03F8200236192 /* jfproje in Resources */ = {isa = PBXBuildFile; fileRef = DD2E6EAE26D03F8200236192 /* jfproje */; };
 		DDD1A8E926D01BE500F1C8F3 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDD1A8E826D01BE500F1C8F3 /* File.swift */; };
 		EADB73BFE0F6486682834E05 /* sf-display-thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 98DF6148F09849719433C2EA /* sf-display-thin.ttf */; };
@@ -66,7 +64,6 @@
 		CB014822472434F483105FF3 /* Pods-JFproje.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JFproje.release.xcconfig"; path = "Target Support Files/Pods-JFproje/Pods-JFproje.release.xcconfig"; sourceTree = "<group>"; };
 		CCC81FC6BFD84928AB24D589 /* sf-pro-heavy.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "sf-pro-heavy.ttf"; path = "../src/assets/fonts/sf-pro-heavy.ttf"; sourceTree = "<group>"; };
 		D378140D5CE395393CD8A961 /* libPods-JFproje-JFprojeTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-JFproje-JFprojeTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		DD2E6EAA26D03F5000236192 /* ios */ = {isa = PBXFileReference; lastKnownFileType = folder; name = ios; sourceTree = "<group>"; };
 		DD2E6EAE26D03F8200236192 /* jfproje */ = {isa = PBXFileReference; lastKnownFileType = folder; name = jfproje; path = ..; sourceTree = "<group>"; };
 		DDD1A8E726D01BE500F1C8F3 /* JFproje-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "JFproje-Bridging-Header.h"; sourceTree = "<group>"; };
 		DDD1A8E826D01BE500F1C8F3 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
@@ -90,7 +87,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7052194D40D6650376B5889C /* libPods-JFproje.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -186,7 +182,6 @@
 			isa = PBXGroup;
 			children = (
 				DD2E6EAE26D03F8200236192 /* jfproje */,
-				DD2E6EAA26D03F5000236192 /* ios */,
 				DDD1A8E826D01BE500F1C8F3 /* File.swift */,
 				13B07FAE1A68108700A75B9A /* JFproje */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
@@ -309,7 +304,6 @@
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				C7CB115C3BFD459CA7833530 /* sf-regular.otf in Resources */,
 				EADB73BFE0F6486682834E05 /* sf-display-thin.ttf in Resources */,
-				DD2E6EAB26D03F5000236192 /* ios in Resources */,
 				3B85E2D6D94A4C1C87518429 /* sf-pro-bold.ttf in Resources */,
 				B79E9C6737AD4C2E8B208E63 /* sf-pro-heavy.ttf in Resources */,
 				DD2E6EAF26D03F8200236192 /* jfproje in Resources */,
@@ -583,6 +577,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = JFproje/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

@@ -9,7 +9,8 @@ import {RootStackParamList} from '../../Navigation/types';
 import {requestLogin} from '../../redux/actions';
 import {Formik} from 'formik';
 import {Colors} from '../../constants/Colors';
-import logoImg from '../../img/jotform-logo.png';
+
+const logoImg = require('../../img/jotform-logo.png');
 const {width} = Dimensions.get('screen');
 
 type LoginProps = StackNavigationProp<RootStackParamList, 'Login'>;
@@ -101,7 +102,6 @@ const Login = (props: Props) => {
       navigation.navigate('Form');
     }
   }, [route.params.isLogged, navigation]);
-
   return (
     <StyledContainer>
       <StyledTopContainer>
