@@ -16,7 +16,7 @@ module.exports = {
   ],
   transform: {
     '^.+\\.tsx?$': 'ts-jest',
-    '^.+\\.jsx?$': 'babel-jest',
+    '^.+\\.jsx?$': ['babel-jest', {configFile: './babel.config.js'}],
   },
   globals: {
     'ts-jest': {

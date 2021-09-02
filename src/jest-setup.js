@@ -18,3 +18,14 @@ jest.mock('@react-native-async-storage/async-storage', () => {
       .mockImplementation((config, reducers) => reducers),
   };
 });
+
+const mockedNavigate = jest.fn();
+
+jest.mock('@react-navigation/native', () => {
+  return {
+    ...jest.requireActual('@react-navigation/native'),
+    useNavigation: () => ({
+      navigate: mockedNavigate,
+    }),
+  };
+});

@@ -29,8 +29,8 @@ const App = () => {
           loading={null}
           persistor={persistor}>
           <NavigationContainer ref={navigationRef}>
-            <Toast ref={ref => Toast.setRef(ref)} />
             <MainNavigator loggedIn={loggedIn} />
+            <Toast ref={ref => Toast.setRef(ref)} />
           </NavigationContainer>
         </PersistGate>
       </Provider>

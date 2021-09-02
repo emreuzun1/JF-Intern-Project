@@ -83,8 +83,8 @@ const StyledSignUpText = styled.Text({
 });
 
 interface Props {
-  navigation: LoginProps | any;
-  route: LoginRouteProps | any;
+  navigation: LoginProps;
+  route: LoginRouteProps;
   err: string;
   requestLogin: (username: string, password: string) => void;
 }

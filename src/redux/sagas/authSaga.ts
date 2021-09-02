@@ -15,7 +15,7 @@ import {
 } from '../../Interfaces/actionInterface';
 import {setAppKey} from '../../Lib/axios';
 import * as RootNavigation from '../../Navigation/RootNavigation';
-import {ToastAndroid} from 'react-native';
+import Toast from 'react-native-toast-message';
 
 function* loginWithUsername(action: IActionLoginInterface) {
   try {
@@ -27,14 +27,33 @@ function* loginWithUsername(action: IActionLoginInterface) {
       yield put({type: USER_LOGIN_SUCCESS, payload: content});
       RootNavigation.navigate('Form', {});
       setAppKey(content.appKey);
+      Toast.show({
+        type: 'success',
+        text1: 'SUCCESS!',
+        text2: 'Logged in',
+        position: 'bottom',
+        visibilityTime: 1000,
+      });
     } else {
       yield put({type: USER_LOGIN_FAIL});
     }
   } catch (err) {
     if (err.message.indexOf('401') > -1) {
-      ToastAndroid.show('Username or password incorrect!', ToastAndroid.SHORT);
+      Toast.show({
+        type: 'error',
+        text1: 'Wrong!',
+        text2: 'Username or password is wrong!',
+        position: 'bottom',
+        visibilityTime: 2000,
+      });
     } else {
-      ToastAndroid.show('Login failed!', ToastAndroid.SHORT);
+      Toast.show({
+        type: 'error',
+        text1: 'Failed!',
+        text2: 'Login failed',
+        position: 'bottom',
+        visibilityTime: 2000,
+      });
     }
     yield put({
       type: USER_LOGIN_FAIL,
