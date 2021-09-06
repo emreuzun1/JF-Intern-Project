@@ -6,7 +6,7 @@ import {RouteProp} from '@react-navigation/native';
 import styled from 'styled-components/native';
 
 import {RootStackParamList} from '../../Navigation/types';
-import {requestLogin} from '../../redux/actions';
+import {requestLogin, resetForms} from '../../redux/actions';
 import {Formik} from 'formik';
 import {Colors} from '../../constants/Colors';
 
@@ -85,8 +85,8 @@ const StyledSignUpText = styled.Text({
 interface Props {
   navigation: LoginProps;
   route: LoginRouteProps;
-  err: string;
   requestLogin: (username: string, password: string) => void;
+  resetForms: () => void;
 }
 interface IFormValues {
   username: string;
@@ -95,13 +95,16 @@ interface IFormValues {
 
 const Login = (props: Props) => {
   const initialValues: IFormValues = {username: '', password: ''};
-  const {navigation, route, err} = props;
+  // eslint-disable-next-line no-shadow
+  const {navigation, route, resetForms} = props;
 
   React.useEffect(() => {
+    resetForms();
     if (route.params.isLogged) {
       navigation.navigate('Form');
     }
-  }, [route.params.isLogged, navigation]);
+  }, [route.params.isLogged, navigation, resetForms]);
+
   return (
     <StyledContainer>
       <StyledTopContainer>
@@ -136,7 +139,6 @@ const Login = (props: Props) => {
             </StyledInputContainer>
           )}
         </Formik>
-        <Text>{err}</Text>
         <StyledSignUpButton onPress={() => navigation.navigate('SignUp')}>
           <Text>
             Don't you have an account?
@@ -149,12 +151,13 @@ const Login = (props: Props) => {
 };
 
 const mapStateToProps = (state: any) => {
-  const {appKey, err} = state.auth;
-  return {appKey, err};
+  const {appKey} = state.auth;
+  return {appKey};
 };
 
 const mapDispatchToProps = {
   requestLogin,
+  resetForms,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

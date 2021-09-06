@@ -1,5 +1,5 @@
 import {call, put, takeLatest} from 'redux-saga/effects';
-import {getForms} from '../../Lib/api';
+import {getForms} from '../../lib/api';
 
 import {
   USER_FORMS_REQUEST,

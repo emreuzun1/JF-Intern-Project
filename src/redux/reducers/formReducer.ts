@@ -20,6 +20,10 @@ export default (state = initialState, action: any) =>
       case type.USER_FORMS_FAIL:
         draft.loading = false;
         break;
+      case type.RESET_FORMS:
+        draft.data = [];
+        draft.loading = true;
+        break;
       default:
         return state;
     }

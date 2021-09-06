@@ -5,3 +5,9 @@ export function getForm() {
     type: type.USER_FORMS_REQUEST,
   };
 }
+
+export function resetForms() {
+  return {
+    type: type.RESET_FORMS,
+  };
+}

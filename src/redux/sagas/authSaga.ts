@@ -1,5 +1,5 @@
 import {call, put, takeLatest} from 'redux-saga/effects';
-import {requestLogin, requestLogout, requestRegister} from '../../Lib/api';
+import {requestLogin, requestLogout, requestRegister} from '../../lib/api';
 import {
   USER_LOGIN_REQUEST,
   USER_LOGIN_FAIL,
@@ -13,7 +13,7 @@ import {
   IActionInterface,
   IActionLoginInterface,
 } from '../../Interfaces/actionInterface';
-import {setAppKey} from '../../Lib/axios';
+import {setAppKey} from '../../lib/axios';
 import * as RootNavigation from '../../Navigation/RootNavigation';
 import Toast from 'react-native-toast-message';
 
@@ -55,10 +55,7 @@ function* loginWithUsername(action: IActionLoginInterface) {
         visibilityTime: 2000,
       });
     }
-    yield put({
-      type: USER_LOGIN_FAIL,
-      error: 'Username or password is not correct!',
-    });
+    yield put({type: USER_LOGIN_FAIL, error: err.message});
   }
 }
 
@@ -72,7 +69,9 @@ function* logOut() {
     } else {
       yield put({type: USER_LOGOUT_FAIL});
     }
-  } catch (err) {}
+  } catch (err) {
+    yield put({type: USER_LOGOUT_FAIL});
+  }
 }
 
 function* signUp(action: IActionInterface) {

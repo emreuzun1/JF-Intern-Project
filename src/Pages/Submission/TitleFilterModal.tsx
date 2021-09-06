@@ -1,5 +1,5 @@
 import React, {FC} from 'react';
-import {ScrollView, ViewProps} from 'react-native';
+import {Dimensions, ViewProps} from 'react-native';
 import style from 'styled-components/native';
 import Modal from 'react-native-modal';
 
@@ -7,13 +7,15 @@ import {FieldsFilterCard} from '../../components';
 import {QuestionInterface} from '../../Interfaces/QuestionInterface';
 import {ColorInterface} from '../../Interfaces/ColorInterface';
 
+const {height} = Dimensions.get('screen');
+
 interface Color extends ViewProps {
   color: ColorInterface;
 }
 
-const StyledModalContainer = style.ScrollView<Color>(({color}) => ({
+const StyledModalContainer = style.View<Color>(({color}) => ({
   width: '100%',
-  height: '50%',
+  height: height / 2,
   backgroundColor: color.main,
   position: 'absolute',
   bottom: 0,
@@ -57,17 +59,15 @@ const TitleModal: FC<ITitleModalProps> = ({
         <StyledModalHeader color={color}>
           <StyledModalHeaderText color={color}>Fields</StyledModalHeaderText>
         </StyledModalHeader>
-        <ScrollView>
-          {questions.map((question: QuestionInterface, index: number) => (
-            <FieldsFilterCard
-              color={color}
-              question={question}
-              index={index}
-              key={`${index}_`}
-              visibleQuestions={visibleQuestions}
-            />
-          ))}
-        </ScrollView>
+        {questions.map((question: QuestionInterface, index: number) => (
+          <FieldsFilterCard
+            color={color}
+            question={question}
+            index={index}
+            key={`${index}_`}
+            visibleQuestions={visibleQuestions}
+          />
+        ))}
       </StyledModalContainer>
     </Modal>
   );

@@ -12,7 +12,9 @@ const getVisibleQuestionsFromState = (state: IState) =>
   state.questions.visibleQuestions;
 
 export const getActiveForms = createSelector(getFormsState, data => {
-  return data.filter((item: FormInterface) => item.status === 'ENABLED');
+  return data
+    ? data.filter((item: FormInterface) => item.status === 'ENABLED')
+    : [];
 });
 
 export const getActiveSubmissions = createSelector(

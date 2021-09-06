@@ -16,7 +16,6 @@ target 'JFproje' do
   pod 'React-RCTText', :path => '../node_modules/react-native/Libraries/Text', :modular_headers => true
 
 
-
   target 'JFprojeTests' do
     inherit! :complete
     # Pods for testing

@@ -17,10 +17,10 @@ export const Colors = {
 
 const ThemeColors = [
   {main: '#BD4B4B', sub: '#000000'},
-  {main: '#5089C6', sub: '#001E6C'},
-  {main: '#035397', sub: '#FFAA4C'},
-  {main: '#C68B59', sub: '#865439'},
-  {main: '#EFB7B7', sub: '#EEEEEE'},
+  {main: '#FFBBD6', sub: '#1D1F1F'},
+  {main: '#F9C4BA', sub: '#FEF4EA'},
+  {main: '#EA9885', sub: '#9786B5'},
+  {main: '#AE0A13', sub: '#E9C1C1'},
   {main: '#FCDEC0', sub: '#8FC1D4'},
   {main: '#C9CCD5', sub: '#93B5C6'},
   {main: '#52616B', sub: '#1E2022'},

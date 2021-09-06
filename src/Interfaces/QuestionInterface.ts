@@ -26,4 +26,7 @@ export interface QuestionInterface {
   sublabels?: string[] | {masked: any} | undefined;
   subLabel?: string;
   valid: true;
+  middle?: string;
+  suffix?: string;
+  prefix?: string;
 }

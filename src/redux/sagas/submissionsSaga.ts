@@ -4,7 +4,7 @@ import {
   editSubmissionApi,
   postNewSubmission,
   deleteSubmissionApi,
-} from '../../Lib/api';
+} from '../../lib/api';
 import {IActionInterface} from '../../Interfaces/actionInterface';
 import Toast from 'react-native-toast-message';
 
@@ -37,18 +37,24 @@ function* getSubmissions(action: IActionInterface) {
 function* editSubmission(action: IActionInterface) {
   try {
     const {apikey, id, qid, values, name} = action.payload;
-    const {
-      data: {responseCode},
-    } = yield call(editSubmissionApi, apikey, id, qid, values, name);
-    if (responseCode === 200) {
-    }
+    yield call(editSubmissionApi, apikey, id, qid, values, name);
   } catch (err) {}
 }
 
 function* postNewSubmissionSaga(action: IActionInterface) {
   try {
     const {apikey, id, data} = action.payload;
-    yield call(postNewSubmission, apikey, id, data);
+    const {
+      data: {responseCode},
+    } = yield call(postNewSubmission, apikey, id, data);
+    if (responseCode === 200)
+      Toast.show({
+        type: 'success',
+        text1: 'Added!',
+        text2: `Submission successfully added.`,
+        position: 'bottom',
+        visibilityTime: 1500,
+      });
   } catch (err) {}
 }
 
@@ -63,9 +69,8 @@ function* deleteSubmission(action: IActionInterface) {
         type: 'success',
         text1: 'Deleted',
         text2: `${content}`,
-        position: 'top',
-        visibilityTime: 2000,
-        topOffset: 30,
+        position: 'bottom',
+        visibilityTime: 1500,
       });
     }
   } catch (err) {}

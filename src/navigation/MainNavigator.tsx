@@ -17,16 +17,18 @@ const MainNavigator: FC<Props> = ({loggedIn}) => {
   const {Navigator} = MainStack;
 
   return (
-    <Navigator
-      screenOptions={{
-        headerShown: false,
-      }}>
+    <Navigator initialRouteName="Login">
       <MainStack.Screen
         name="Login"
         component={LoginPage}
         initialParams={{isLogged: loggedIn}}
+        options={{headerShown: false}}
       />
-      <MainStack.Screen name="Form" component={FormPage} options={{}} />
+      <MainStack.Screen
+        name="Form"
+        component={FormPage}
+        options={{gestureEnabled: false}}
+      />
       <MainStack.Screen name="Submission" component={SubmissionPage} />
       <MainStack.Screen name="SignUp" component={SignUpPage} />
     </Navigator>

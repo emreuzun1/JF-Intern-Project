@@ -39,6 +39,12 @@ export default (state = initialState, action: IActionInterface) =>
         draft.appKey = '';
         break;
       }
+      case type.USER_LOGOUT_REQUEST: {
+        draft.loading = false;
+        draft.errorMessage = '';
+        draft.appKey = '';
+        break;
+      }
       case type.USER_LOGOUT_FAIL: {
         draft.loading = false;
         draft.errorMessage = 'Something went wrong!';

@@ -1,5 +1,5 @@
 import {call, put, takeLatest} from 'redux-saga/effects';
-import {getQuestions} from '../../Lib/api';
+import {getQuestions} from '../../lib/api';
 import {QuestionAction} from '../../Interfaces/QuestionInterface';
 
 import {FORM_QUESTIONS_REQUEST, FORM_QUESTIONS_SUCCESS} from '../actionTypes';

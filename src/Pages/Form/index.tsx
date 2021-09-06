@@ -1,11 +1,11 @@
 /* eslint-disable no-shadow */
 import React, {FC, useEffect} from 'react';
-import {View, VirtualizedList, Dimensions, FlatList} from 'react-native';
+import {View, VirtualizedList, Dimensions, RefreshControl} from 'react-native';
 import {useSelector, connect} from 'react-redux';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {RouteProp, useIsFocused} from '@react-navigation/native';
 import styled from 'styled-components/native';
-import IconAntDesign from 'react-native-vector-icons/AntDesign';
+import Icon from 'react-native-vector-icons/SimpleLineIcons';
 
 import {RootStackParamList} from '../../Navigation/types';
 import {getForm} from '../../redux/actions/formAction';
@@ -30,14 +30,13 @@ type FormRouteProp = RouteProp<RootStackParamList, 'Form'>;
 const ViewWithSpinner = Loading(View);
 const {width} = Dimensions.get('screen');
 
-const StyledContainer = styled.SafeAreaView({
+const StyledContainer = styled.View({
   flex: 1,
   backgroundColor: Colors.jotformGrey,
-  padding: 24,
 });
 
 const StyledLogOutContainer = styled.TouchableOpacity({
-  marginRight: width / 20,
+  marginLeft: width / 20,
 });
 
 interface Props {
@@ -52,6 +51,7 @@ interface Props {
 
 const FormPage: FC<Props> = props => {
   const data: FormInterface[] = useSelector(getActiveForms);
+  const [refresh, setRefresh] = React.useState<boolean>(false);
 
   const {
     navigation,
@@ -61,13 +61,11 @@ const FormPage: FC<Props> = props => {
     resetQuestions,
     resetSubmissions,
   } = props;
-  const emptyData = [] as any;
-  const renderNullItem = () => null;
   const isFocused = useIsFocused();
 
   const logOut = async () => {
+    requestLogout();
     await persistor.purge().then(() => {
-      requestLogout();
       navigation.navigate('Login', {
         isLogged: false,
       });
@@ -81,7 +79,7 @@ const FormPage: FC<Props> = props => {
       resetSubmissions();
       getForm();
     }
-  }, [getForm, isFocused, resetQuestions, resetSubmissions]);
+  }, [getForm, isFocused, resetQuestions, resetSubmissions, refresh]);
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -93,10 +91,9 @@ const FormPage: FC<Props> = props => {
       headerStyle: {
         backgroundColor: Colors.darkerGrey,
       },
-      headerLeft: () => <View />,
-      headerRight: () => (
+      headerLeft: () => (
         <StyledLogOutContainer onPress={logOut}>
-          <IconAntDesign name="logout" size={24} color="#ccc" />
+          <Icon name="logout" size={24} color={Colors.lightGrey} />
         </StyledLogOutContainer>
       ),
     });
@@ -109,38 +106,30 @@ const FormPage: FC<Props> = props => {
     count: data[index].count,
   });
 
-  const ListHeaderComponent = () => (
-    <VirtualizedList
-      data={data}
-      initialNumToRender={9}
-      getItemCount={(data: FormInterface[]) => data.length}
-      getItem={getItem}
-      keyExtractor={item => item.id}
-      renderItem={({item, index}) => (
-        <FormCard
-          color={getColor(index)}
-          title={item.title}
-          update_at={item.updated_at}
-          count={item.count}
-          onPress={(color: ColorInterface) =>
-            navigation.navigate('Submission', {
-              id: item.id,
-              title: item.title,
-              color: color,
-            })
-          }
-        />
-      )}
-    />
-  );
-
   return (
     <StyledContainer>
       <ViewWithSpinner isLoading={loading}>
-        <FlatList
-          data={emptyData}
-          renderItem={renderNullItem}
-          ListHeaderComponent={ListHeaderComponent}
+        <VirtualizedList
+          data={data}
+          initialNumToRender={9}
+          getItemCount={(data: FormInterface[]) => data.length}
+          getItem={getItem}
+          keyExtractor={item => item.id}
+          renderItem={({item, index}) => (
+            <FormCard
+              color={getColor(index)}
+              title={item.title}
+              update_at={item.updated_at}
+              count={item.count}
+              onPress={(color: ColorInterface) =>
+                navigation.navigate('Submission', {
+                  id: item.id,
+                  title: item.title,
+                  color: color,
+                })
+              }
+            />
+          )}
         />
       </ViewWithSpinner>
     </StyledContainer>

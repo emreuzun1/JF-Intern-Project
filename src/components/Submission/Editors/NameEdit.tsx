@@ -56,8 +56,22 @@ const StyledErrorText = style.Text({
 });
 
 export function NameEdit({answer, question, onPress}: ISubmissionEdit) {
-  const initialValues: any = answer ? answer!.answer : {first: '', last: ''};
   const nameValidationSchema = Yup.object().shape({});
+
+  let initialValues: any = {};
+  if (question.prefix !== 'No') initialValues.prefix = '';
+  initialValues.first = '';
+  if (question.middle !== 'No') initialValues.middle = '';
+  initialValues.last = '';
+  if (question.suffix !== 'No') initialValues.suffix = '';
+  if (answer) {
+    if (answer!.answer) {
+      Object.keys(answer!.answer).map((key: string) => {
+        // @ts-ignore: Unreachable code error
+        initialValues[key] = answer!.answer[key];
+      });
+    }
+  }
 
   return (
     <Formik
