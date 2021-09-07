@@ -4,3 +4,4 @@ export {Email as email} from './Email';
 export {Dropdown as dropdown} from './Dropdown';
 export {TextBox as textbox} from './TextBox';
 export {TextArea as textarea} from './TextArea';
+export {SingleChoice as radio} from './SingleChoice';

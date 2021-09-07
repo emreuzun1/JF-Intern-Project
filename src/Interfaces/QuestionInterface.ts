@@ -22,6 +22,7 @@ export interface QuestionInterface {
   type: string;
   order: number;
   options?: string;
+  selected?: string;
   confirmationHint?: string;
   sublabels?: string[] | {masked: any} | undefined;
   subLabel?: string;

@@ -51,6 +51,7 @@ const supportedQuestions = [
   'control_dropdown',
   'control_textbox',
   'control_textarea',
+  'control_radio',
 ];
 
 export const getOrderedQuestions = createSelector(getQuestions, data => {

@@ -1,6 +1,6 @@
 /* eslint-disable no-shadow */
 import React, {FC, useEffect} from 'react';
-import {View, VirtualizedList, Dimensions, RefreshControl} from 'react-native';
+import {View, VirtualizedList, Dimensions} from 'react-native';
 import {useSelector, connect} from 'react-redux';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {RouteProp, useIsFocused} from '@react-navigation/native';
@@ -51,7 +51,6 @@ interface Props {
 
 const FormPage: FC<Props> = props => {
   const data: FormInterface[] = useSelector(getActiveForms);
-  const [refresh, setRefresh] = React.useState<boolean>(false);
 
   const {
     navigation,
@@ -79,7 +78,7 @@ const FormPage: FC<Props> = props => {
       resetSubmissions();
       getForm();
     }
-  }, [getForm, isFocused, resetQuestions, resetSubmissions, refresh]);
+  }, [getForm, isFocused, resetQuestions, resetSubmissions]);
 
   React.useLayoutEffect(() => {
     navigation.setOptions({

@@ -20,7 +20,7 @@ const StyledHeader = style.Text({
 
 const StyledInput = style.TextInput({
   width: '80%',
-  height: 150,
+  height: 50,
   maxHeight: '70%',
   borderWidth: 0.5,
   borderColor: 'white',
