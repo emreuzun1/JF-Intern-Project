@@ -109,7 +109,7 @@ const Login = (props: Props) => {
                 iconName={'person'}
                 inputPadding={16}
                 iconColor={Colors.jotformGrey}
-                labelStyle={{color: Colors.jotformGrey}}
+                labelStyle={styles.labelStyle}
                 autoCapitalize={'none'}
                 autoCorrect={false}
                 borderHeight={1}
@@ -125,7 +125,7 @@ const Login = (props: Props) => {
                 iconName={'lock'}
                 inputPadding={16}
                 iconColor={Colors.jotformGrey}
-                labelStyle={{color: Colors.jotformGrey}}
+                labelStyle={styles.labelStyle}
                 autoCapitalize={'none'}
                 autoCorrect={false}
                 borderHeight={1}
@@ -160,6 +160,10 @@ const Login = (props: Props) => {
 const styles = StyleSheet.create({
   contentContainerStyle: {
     alignItems: 'center',
+  },
+  labelStyle: {
+    color: Colors.jotformGrey,
+    fontWeight: '500',
   },
   inputContainer: {
     marginVertical: 12,
