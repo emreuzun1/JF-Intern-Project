@@ -3,6 +3,8 @@ import styled from 'styled-components/native';
 import AntIcon from 'react-native-vector-icons/AntDesign';
 import {ViewProps} from 'react-native';
 import {useDispatch} from 'react-redux';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+
 import {Colors} from '../constants/Colors';
 import {setOrderType} from '../redux/actions';
 
@@ -17,9 +19,14 @@ const StyledOrderView = styled.View({
   paddingTop: 12,
 });
 
+const StyledHeaderContainer = styled.View({
+  flexDirection: 'row',
+});
+
 const StyledHeaderText = styled.Text({
   fontSize: 20,
   color: Colors.lightGrey,
+  marginLeft: 8,
 });
 
 const StyledLine = styled.View({
@@ -34,20 +41,10 @@ const StyledOrderContainer = styled.TouchableOpacity({
   marginTop: 24,
 });
 
-const StyledLogoContainer = styled.View({
-  flexDirection: 'row',
-  alignItems: 'center',
-  marginRight: 24,
-});
-
-const StyledLogoText = styled.Text<Color>(({color}) => ({
-  color: color,
-  fontSize: 14,
-}));
-
 const StyledOrderText = styled.Text<Color>(({color}) => ({
   color: color,
   fontSize: 20,
+  marginLeft: 24,
 }));
 
 interface OrderSheetProps {
@@ -63,28 +60,33 @@ const OrderSheet: FC<OrderSheetProps> = ({closeSheet}) => {
 
   return (
     <StyledOrderView>
-      <StyledHeaderText>Sort by </StyledHeaderText>
+      <StyledHeaderContainer>
+        <MaterialCommunityIcons
+          name="sort"
+          size={24}
+          color={Colors.lightGrey}
+        />
+        <StyledHeaderText>Sort by </StyledHeaderText>
+      </StyledHeaderContainer>
       <StyledLine />
       <StyledOrderContainer onPress={() => setType('A to Z')}>
-        <StyledLogoContainer>
-          <StyledLogoText color={Colors.lightPurple}>A</StyledLogoText>
-          <AntIcon name="caretright" size={10} color={Colors.lightPurple} />
-          <StyledLogoText color={Colors.lightPurple}>Z</StyledLogoText>
-        </StyledLogoContainer>
+        <MaterialCommunityIcons
+          name="sort-alphabetical-ascending"
+          size={24}
+          color={Colors.lightPurple}
+        />
         <StyledOrderText color={Colors.lightPurple}>A to Z</StyledOrderText>
       </StyledOrderContainer>
       <StyledOrderContainer onPress={() => setType('Z to A')}>
-        <StyledLogoContainer>
-          <StyledLogoText color={Colors.lightRed}>Z</StyledLogoText>
-          <AntIcon name="caretright" size={10} color={Colors.lightRed} />
-          <StyledLogoText color={Colors.lightRed}>A</StyledLogoText>
-        </StyledLogoContainer>
+        <MaterialCommunityIcons
+          name="sort-alphabetical-descending"
+          size={24}
+          color={Colors.lightRed}
+        />
         <StyledOrderText color={Colors.lightRed}>Z to A</StyledOrderText>
       </StyledOrderContainer>
       <StyledOrderContainer onPress={() => setType('Date Created')}>
-        <StyledLogoContainer>
-          <AntIcon name="calendar" size={20} color={Colors.lightYellow} />
-        </StyledLogoContainer>
+        <AntIcon name="calendar" size={20} color={Colors.lightYellow} />
         <StyledOrderText color={Colors.lightYellow}>
           Date Created
         </StyledOrderText>

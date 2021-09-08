@@ -64,7 +64,7 @@ const FormCard: React.FC<IFormCard> = ({
     <StyledFormContainer onPress={() => onPress(color)}>
       <StyledImageContainer>
         <StyledImage
-          source={require('../img/form-icon,.jpg')}
+          source={require('../img/form-icon.jpg')}
           // @ts-ignore: Unreachable code error
           imageColor={color.main}
         />
