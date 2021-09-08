@@ -22,4 +22,5 @@ export interface FormInterface {
 export interface FormState {
   data: FormInterface[];
   loading: boolean;
+  orderType: string;
 }

@@ -1,11 +1,12 @@
 /* eslint-disable no-shadow */
-import React, {FC, useEffect} from 'react';
-import {View, VirtualizedList, Dimensions} from 'react-native';
+import React, {FC, useEffect, useRef, useMemo} from 'react';
+import {View, VirtualizedList, Dimensions, StyleSheet} from 'react-native';
 import {useSelector, connect} from 'react-redux';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {RouteProp, useIsFocused} from '@react-navigation/native';
 import styled from 'styled-components/native';
 import Icon from 'react-native-vector-icons/SimpleLineIcons';
+import AntIcon from 'react-native-vector-icons/AntDesign';
 
 import {RootStackParamList} from '../../Navigation/types';
 import {getForm} from '../../redux/actions/formAction';
@@ -23,6 +24,8 @@ import {
 import {Colors, getColor} from '../../constants/Colors';
 import {FormInterface} from '../../Interfaces/FormsInterface';
 import {ColorInterface} from '../../Interfaces/ColorInterface';
+import {BottomSheetModal, BottomSheetModalProvider} from '@gorhom/bottom-sheet';
+import OrderSheet from '../../components/OrderSheet';
 
 type FormProps = StackNavigationProp<RootStackParamList, 'Form'>;
 type FormRouteProp = RouteProp<RootStackParamList, 'Form'>;
@@ -39,10 +42,24 @@ const StyledLogOutContainer = styled.TouchableOpacity({
   marginLeft: width / 20,
 });
 
+const StyledOrderButton = styled.TouchableOpacity({
+  width: '100%',
+  marginTop: 24,
+  justifyContent: 'flex-end',
+  flexDirection: 'row',
+  alignItems: 'center',
+});
+
+const StyledOrderText = styled.Text({
+  color: Colors.lightGrey,
+  marginRight: 4,
+});
+
 interface Props {
   navigation: FormProps;
   route: FormRouteProp;
   loading: boolean;
+  orderType: string;
   getForm: () => void;
   requestLogout: () => void;
   resetQuestions: () => void;
@@ -51,10 +68,13 @@ interface Props {
 
 const FormPage: FC<Props> = props => {
   const data: FormInterface[] = useSelector(getActiveForms);
+  const orderSheetModal = useRef<BottomSheetModal>(null);
+  const snapPoints = useMemo(() => ['0%', '50%'], []);
 
   const {
     navigation,
     loading,
+    orderType,
     requestLogout,
     getForm,
     resetQuestions,
@@ -108,7 +128,17 @@ const FormPage: FC<Props> = props => {
   return (
     <StyledContainer>
       <ViewWithSpinner isLoading={loading}>
+        <StyledOrderButton onPress={() => orderSheetModal.current?.present()}>
+          <StyledOrderText>{orderType}</StyledOrderText>
+          <AntIcon
+            name="caretdown"
+            size={14}
+            color={Colors.lightGrey}
+            style={styles.icon}
+          />
+        </StyledOrderButton>
         <VirtualizedList
+          contentContainerStyle={styles.list}
           data={data}
           initialNumToRender={9}
           getItemCount={(data: FormInterface[]) => data.length}
@@ -130,14 +160,32 @@ const FormPage: FC<Props> = props => {
             />
           )}
         />
+        <BottomSheetModalProvider>
+          <BottomSheetModal
+            ref={orderSheetModal}
+            snapPoints={snapPoints}
+            index={1}>
+            <OrderSheet />
+          </BottomSheetModal>
+        </BottomSheetModalProvider>
       </ViewWithSpinner>
     </StyledContainer>
   );
 };
 
+const styles = StyleSheet.create({
+  icon: {
+    marginRight: 24,
+  },
+  list: {
+    height: '100%',
+    marginTop: 8,
+  },
+});
+
 const mapStateToProps = (state: IState) => {
-  const {loading} = state.form;
-  return {loading};
+  const {loading, orderType} = state.form;
+  return {loading, orderType};
 };
 
 const mapDispatchToProps = {

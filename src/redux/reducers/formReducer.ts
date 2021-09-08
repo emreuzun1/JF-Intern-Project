@@ -5,6 +5,7 @@ import {FormState} from '../../Interfaces/FormsInterface';
 const initialState: FormState = {
   data: [],
   loading: true,
+  orderType: 'Date Created',
 };
 
 export default (state = initialState, action: any) =>
@@ -16,6 +17,9 @@ export default (state = initialState, action: any) =>
       case type.USER_FORMS_SUCCESS:
         draft.data = action.payload;
         draft.loading = false;
+        break;
+      case type.FORM_ORDERTYPE_REQUEST:
+        draft.orderType = action.payload;
         break;
       case type.USER_FORMS_FAIL:
         draft.loading = false;

@@ -6,6 +6,7 @@ import IconFontAwesome from 'react-native-vector-icons/FontAwesome';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import IconAntDesign from 'react-native-vector-icons/AntDesign';
+import {BottomSheetModal, BottomSheetModalProvider} from '@gorhom/bottom-sheet';
 
 import {
   requestQuestions,
@@ -31,7 +32,6 @@ import {QuestionInterface} from '../../Interfaces/QuestionInterface';
 import {ColorInterface} from '../../Interfaces/ColorInterface';
 import {SubmissionPageProps} from '../../Interfaces/SubmissionPageProps';
 import CardView from './CardView';
-import {BottomSheetModal, BottomSheetModalProvider} from '@gorhom/bottom-sheet';
 import SubmissionEditSheet from './SubmissionEditSheet';
 import {Colors} from '../../constants/Colors';
 import ActionButton from 'react-native-action-button';

@@ -2,10 +2,6 @@ import React from 'react';
 import {ActivityIndicator} from 'react-native';
 import style from 'styled-components/native';
 
-const StyledContainer = style.View({
-  flex: 1,
-});
-
 const StyledIndicator = style.View({
   indicator: {
     justifyContent: 'center',
@@ -27,11 +23,7 @@ const withLoading = (Comp: any) => {
         </StyledIndicator>
       );
     } else {
-      return (
-        <StyledContainer>
-          <Comp {...props}>{children}</Comp>
-        </StyledContainer>
-      );
+      return <Comp {...props}>{children}</Comp>;
     }
   };
   return WithLoading;
