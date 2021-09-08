@@ -1,9 +1,12 @@
 import React from 'react';
 import {StackNavigationProp} from '@react-navigation/stack';
-import {Text, Dimensions} from 'react-native';
+import {Text, Dimensions, StyleSheet, Button} from 'react-native';
 import {connect} from 'react-redux';
 import {RouteProp} from '@react-navigation/native';
 import styled from 'styled-components/native';
+import {Sae} from 'react-native-textinput-effects';
+import EntypoIcon from 'react-native-vector-icons/Entypo';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import {RootStackParamList} from '../../Navigation/types';
 import {requestLogin, resetForms} from '../../redux/actions';
@@ -34,14 +37,14 @@ const StyledLogoImage = styled.Image({
   marginBottom: 12,
 });
 
-const StyledBottomContainer = styled.View({
+const StyledBottomContainer = styled.ScrollView({
   flex: 3,
   backgroundColor: 'white',
   width: '100%',
-  alignItems: 'center',
   borderTopLeftRadius: 36,
   borderTopRightRadius: 36,
   paddingTop: 24,
+  paddingBottom: 24,
 });
 
 const StyledInputContainer = styled.View({
@@ -49,28 +52,8 @@ const StyledInputContainer = styled.View({
   marginTop: 12,
 });
 
-const StyledTextInput = styled.TextInput({
-  backgroundColor: Colors.lightGrey,
-  borderRadius: 5,
-  width: width / 1.6,
-  height: 50,
-  marginVertical: 10,
-  fontSize: 16,
-});
-
-const StyledLoginButton = styled.TouchableOpacity({
-  backgroundColor: Colors.jotformGrey,
-  width: width / 2.6,
-  padding: 12,
-  alignItems: 'center',
-  justifyContent: 'center',
-  borderRadius: 8,
+const StyledButtonContainer = styled.View({
   marginTop: 24,
-});
-
-const StyledLoginText = styled.Text({
-  color: 'white',
-  fontSize: 18,
 });
 
 const StyledSignUpButton = styled.TouchableOpacity({
@@ -78,7 +61,7 @@ const StyledSignUpButton = styled.TouchableOpacity({
 });
 
 const StyledSignUpText = styled.Text({
-  color: '#fa8900',
+  color: Colors.jotformOrange,
   fontWeight: 700,
 });
 
@@ -110,45 +93,84 @@ const Login = (props: Props) => {
       <StyledTopContainer>
         <StyledLogoImage source={logoImg} />
       </StyledTopContainer>
-      <StyledBottomContainer>
-        <Formik
-          initialValues={initialValues}
-          onSubmit={values =>
-            props.requestLogin(values.username, values.password)
-          }>
-          {({handleChange, handleBlur, handleSubmit, values}) => (
+
+      <Formik
+        initialValues={initialValues}
+        onSubmit={values =>
+          props.requestLogin(values.username, values.password)
+        }>
+        {({handleChange, handleSubmit, values}) => (
+          <StyledBottomContainer
+            contentContainerStyle={styles.contentContainerStyle}>
             <StyledInputContainer>
-              <StyledTextInput
-                autoCapitalize="none"
-                placeholder=" Username"
+              <Sae
+                label={'Username'}
+                iconClass={Ionicons}
+                iconName={'person'}
+                inputPadding={16}
+                iconColor={Colors.jotformGrey}
+                labelStyle={{color: Colors.jotformGrey}}
+                autoCapitalize={'none'}
+                autoCorrect={false}
+                borderHeight={1}
+                labelHeight={24}
                 value={values.username}
-                onBlur={handleBlur('username')}
+                style={styles.inputContainer}
+                inputStyle={styles.input}
                 onChangeText={handleChange('username')}
               />
-              <StyledTextInput
-                autoCapitalize="none"
-                placeholder=" Password"
+              <Sae
+                label={'Password'}
+                iconClass={EntypoIcon}
+                iconName={'lock'}
+                inputPadding={16}
+                iconColor={Colors.jotformGrey}
+                labelStyle={{color: Colors.jotformGrey}}
+                autoCapitalize={'none'}
+                autoCorrect={false}
+                borderHeight={1}
+                labelHeight={24}
                 value={values.password}
+                style={styles.inputContainer}
+                inputStyle={styles.input}
                 secureTextEntry
-                onBlur={handleBlur('password')}
                 onChangeText={handleChange('password')}
               />
-              <StyledLoginButton onPress={handleSubmit}>
-                <StyledLoginText>Login</StyledLoginText>
-              </StyledLoginButton>
             </StyledInputContainer>
-          )}
-        </Formik>
-        <StyledSignUpButton onPress={() => navigation.navigate('SignUp')}>
-          <Text>
-            Don't you have an account?
-            <StyledSignUpText> Sign up!</StyledSignUpText>
-          </Text>
-        </StyledSignUpButton>
-      </StyledBottomContainer>
+            <StyledButtonContainer>
+              <Button
+                onPress={handleSubmit}
+                title="Login"
+                color={Colors.jotformOrange}
+              />
+            </StyledButtonContainer>
+            <StyledSignUpButton onPress={() => navigation.navigate('SignUp')}>
+              <Text>
+                Don't you have an account?
+                <StyledSignUpText> Sign up!</StyledSignUpText>
+              </Text>
+            </StyledSignUpButton>
+          </StyledBottomContainer>
+        )}
+      </Formik>
     </StyledContainer>
   );
 };
+
+const styles = StyleSheet.create({
+  contentContainerStyle: {
+    alignItems: 'center',
+  },
+  inputContainer: {
+    marginVertical: 12,
+    borderRadius: 5,
+    width: width / 1.6,
+  },
+  input: {
+    fontSize: 16,
+    color: Colors.jotformGrey,
+  },
+});
 
 const mapStateToProps = (state: any) => {
   const {appKey} = state.auth;

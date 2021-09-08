@@ -1,6 +1,12 @@
 /* eslint-disable no-shadow */
 import React, {FC, useEffect, useRef, useMemo} from 'react';
-import {View, VirtualizedList, Dimensions, StyleSheet} from 'react-native';
+import {
+  View,
+  VirtualizedList,
+  Dimensions,
+  StyleSheet,
+  LogBox,
+} from 'react-native';
 import {useSelector, connect} from 'react-redux';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {RouteProp, useIsFocused} from '@react-navigation/native';
@@ -92,6 +98,7 @@ const FormPage: FC<Props> = props => {
   };
 
   useEffect(() => {
+    LogBox.ignoreLogs(['Node of type rule not supported as an inline style']);
     let isActive = true;
     if (isActive) {
       resetQuestions();
@@ -165,7 +172,7 @@ const FormPage: FC<Props> = props => {
             ref={orderSheetModal}
             snapPoints={snapPoints}
             index={1}>
-            <OrderSheet />
+            <OrderSheet closeSheet={() => orderSheetModal.current?.close()} />
           </BottomSheetModal>
         </BottomSheetModalProvider>
       </ViewWithSpinner>

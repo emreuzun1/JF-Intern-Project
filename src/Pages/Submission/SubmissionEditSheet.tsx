@@ -68,7 +68,6 @@ const SubmissionEditSheet: FC<Props> = ({
     <StyledContainer>
       {questions.map((q: QuestionInterface, index: number) => {
         const Element = newEditorsMap.get(q.type.split('_', 2)[1]);
-
         if (Element) {
           return (
             <Element

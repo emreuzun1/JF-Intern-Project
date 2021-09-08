@@ -7,6 +7,9 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import IconAntDesign from 'react-native-vector-icons/AntDesign';
 import {BottomSheetModal, BottomSheetModalProvider} from '@gorhom/bottom-sheet';
+import {StyleSheet, TouchableOpacity, Dimensions} from 'react-native';
+
+const {width, height} = Dimensions.get('screen');
 
 import {
   requestQuestions,
@@ -34,7 +37,6 @@ import {SubmissionPageProps} from '../../Interfaces/SubmissionPageProps';
 import CardView from './CardView';
 import SubmissionEditSheet from './SubmissionEditSheet';
 import {Colors} from '../../constants/Colors';
-import ActionButton from 'react-native-action-button';
 import TitleModal from './TitleFilterModal';
 
 const StyledScreenContainer = styled.SafeAreaView({
@@ -134,8 +136,13 @@ const SubmissionPage: FC<SubmissionPageProps> = props => {
     requestQuestions(appKey, route.params.id);
     setRefreshing(true);
     wait(1000).then(() => setRefreshing(false));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [
+    appKey,
+    getSubmissions,
+    requestQuestions,
+    resetSelectedSubmission,
+    route.params.id,
+  ]);
 
   const handleSheetChanges = React.useCallback(
     (index: number) => {
@@ -182,10 +189,11 @@ const SubmissionPage: FC<SubmissionPageProps> = props => {
           onRefresh={onRefresh}
         />
       )}
-      <ActionButton
-        buttonColor={Colors.lightBlue}
-        onPress={() => submissionEditSheetModal.current?.present()}
-      />
+      <TouchableOpacity
+        style={styles.actionButtonContainer}
+        onPress={() => submissionEditSheetModal.current?.present()}>
+        <Ionicons name="add" size={28} color={Colors.jotformGrey} />
+      </TouchableOpacity>
       <BottomSheetModalProvider>
         <BottomSheetModal
           ref={submissionEditSheetModal}
@@ -212,6 +220,20 @@ const SubmissionPage: FC<SubmissionPageProps> = props => {
     </StyledScreenContainer>
   );
 };
+
+const styles = StyleSheet.create({
+  actionButtonContainer: {
+    position: 'absolute',
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    backgroundColor: Colors.lightBlue,
+    bottom: height / 20,
+    right: width / 14,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});
 
 const mapStateToProps = (state: IState) => {
   const {appKey, loading} = state.auth;

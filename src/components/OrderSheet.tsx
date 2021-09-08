@@ -50,9 +50,14 @@ const StyledOrderText = styled.Text<Color>(({color}) => ({
   fontSize: 20,
 }));
 
-const OrderSheet: FC = () => {
+interface OrderSheetProps {
+  closeSheet: () => void;
+}
+
+const OrderSheet: FC<OrderSheetProps> = ({closeSheet}) => {
   const dispatch = useDispatch();
   const setType = (type: string) => {
+    closeSheet();
     dispatch(setOrderType(type));
   };
 

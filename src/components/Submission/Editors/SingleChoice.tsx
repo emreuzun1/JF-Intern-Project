@@ -39,7 +39,7 @@ export function SingleChoice({answer, question, onPress}: ISubmissionEdit) {
         value={selectedAnswer}>
         {radioOptions?.map((key: string) => {
           return (
-            <StyledRadioContainer>
+            <StyledRadioContainer key={key}>
               <StyledRadioText>{key}</StyledRadioText>
               <RadioButton value={key} />
             </StyledRadioContainer>

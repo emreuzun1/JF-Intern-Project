@@ -82,26 +82,28 @@ export function NameEdit({answer, question, onPress}: ISubmissionEdit) {
         <StyledContainer>
           <StyledHeader>{question.text}</StyledHeader>
           <StyledNameInputContainer>
-            {Object.keys(initialValues).map(key => (
-              <StyledNameInsideContainer key={key}>
-                <StyledInput
-                  value={values[key]}
-                  onBlur={handleBlur(`${key}`)}
-                  onChangeText={handleChange(`${key}`)}
-                  onEndEditing={handleSubmit}
-                />
+            {Object.keys(initialValues).map(key => {
+              return (
+                <StyledNameInsideContainer key={key}>
+                  <StyledInput
+                    value={values[key]}
+                    onBlur={handleBlur(`${key}`)}
+                    onChangeText={handleChange(`${key}`)}
+                    onEndEditing={handleSubmit}
+                  />
 
-                <StyledSubTitles>
-                  {
-                    // @ts-ignore: Unreachable code error
-                    question.sublabels![key]
-                  }
-                </StyledSubTitles>
-                {errors[key] && touched[key] ? (
-                  <StyledErrorText>{errors[key]}</StyledErrorText>
-                ) : null}
-              </StyledNameInsideContainer>
-            ))}
+                  <StyledSubTitles>
+                    {
+                      // @ts-ignore: Unreachable code error
+                      question.sublabels![key]
+                    }
+                  </StyledSubTitles>
+                  {errors[key] && touched[key] ? (
+                    <StyledErrorText>{errors[key]}</StyledErrorText>
+                  ) : null}
+                </StyledNameInsideContainer>
+              );
+            })}
           </StyledNameInputContainer>
         </StyledContainer>
       )}
