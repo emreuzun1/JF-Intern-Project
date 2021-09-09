@@ -5,7 +5,8 @@ import {FieldProps} from '../../../Interfaces/FieldProps';
 const StyledAnswerText = style.Text({
   marginHorizontal: 8,
   color: 'white',
-  fontSize: 14,
+  fontWeight: 400,
+  fontSize: 13,
 });
 
 export function TextBox({answer}: FieldProps) {

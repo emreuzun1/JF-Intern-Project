@@ -1,5 +1,5 @@
 import React, {FC} from 'react';
-import {Alert} from 'react-native';
+import {Alert, StyleSheet, View} from 'react-native';
 import style from 'styled-components/native';
 
 import * as editors from '../../components/Submission/Editors';
@@ -7,16 +7,16 @@ import {Colors} from '../../constants/Colors';
 import {QuestionInterface} from '../../Interfaces/QuestionInterface';
 import {SubmissionAnswerInterface} from '../../Interfaces/SubmissionAnswerInterface';
 
-const StyledContainer = style.ScrollView({
-  display: 'flex',
-  backgroundColor: Colors.jotformGrey,
+const StyledScreen = style.SafeAreaView({
+  flex: 1,
+  backgroundColor: Colors.black,
+  paddingBottom: 24,
 });
 
-const StyledSubmitButtonContainer = style.View({
-  width: '100%',
-  alignItems: 'center',
-  padding: 20,
+const StyledContainer = style.ScrollView({
+  display: 'flex',
 });
+
 const StyledSubmitButton = style.Button({
   width: 100,
   height: 40,
@@ -65,47 +65,72 @@ const SubmissionEditSheet: FC<Props> = ({
     );
   };
   return (
-    <StyledContainer>
-      {questions.map((q: QuestionInterface, index: number) => {
-        const Element = newEditorsMap.get(q.type.split('_', 2)[1]);
-        if (Element) {
-          return (
-            <Element
-              answer={answer ? answer[index] : null}
-              question={q}
-              onPress={(
-                qid: number,
-                values: SubmissionAnswerInterface,
-                name?: boolean | undefined,
-              ) => {
-                answer
-                  ? editPost(qid, values, name)
-                  : valuesMap.set(qid, values);
-              }}
-              key={`${q.qid}_${index}`}
-            />
-          );
-        }
-      })}
+    <StyledScreen>
+      <StyledContainer>
+        {questions.map((q: QuestionInterface, index: number) => {
+          const Element = newEditorsMap.get(q.type.split('_', 2)[1]);
+          if (Element) {
+            return (
+              <Element
+                answer={answer ? answer[index] : null}
+                question={q}
+                onPress={(
+                  qid: number,
+                  values: SubmissionAnswerInterface,
+                  name?: boolean | undefined,
+                ) => {
+                  answer
+                    ? editPost(qid, values, name)
+                    : valuesMap.set(qid, values);
+                }}
+                key={`${q.qid}_${index}`}
+              />
+            );
+          }
+        })}
+      </StyledContainer>
       {answer ? (
-        <StyledSubmitButtonContainer>
+        <View style={styles.deleteButton}>
           <StyledSubmitButton
-            color={Colors.lightRed}
-            title="Delete Submission"
-            onPress={deleteAlert}
+            color="white"
+            title="Delete"
+            onPress={() => deleteAlert()}
           />
-        </StyledSubmitButtonContainer>
+        </View>
       ) : (
-        <StyledSubmitButtonContainer>
+        <View style={styles.button}>
           <StyledSubmitButton
-            color={Colors.jotformOrange}
+            color="white"
             title="Submit"
             onPress={() => submitPost(valuesMap)}
           />
-        </StyledSubmitButtonContainer>
+        </View>
       )}
-    </StyledContainer>
+    </StyledScreen>
   );
 };
+
+const styles = StyleSheet.create({
+  deleteButton: {
+    position: 'absolute',
+    right: 24,
+    bottom: 24,
+    backgroundColor: Colors.lightRed,
+    borderRadius: 4,
+    color: 'white',
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+  },
+  button: {
+    position: 'absolute',
+    right: 24,
+    bottom: 24,
+    backgroundColor: Colors.green,
+    borderRadius: 4,
+    color: 'white',
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+  },
+});
 
 export default SubmissionEditSheet;

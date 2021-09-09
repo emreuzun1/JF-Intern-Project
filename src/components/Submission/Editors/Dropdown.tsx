@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
   container: {
     width: '100%',
     marginTop: 24,
-    marginLeft: 32,
+    marginHorizontal: 15,
   },
 
   header: {

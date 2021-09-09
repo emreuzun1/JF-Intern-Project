@@ -8,10 +8,10 @@ import {Colors} from '../../../constants/Colors';
 const StyledContainer = style.View({
   width: '100%',
   marginTop: 24,
+  marginHorizontal: 15,
 });
 
 const StyledHeader = style.Text({
-  marginLeft: 32,
   color: Colors.grey,
   fontSize: 20,
   maxWidth: '80%',
@@ -19,30 +19,27 @@ const StyledHeader = style.Text({
 
 const StyledInputContainer = style.View({
   width: '50%',
-  marginLeft: 24,
 });
 
 const StyledInput = style.TextInput({
   width: '100%',
-  borderWidth: 0.5,
-  borderColor: 'white',
+  height: 46,
+  backgroundColor: Colors.darkBlue,
   borderRadius: 6,
   padding: 8,
-  color: Colors.grey,
+  color: 'white',
+  fontSize: 15,
   marginTop: 4,
-  marginLeft: 8,
 });
 
 const StyledSubTitles = style.Text({
   fontSize: 13,
-  marginLeft: 10,
   marginTop: 4,
-  color: Colors.lightGrey,
+  color: Colors.grey,
 });
 
 const StyledErrorText = style.Text({
   fontSize: 13,
-  marginLeft: 10,
   marginTop: 4,
   color: Colors.lightRed,
 });

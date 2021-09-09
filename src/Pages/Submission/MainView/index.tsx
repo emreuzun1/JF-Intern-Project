@@ -8,12 +8,11 @@ import Answer from './Answers';
 import {SubmissionPageProps} from '../../../Interfaces/SubmissionPageProps';
 import {QuestionInterface} from '../../../Interfaces/QuestionInterface';
 import {SubmissionInterface} from '../../../Interfaces/SubmissionInterface';
-import {ColorInterface} from '../../../Interfaces/ColorInterface';
 import {Colors} from '../../../constants/Colors';
 
 const StyledContainer = style.View({
   flex: 1,
-  backgroundColor: Colors.jotformGrey,
+  backgroundColor: Colors.black,
 });
 
 const ViewWithSpinner = Loading(View);
@@ -23,7 +22,6 @@ interface Props {
   visibleQuestions: QuestionInterface[];
   orderedQuestions: QuestionInterface[];
   submissions: SubmissionInterface[];
-  color: ColorInterface;
   modalVisible: boolean;
   setModalVisible: (value: boolean) => void;
   sheetRef: any;

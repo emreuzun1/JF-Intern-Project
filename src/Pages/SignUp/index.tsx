@@ -37,7 +37,7 @@ const StyledLogoImg = styled.Image({
 
 const StyledBottomContainer = styled.ScrollView({
   flex: 3,
-  backgroundColor: 'white',
+  backgroundColor: Colors.black,
   width: '100%',
   borderTopLeftRadius: 36,
   borderTopRightRadius: 36,
@@ -97,11 +97,11 @@ const SignUp: FC<ISignUp> = ({navigation}) => {
         backgroundColor: Colors.jotformOrange,
       },
       headerTitleStyle: {
-        color: Colors.jotformGrey,
+        color: 'white',
       },
       headerLeft: () => (
         <StyledBackButton onPress={() => navigation.goBack()}>
-          <Ionicons name="arrow-back" size={24} color={Colors.jotformGrey} />
+          <Ionicons name="arrow-back" size={24} color={'white'} />
         </StyledBackButton>
       ),
     });
@@ -128,7 +128,7 @@ const SignUp: FC<ISignUp> = ({navigation}) => {
               iconClass={EntypoIcon}
               iconName={'mail'}
               inputPadding={16}
-              iconColor={Colors.jotformGrey}
+              iconColor={'white'}
               labelStyle={styles.labelStyle}
               autoCapitalize={'none'}
               autoCorrect={false}
@@ -147,7 +147,7 @@ const SignUp: FC<ISignUp> = ({navigation}) => {
               iconClass={Ionicons}
               iconName={'person'}
               inputPadding={16}
-              iconColor={Colors.jotformGrey}
+              iconColor={'white'}
               labelStyle={styles.labelStyle}
               autoCapitalize={'none'}
               autoCorrect={false}
@@ -163,7 +163,7 @@ const SignUp: FC<ISignUp> = ({navigation}) => {
               iconClass={EntypoIcon}
               iconName={'lock'}
               inputPadding={16}
-              iconColor={Colors.jotformGrey}
+              iconColor={'white'}
               labelStyle={styles.labelStyle}
               autoCapitalize={'none'}
               autoCorrect={false}
@@ -179,7 +179,7 @@ const SignUp: FC<ISignUp> = ({navigation}) => {
               iconClass={EntypoIcon}
               iconName={'lock'}
               inputPadding={16}
-              iconColor={Colors.jotformGrey}
+              iconColor={'white'}
               labelStyle={styles.labelStyle}
               autoCapitalize={'none'}
               autoCorrect={false}
@@ -209,12 +209,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   labelStyle: {
-    color: Colors.jotformGrey,
+    color: 'white',
     fontWeight: '400',
   },
   input: {
     fontSize: 16,
-    color: Colors.jotformGrey,
+    color: 'white',
   },
   inputContainer: {
     width: width / 1.6,

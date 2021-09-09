@@ -29,7 +29,6 @@ import {
 } from '../../redux/actions';
 import {Colors, getColor} from '../../constants/Colors';
 import {FormInterface} from '../../Interfaces/FormsInterface';
-import {ColorInterface} from '../../Interfaces/ColorInterface';
 import {BottomSheetModal, BottomSheetModalProvider} from '@gorhom/bottom-sheet';
 import OrderSheet from '../../components/OrderSheet';
 
@@ -41,7 +40,7 @@ const {width} = Dimensions.get('screen');
 
 const StyledContainer = styled.View({
   flex: 1,
-  backgroundColor: Colors.jotformGrey,
+  backgroundColor: Colors.black,
 });
 
 const StyledLogOutContainer = styled.TouchableOpacity({
@@ -51,7 +50,8 @@ const StyledLogOutContainer = styled.TouchableOpacity({
 const StyledOrderButton = styled.TouchableOpacity({
   width: '100%',
   marginTop: 24,
-  justifyContent: 'flex-end',
+  marginLeft: 16,
+  justifyContent: 'center',
   flexDirection: 'row',
   alignItems: 'center',
 });
@@ -115,7 +115,7 @@ const FormPage: FC<Props> = props => {
         color: Colors.lightGrey,
       },
       headerStyle: {
-        backgroundColor: Colors.darkerGrey,
+        backgroundColor: Colors.darkBlue,
       },
       headerLeft: () => (
         <StyledLogOutContainer onPress={logOut}>
@@ -153,15 +153,17 @@ const FormPage: FC<Props> = props => {
           keyExtractor={item => item.id}
           renderItem={({item, index}) => (
             <FormCard
+              index={index}
               color={getColor(index)}
               title={item.title}
               update_at={item.updated_at}
               count={item.count}
-              onPress={(color: ColorInterface) =>
+              onPress={(color: string) =>
                 navigation.navigate('Submission', {
                   id: item.id,
                   title: item.title,
                   color: color,
+                  count: item.count,
                 })
               }
             />

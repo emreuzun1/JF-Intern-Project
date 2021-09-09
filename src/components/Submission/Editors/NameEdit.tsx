@@ -9,43 +9,41 @@ import {Colors} from '../../../constants/Colors';
 const StyledContainer = style.View({
   width: '100%',
   marginTop: 24,
+  marginHorizontal: 15,
 });
 
 const StyledHeader = style.Text({
   maxWidth: '80%',
-  marginLeft: 32,
   color: Colors.grey,
   fontSize: 20,
 });
 
 const StyledNameInputContainer = style.View({
+  width: '90%',
   flexDirection: 'row',
   flexWrap: 'wrap',
-  flex: 1,
+  justifyContent: 'space-between',
 });
 
 const StyledNameInsideContainer = style.View({
-  width: '40%',
-  marginLeft: 24,
+  width: '45%',
 });
 
 const StyledInput = style.TextInput({
   width: '100%',
-  height: 40,
-  borderWidth: 0.5,
-  borderColor: 'white',
+  height: 46,
+  backgroundColor: Colors.darkBlue,
   borderRadius: 6,
   padding: 8,
-  color: Colors.grey,
+  color: 'white',
+  fontSize: 15,
   marginTop: 4,
-  marginLeft: 8,
 });
 
 const StyledSubTitles = style.Text({
   fontSize: 13,
-  marginLeft: 10,
   marginTop: 4,
-  color: Colors.lightGrey,
+  color: Colors.grey,
 });
 
 const StyledErrorText = style.Text({

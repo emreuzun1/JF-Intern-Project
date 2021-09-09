@@ -7,26 +7,23 @@ import style from 'styled-components/native';
 import {Colors} from '../../../constants/Colors';
 
 const StyledContainer = style.View({
-  width: '100%',
   marginTop: 24,
-  marginLeft: 32,
+  marginHorizontal: 15,
 });
 
 const StyledHeader = style.Text({
   color: Colors.grey,
   fontSize: 20,
-  maxWidth: '80%',
 });
 
 const StyledInput = style.TextInput({
-  width: '80%',
-  height: 150,
-  maxHeight: '70%',
-  borderWidth: 0.5,
-  borderColor: 'white',
+  width: '100%',
+  height: 100,
+  backgroundColor: Colors.darkBlue,
   borderRadius: 6,
   padding: 8,
-  color: Colors.grey,
+  color: 'white',
+  fontSize: 15,
   marginTop: 4,
   alignSelf: 'flex-start',
 });

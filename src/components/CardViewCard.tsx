@@ -82,7 +82,7 @@ const CardViewCard: FC<CardViewProps> = ({
 const styles = StyleSheet.create({
   container: {
     width: '90%',
-    backgroundColor: Colors.darkerGrey,
+    backgroundColor: Colors.darkBlue,
     height: height / 4,
     margin: 20,
     borderRadius: 8,
@@ -98,14 +98,16 @@ const styles = StyleSheet.create({
     padding: 8,
   },
   headerText: {
-    fontSize: 20,
+    fontSize: 18,
     color: Colors.lightGrey,
+    marginTop: 4,
+    fontWeight: '700',
   },
   titleText: {
     marginLeft: 8,
     marginBottom: 4,
-    color: Colors.lightGrey,
-    fontWeight: '300',
+    color: Colors.grey,
+    fontWeight: '500',
   },
 
   answerContainer: {

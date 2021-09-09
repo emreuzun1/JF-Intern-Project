@@ -10,23 +10,25 @@ import {Colors} from '../constants/Colors';
 const {width} = Dimensions.get('screen');
 
 const StyledContainerButton = styled.TouchableOpacity({
-  backgroundColor: Colors.darkerGrey,
+  backgroundColor: Colors.darkBlue,
   height: 75,
   marginTop: 12,
+  marginHorizontal: 15,
   borderRadius: 8,
 });
 
 const StyledHeaderText = styled.Text({
-  fontSize: 14,
+  fontSize: 16,
   color: Colors.lightGrey,
   marginTop: 8,
+  fontWeight: 700,
   marginLeft: 8,
 });
 
 const StyledLine = styled.View({
   width: '100%',
-  borderBottomWidth: 0.5,
-  borderColor: Colors.lightGrey,
+  borderBottomWidth: 1,
+  borderColor: Colors.black,
   marginTop: 8,
 });
 
@@ -38,8 +40,8 @@ const StyledAnswerContainer = styled.View({
 const StyledTextContainer = styled.View({
   width: width / 2,
   height: '80%',
-  borderRightWidth: 0.3,
-  borderColor: Colors.lightGrey,
+  borderRightWidth: 1,
+  borderColor: Colors.black,
   justifyContent: 'center',
   padding: 6,
 });

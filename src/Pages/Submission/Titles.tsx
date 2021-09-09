@@ -2,7 +2,6 @@ import React, {FC} from 'react';
 import {VirtualizedList, StyleSheet} from 'react-native';
 import styled from 'styled-components/native';
 
-import {Colors} from '../../constants/Colors';
 import {SubmissionTitleCard} from '../../components';
 import {QuestionInterface} from '../../Interfaces/QuestionInterface';
 
@@ -11,8 +10,8 @@ interface ITitleProps {
 }
 
 const StyledHeaderBackground = styled.View({
-  backgroundColor: Colors.darkerGrey,
   width: '100%',
+  marginLeft: 15,
 });
 
 const Titles: FC<ITitleProps> = ({questionData}) => {

@@ -1,6 +1,6 @@
 import React from 'react';
 import {StackNavigationProp} from '@react-navigation/stack';
-import {Text, Dimensions, StyleSheet, Button} from 'react-native';
+import {Text, Dimensions, StyleSheet, Button, LogBox} from 'react-native';
 import {connect} from 'react-redux';
 import {RouteProp} from '@react-navigation/native';
 import styled from 'styled-components/native';
@@ -39,7 +39,7 @@ const StyledLogoImage = styled.Image({
 
 const StyledBottomContainer = styled.ScrollView({
   flex: 3,
-  backgroundColor: 'white',
+  backgroundColor: Colors.black,
   width: '100%',
   borderTopLeftRadius: 36,
   borderTopRightRadius: 36,
@@ -82,6 +82,9 @@ const Login = (props: Props) => {
   const {navigation, route, resetForms} = props;
 
   React.useEffect(() => {
+    LogBox.ignoreLogs([
+      'RCTBridge required dispatch_sync to load RCTDevLoadingView. This may lead to deadlocks',
+    ]);
     resetForms();
     if (route.params.isLogged) {
       navigation.navigate('Form');
@@ -108,7 +111,7 @@ const Login = (props: Props) => {
                 iconClass={Ionicons}
                 iconName={'person'}
                 inputPadding={16}
-                iconColor={Colors.jotformGrey}
+                iconColor={'white'}
                 labelStyle={styles.labelStyle}
                 autoCapitalize={'none'}
                 autoCorrect={false}
@@ -124,7 +127,7 @@ const Login = (props: Props) => {
                 iconClass={EntypoIcon}
                 iconName={'lock'}
                 inputPadding={16}
-                iconColor={Colors.jotformGrey}
+                iconColor={'white'}
                 labelStyle={styles.labelStyle}
                 autoCapitalize={'none'}
                 autoCorrect={false}
@@ -145,7 +148,7 @@ const Login = (props: Props) => {
               />
             </StyledButtonContainer>
             <StyledSignUpButton onPress={() => navigation.navigate('SignUp')}>
-              <Text>
+              <Text style={styles.signUpText}>
                 Don't you have an account?
                 <StyledSignUpText> Sign up!</StyledSignUpText>
               </Text>
@@ -161,9 +164,13 @@ const styles = StyleSheet.create({
   contentContainerStyle: {
     alignItems: 'center',
   },
+  signUpText: {
+    color: 'white',
+    fontWeight: '600',
+  },
   labelStyle: {
-    color: Colors.jotformGrey,
-    fontWeight: '500',
+    color: 'white',
+    fontWeight: '600',
   },
   inputContainer: {
     marginVertical: 12,
@@ -172,7 +179,7 @@ const styles = StyleSheet.create({
   },
   input: {
     fontSize: 16,
-    color: Colors.jotformGrey,
+    color: 'white',
   },
 });
 

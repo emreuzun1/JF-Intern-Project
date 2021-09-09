@@ -6,36 +6,39 @@ import {useDispatch} from 'react-redux';
 import {QuestionInterface} from '../Interfaces/QuestionInterface';
 import {filterQuestions} from '../redux/actions/questionsAction';
 import {Colors} from '../constants/Colors';
-import {ColorInterface} from '../Interfaces/ColorInterface';
+
+interface IText {
+  isEnabled: boolean;
+}
 
 const StyledFieldFilterContainer = style.View({
   width: '100%',
   height: 50,
-  borderBottomWidth: 0.5,
+  borderBottomWidth: 1,
   justifyContent: 'space-between',
   flexDirection: 'row',
   alignItems: 'center',
   padding: 4,
 });
 
-const StyledFieldFilterText = style.Text({
-  fontSize: 15,
-  marginLeft: 8,
+const StyledFieldFilterText = style.Text<IText>(({isEnabled}) => ({
+  fontSize: 16,
+  marginLeft: 14,
   maxWidth: '80%',
-});
+  color: isEnabled ? 'white' : Colors.grey,
+}));
 
 interface IFieldsFilterProps {
   question: QuestionInterface;
   visibleQuestions: QuestionInterface[];
   index: number;
-  color: ColorInterface;
+  color: string;
 }
 
 const FieldsFilterCard: FC<IFieldsFilterProps> = ({
   question,
   index,
   visibleQuestions,
-  color,
 }) => {
   const dispatch = useDispatch();
   const [isEnabled, setIsEnabled] = useState<boolean>(false);
@@ -59,13 +62,15 @@ const FieldsFilterCard: FC<IFieldsFilterProps> = ({
 
   return (
     <StyledFieldFilterContainer>
-      <StyledFieldFilterText>{question.text}</StyledFieldFilterText>
+      <StyledFieldFilterText isEnabled={isEnabled}>
+        {question.text}
+      </StyledFieldFilterText>
       <Switch
-        trackColor={{false: Colors.jotformGrey, true: color.sub}}
-        thumbColor={isEnabled ? color.main : Colors.jotformGrey}
+        trackColor={{false: Colors.black, true: Colors.green}}
+        thumbColor={isEnabled ? 'white' : Colors.grey}
         value={isEnabled}
         onChange={() => changeEnabled()}
-        ios_backgroundColor={Colors.jotformGrey}
+        ios_backgroundColor={Colors.black}
       />
     </StyledFieldFilterContainer>
   );

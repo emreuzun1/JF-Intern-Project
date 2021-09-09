@@ -5,37 +5,41 @@ import Modal from 'react-native-modal';
 
 import {FieldsFilterCard} from '../../components';
 import {QuestionInterface} from '../../Interfaces/QuestionInterface';
-import {ColorInterface} from '../../Interfaces/ColorInterface';
+import {Colors} from '../../constants/Colors';
 
 const {height} = Dimensions.get('screen');
 
 interface Color extends ViewProps {
-  color: ColorInterface;
+  color: string;
 }
 
-const StyledModalContainer = style.View<Color>(({color}) => ({
+const StyledModalContainer = style.View({
   width: '100%',
   height: height / 2,
-  backgroundColor: color.main,
+  backgroundColor: Colors.darkBlue,
   position: 'absolute',
   bottom: 0,
-}));
+  borderRadius: 12,
+});
 
 const StyledModalHeader = style.View<Color>(({color}) => ({
   width: '100%',
-  backgroundColor: color.sub,
   height: 50,
+  backgroundColor: color,
   justifyContent: 'center',
+  borderTopLeftRadius: 12,
+  borderTopRightRadius: 12,
 }));
 
-const StyledModalHeaderText = style.Text<Color>(({color}) => ({
+const StyledModalHeaderText = style.Text({
   fontSize: 22,
-  marginLeft: 12,
-  color: color.main,
-}));
+  marginLeft: 16,
+  color: 'white',
+  fontWeight: 500,
+});
 
 interface ITitleModalProps {
-  color: ColorInterface;
+  color: string;
   modalVisible: boolean;
   visibleQuestions: QuestionInterface[];
   questions: QuestionInterface[];
@@ -55,9 +59,9 @@ const TitleModal: FC<ITitleModalProps> = ({
       animationIn="slideInUp"
       swipeDirection="down"
       onSwipeComplete={() => setModalVisible(false)}>
-      <StyledModalContainer color={color}>
+      <StyledModalContainer>
         <StyledModalHeader color={color}>
-          <StyledModalHeaderText color={color}>Fields</StyledModalHeaderText>
+          <StyledModalHeaderText>Fields</StyledModalHeaderText>
         </StyledModalHeader>
         {questions.map((question: QuestionInterface, index: number) => (
           <FieldsFilterCard

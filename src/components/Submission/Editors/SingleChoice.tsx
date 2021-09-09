@@ -7,7 +7,7 @@ import {Colors} from '../../../constants/Colors';
 const StyledView = styled.View({
   width: '100%',
   marginTop: 24,
-  marginLeft: 32,
+  marginHorizontal: 15,
 });
 
 const StyledHeaderText = styled.Text({

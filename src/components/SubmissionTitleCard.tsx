@@ -11,8 +11,6 @@ const StyledHeaders = styled.View({
   height: height / 20,
   width: width / 2,
   flexDirection: 'row',
-  borderRightWidth: 0.3,
-  borderColor: Colors.lightGrey,
   alignItems: 'center',
   paddingTop: 4,
   paddingLeft: 12,

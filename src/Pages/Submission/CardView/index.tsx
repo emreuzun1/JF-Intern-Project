@@ -4,14 +4,13 @@ import style from 'styled-components/native';
 
 import {CardViewCard} from '../../../components';
 import {Colors} from '../../../constants/Colors';
-import {ColorInterface} from '../../../Interfaces/ColorInterface';
 import {QuestionInterface} from '../../../Interfaces/QuestionInterface';
 import {SubmissionInterface} from '../../../Interfaces/SubmissionInterface';
 import {SubmissionPageProps} from '../../../Interfaces/SubmissionPageProps';
 
 const StyledContainer = style.View({
   flex: 1,
-  backgroundColor: Colors.jotformGrey,
+  backgroundColor: Colors.black,
 });
 
 interface Props {
@@ -19,7 +18,6 @@ interface Props {
   visibleQuestions: QuestionInterface[];
   orderedQuestions: QuestionInterface[];
   submissions: SubmissionInterface[];
-  color: ColorInterface;
   sheetRef: any;
   refreshing: boolean;
   selectSubmission: (id: string, answer: any) => void;

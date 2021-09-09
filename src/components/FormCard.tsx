@@ -1,18 +1,18 @@
 import React from 'react';
-import {Dimensions} from 'react-native';
-import {View} from 'react-native';
 import styled from 'styled-components/native';
+import * as icons from '../constants/FormIcon';
 
 import {Colors} from '../constants/Colors';
-import {ColorInterface} from '../Interfaces/ColorInterface';
 
-const {width} = Dimensions.get('screen');
+const iconsArray = ['blueform', 'orangeform', 'yellowform', 'greenform'];
 
 const StyledFormContainer = styled.TouchableOpacity({
-  display: 'flex',
-  width: width / 1.2,
-  margin: 12,
+  backgroundColor: Colors.darkBlue,
+  marginHorizontal: 15,
+  marginTop: 15,
+  height: 62,
   flexDirection: 'row',
+  borderRadius: 12,
 });
 
 const StyledImageContainer = styled.View({
@@ -20,16 +20,21 @@ const StyledImageContainer = styled.View({
 });
 
 // @ts-ignore: Unreachable code error
-const StyledImage = styled.Image(({imageColor}) => ({
-  width: 36,
-  height: 36,
+const StyledImage = styled.Image({
+  width: 26,
+  height: 32,
   marginRight: 6,
-  backgroundColor: imageColor,
-}));
+  marginLeft: 15,
+});
+
+const StyledTitleContainer = styled.View({
+  margin: 12,
+});
 
 const StyledTitle = styled.Text({
-  fontSize: 18,
-  color: Colors.lightGrey,
+  fontSize: 16,
+  fontWeight: 500,
+  color: 'white',
 });
 
 const StyledUpdateText = styled.Text({
@@ -38,19 +43,13 @@ const StyledUpdateText = styled.Text({
   marginTop: 4,
 });
 
-const StyledLine = styled.View({
-  width: width / 1.2,
-  borderBottomWidth: 1,
-  borderColor: Colors.lightGrey,
-  marginTop: 8,
-});
-
 interface IFormCard {
+  index: number;
   title: string;
-  color: ColorInterface;
+  color: string;
   update_at: string;
   count: number | string;
-  onPress: (color: ColorInterface) => void;
+  onPress: (color: string) => void;
 }
 
 const FormCard: React.FC<IFormCard> = ({
@@ -58,24 +57,20 @@ const FormCard: React.FC<IFormCard> = ({
   color,
   update_at,
   count,
+  index,
   onPress,
 }) => {
   return (
     <StyledFormContainer onPress={() => onPress(color)}>
       <StyledImageContainer>
-        <StyledImage
-          source={require('../img/form-icon.jpg')}
-          // @ts-ignore: Unreachable code error
-          imageColor={color.main}
-        />
+        <StyledImage source={icons[iconsArray[index % iconsArray.length]]} />
       </StyledImageContainer>
-      <View>
+      <StyledTitleContainer>
         <StyledTitle>{title}</StyledTitle>
         <StyledUpdateText>
-          {count} Submissions. Last updated at : {update_at}
+          {count} Submissions. Last updated at : {update_at.split(' ')[0]}
         </StyledUpdateText>
-        <StyledLine />
-      </View>
+      </StyledTitleContainer>
     </StyledFormContainer>
   );
 };

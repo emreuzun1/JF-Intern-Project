@@ -14,7 +14,7 @@ interface Color extends ViewProps {
 
 const StyledOrderView = styled.View({
   flex: 1,
-  backgroundColor: Colors.jotformGrey,
+  backgroundColor: Colors.black,
   paddingLeft: 24,
   paddingTop: 12,
 });
@@ -25,7 +25,7 @@ const StyledHeaderContainer = styled.View({
 
 const StyledHeaderText = styled.Text({
   fontSize: 20,
-  color: Colors.lightGrey,
+  color: 'white',
   marginLeft: 8,
 });
 
@@ -61,11 +61,7 @@ const OrderSheet: FC<OrderSheetProps> = ({closeSheet}) => {
   return (
     <StyledOrderView>
       <StyledHeaderContainer>
-        <MaterialCommunityIcons
-          name="sort"
-          size={24}
-          color={Colors.lightGrey}
-        />
+        <MaterialCommunityIcons name="sort" size={24} color="white" />
         <StyledHeaderText>Sort by </StyledHeaderText>
       </StyledHeaderContainer>
       <StyledLine />

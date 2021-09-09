@@ -1,8 +1,6 @@
-import {ColorInterface} from '../Interfaces/ColorInterface';
-
 export type RootStackParamList = {
   Login: {isLogged: boolean};
   Form: undefined;
-  Submission: {id: string; title: string; color: ColorInterface};
+  Submission: {id: string; title: string; color: string; count: number};
   SignUp: undefined;
 };
