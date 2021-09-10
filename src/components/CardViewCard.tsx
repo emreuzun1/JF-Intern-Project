@@ -93,8 +93,8 @@ const styles = StyleSheet.create({
   },
   headerContainer: {
     width: '100%',
-    borderBottomWidth: 0.5,
-    borderColor: Colors.lightGrey,
+    borderBottomWidth: 1,
+    borderColor: Colors.black,
     padding: 8,
   },
   headerText: {
@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
   titleText: {
     marginLeft: 8,
     marginBottom: 4,
-    color: Colors.grey,
+    color: 'white',
     fontWeight: '500',
   },
 

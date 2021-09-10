@@ -70,21 +70,31 @@ const StyledTotalSubmissionText = styled.Text({
 const StyledLogoContainer = styled.View({
   width: 68,
   height: 34,
-  backgroundColor: Colors.black,
   flexDirection: 'row',
-  justifyContent: 'space-between',
   borderRadius: 8,
   marginRight: 8,
+  backgroundColor: Colors.black,
+});
+
+const StyledDisableLogoButton = styled.View({
+  justifyContent: 'center',
+  width: 34,
+  alignItems: 'center',
+  borderRadius: 8,
+  opacity: 1,
 });
 
 const StyledLogoButton = styled.TouchableOpacity({
   justifyContent: 'center',
-  marginHorizontal: 6,
+  width: 34,
+  height: 34,
+  alignItems: 'center',
+  borderRadius: 8,
 });
 
 const StyledLogoImage = styled.Image({
-  width: 20,
-  height: 20,
+  width: 16,
+  height: 16,
 });
 
 const StyledLogoLine = styled.View({
@@ -92,6 +102,7 @@ const StyledLogoLine = styled.View({
   borderRightWidth: 1,
   marginRight: 12,
   borderColor: Colors.black,
+  opacity: 0.3,
 });
 
 const StyledHandleContainer = styled.View({
@@ -170,24 +181,28 @@ const SubmissionPage: FC<SubmissionPageProps> = props => {
       headerRight: () => (
         <StyledHeaderButtonsView>
           <StyledLogoContainer>
-            <StyledLogoButton onPress={() => setMainView(true)}>
-              {mainView ? (
+            {mainView ? (
+              <StyledDisableLogoButton>
                 <StyledLogoImage
                   source={require('../../img/colored-grid.png')}
                 />
-              ) : (
+              </StyledDisableLogoButton>
+            ) : (
+              <StyledLogoButton onPress={() => setMainView(true)}>
                 <StyledLogoImage source={require('../../img/grid.png')} />
-              )}
-            </StyledLogoButton>
-            <StyledLogoButton onPress={() => setMainView(false)}>
-              {mainView ? (
+              </StyledLogoButton>
+            )}
+            {mainView ? (
+              <StyledLogoButton onPress={() => setMainView(false)}>
                 <StyledLogoImage source={require('../../img/card.png')} />
-              ) : (
+              </StyledLogoButton>
+            ) : (
+              <StyledDisableLogoButton>
                 <StyledLogoImage
                   source={require('../../img/colored-card.png')}
                 />
-              )}
-            </StyledLogoButton>
+              </StyledDisableLogoButton>
+            )}
           </StyledLogoContainer>
           <StyledLogoLine />
           <StyledHeaderButton onPress={() => setModalVisible(true)}>

@@ -11,10 +11,17 @@ const {width} = Dimensions.get('screen');
 
 const StyledContainerButton = styled.TouchableOpacity({
   backgroundColor: Colors.darkBlue,
-  height: 75,
+  height: 93,
   marginTop: 12,
   marginHorizontal: 15,
-  borderRadius: 8,
+  borderRadius: 12,
+});
+
+const StyledHeaderContainer = styled.View({
+  width: '100%',
+  height: 46,
+  borderBottomWidth: 1,
+  justifyContent: 'center',
 });
 
 const StyledHeaderText = styled.Text({
@@ -22,14 +29,7 @@ const StyledHeaderText = styled.Text({
   color: Colors.lightGrey,
   marginTop: 8,
   fontWeight: 700,
-  marginLeft: 8,
-});
-
-const StyledLine = styled.View({
-  width: '100%',
-  borderBottomWidth: 1,
-  borderColor: Colors.black,
-  marginTop: 8,
+  marginLeft: 14,
 });
 
 const StyledAnswerContainer = styled.View({
@@ -39,7 +39,7 @@ const StyledAnswerContainer = styled.View({
 
 const StyledTextContainer = styled.View({
   width: width / 2,
-  height: '80%',
+  height: 48,
   borderRightWidth: 1,
   borderColor: Colors.black,
   justifyContent: 'center',
@@ -70,14 +70,13 @@ const Card: React.FC<ICard> = props => {
   return (
     <StyledContainerButton
       onPress={props.onPress.bind(this, props.item.item.id, answers)}>
-      <View>
+      <StyledHeaderContainer>
         <StyledHeaderText>
           {answers[0].prettyFormat
             ? answers[0].prettyFormat
             : answers[0].answer}
         </StyledHeaderText>
-        <StyledLine />
-      </View>
+      </StyledHeaderContainer>
       <StyledAnswerContainer>
         {answers.map((answer, index) => {
           if (index === 0) {

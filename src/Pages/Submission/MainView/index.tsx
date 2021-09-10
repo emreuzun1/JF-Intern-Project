@@ -42,11 +42,7 @@ const MainView: FC<Props> = ({
   const emptyData = [] as any;
   const renderNullItem = () => null;
 
-  const ListHeaderComponent = () => (
-    <ViewWithSpinner isLoading={loading}>
-      <Titles questionData={visibleQuestions} />
-    </ViewWithSpinner>
-  );
+  const ListHeaderComponent = () => <Titles questionData={visibleQuestions} />;
 
   const ListFooterComponent = () => (
     <Answer
@@ -58,18 +54,20 @@ const MainView: FC<Props> = ({
   );
   return (
     <StyledContainer>
-      <ScrollView horizontal>
-        <FlatList
-          data={emptyData}
-          renderItem={renderNullItem}
-          refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-          }
-          ListHeaderComponent={ListHeaderComponent}
-          ListFooterComponent={ListFooterComponent}
-          stickyHeaderIndices={[0]}
-        />
-      </ScrollView>
+      <ViewWithSpinner isLoading={loading}>
+        <ScrollView horizontal>
+          <FlatList
+            data={emptyData}
+            renderItem={renderNullItem}
+            refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            }
+            ListHeaderComponent={ListHeaderComponent}
+            ListFooterComponent={ListFooterComponent}
+            stickyHeaderIndices={[0]}
+          />
+        </ScrollView>
+      </ViewWithSpinner>
     </StyledContainer>
   );
 };

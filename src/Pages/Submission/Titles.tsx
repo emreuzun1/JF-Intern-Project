@@ -3,6 +3,7 @@ import {VirtualizedList, StyleSheet} from 'react-native';
 import styled from 'styled-components/native';
 
 import {SubmissionTitleCard} from '../../components';
+import {Colors} from '../../constants/Colors';
 import {QuestionInterface} from '../../Interfaces/QuestionInterface';
 
 interface ITitleProps {
@@ -12,6 +13,7 @@ interface ITitleProps {
 const StyledHeaderBackground = styled.View({
   width: '100%',
   marginLeft: 15,
+  backgroundColor: Colors.black,
 });
 
 const Titles: FC<ITitleProps> = ({questionData}) => {
