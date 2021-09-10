@@ -61,6 +61,21 @@ const StyledOrderText = styled.Text({
   marginRight: 4,
 });
 
+const StyledHandleContainer = styled.View({
+  width: '100%',
+  height: 30,
+  backgroundColor: Colors.black,
+  alignItems: 'center',
+  justifyContent: 'center',
+});
+
+const StyledHandleLine = styled.View({
+  width: 92,
+  height: 3,
+  backgroundColor: 'white',
+  borderRadius: 3,
+});
+
 interface Props {
   navigation: FormProps;
   route: FormRouteProp;
@@ -171,6 +186,11 @@ const FormPage: FC<Props> = props => {
         />
         <BottomSheetModalProvider>
           <BottomSheetModal
+            handleComponent={() => (
+              <StyledHandleContainer>
+                <StyledHandleLine />
+              </StyledHandleContainer>
+            )}
             ref={orderSheetModal}
             snapPoints={snapPoints}
             index={1}>

@@ -94,6 +94,23 @@ const StyledLogoLine = styled.View({
   borderColor: Colors.black,
 });
 
+const StyledHandleContainer = styled.View({
+  width: '100%',
+  height: 30,
+  backgroundColor: Colors.black,
+  alignItems: 'center',
+  justifyContent: 'center',
+  borderTopRightRadius: 12,
+  borderTopLeftRadius: 12,
+});
+
+const StyledHandleLine = styled.View({
+  width: 92,
+  height: 3,
+  backgroundColor: 'white',
+  borderRadius: 3,
+});
+
 const wait = (timeout: number) => {
   return new Promise(resolve => setTimeout(resolve, timeout));
 };
@@ -251,6 +268,11 @@ const SubmissionPage: FC<SubmissionPageProps> = props => {
       </TouchableOpacity>
       <BottomSheetModalProvider>
         <BottomSheetModal
+          handleComponent={() => (
+            <StyledHandleContainer>
+              <StyledHandleLine />
+            </StyledHandleContainer>
+          )}
           ref={submissionEditSheetModal}
           index={1}
           snapPoints={snapPoints}

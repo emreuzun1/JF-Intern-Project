@@ -1,11 +1,15 @@
 import React, {FC} from 'react';
-import {Alert, StyleSheet, View} from 'react-native';
+import {Alert} from 'react-native';
 import style from 'styled-components/native';
 
 import * as editors from '../../components/Submission/Editors';
 import {Colors} from '../../constants/Colors';
 import {QuestionInterface} from '../../Interfaces/QuestionInterface';
 import {SubmissionAnswerInterface} from '../../Interfaces/SubmissionAnswerInterface';
+
+interface IColor {
+  color: string;
+}
 
 const StyledScreen = style.SafeAreaView({
   flex: 1,
@@ -15,15 +19,26 @@ const StyledScreen = style.SafeAreaView({
 
 const StyledContainer = style.ScrollView({
   display: 'flex',
+  marginBottom: 48,
 });
 
-const StyledSubmitButton = style.Button({
-  width: 100,
-  height: 40,
-  justifyContent: 'center',
-  alignItems: 'center',
-  borderRadius: 8,
+const StyledButtonText = style.Text({
+  color: 'white',
 });
+
+const StyledButton = style.TouchableOpacity<IColor>(({color}) => ({
+  position: 'absolute',
+  width: 86,
+  height: 40,
+  right: 24,
+  bottom: 24,
+  backgroundColor: color,
+  borderRadius: 4,
+  paddingHorizontal: 6,
+  paddingVertical: 2,
+  alignItems: 'center',
+  justifyContent: 'center',
+}));
 
 interface Props {
   answer: any;
@@ -90,47 +105,18 @@ const SubmissionEditSheet: FC<Props> = ({
         })}
       </StyledContainer>
       {answer ? (
-        <View style={styles.deleteButton}>
-          <StyledSubmitButton
-            color="white"
-            title="Delete"
-            onPress={() => deleteAlert()}
-          />
-        </View>
+        <StyledButton color={Colors.lightRed} onPress={() => deleteAlert()}>
+          <StyledButtonText>Delete</StyledButtonText>
+        </StyledButton>
       ) : (
-        <View style={styles.button}>
-          <StyledSubmitButton
-            color="white"
-            title="Submit"
-            onPress={() => submitPost(valuesMap)}
-          />
-        </View>
+        <StyledButton
+          color={Colors.green}
+          onPress={() => submitPost(valuesMap)}>
+          <StyledButtonText>Submit</StyledButtonText>
+        </StyledButton>
       )}
     </StyledScreen>
   );
 };
-
-const styles = StyleSheet.create({
-  deleteButton: {
-    position: 'absolute',
-    right: 24,
-    bottom: 24,
-    backgroundColor: Colors.lightRed,
-    borderRadius: 4,
-    color: 'white',
-    paddingHorizontal: 6,
-    paddingVertical: 2,
-  },
-  button: {
-    position: 'absolute',
-    right: 24,
-    bottom: 24,
-    backgroundColor: Colors.green,
-    borderRadius: 4,
-    color: 'white',
-    paddingHorizontal: 6,
-    paddingVertical: 2,
-  },
-});
 
 export default SubmissionEditSheet;
